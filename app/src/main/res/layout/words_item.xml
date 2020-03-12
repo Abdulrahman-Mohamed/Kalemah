@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:padding="8dp"
+    app:cardCornerRadius="45dp"
+    app:cardElevation="24dp"
+    app:cardPreventCornerOverlap="true"
+    app:contentPadding="5dp"
+   >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/word_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="Word"
+            android:textStyle="bold"
+
+            android:textSize="24sp"
+            android:textColorHint="#000"
+            android:maxLines="1"
+            android:layout_toStartOf="@+id/word_level"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:id="@+id/word_level"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/level_round_a"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="A"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="24dp"
+            />
+        <TextView
+            android:id="@+id/meaning_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="meaning"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColorHint="#000"
+            android:maxLines="1"
+           android:layout_below="@+id/word_level"
+            android:layout_alignParentEnd="true"/>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
