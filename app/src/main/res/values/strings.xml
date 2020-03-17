@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Kalemah</string>
+    <string-array name="level_array">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+
+    </string-array>
 </resources>

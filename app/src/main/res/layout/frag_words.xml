@@ -3,28 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_words"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/words_item"/>
+        android:nestedScrollingEnabled="true"
+android:descendantFocusability="blocksDescendants"
+        app:reverseLayout="true"
+        tools:listitem="@layout/words_item" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+
+
+        >
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:elevation="16dp"
-        app:fabSize="normal"
-        app:maxImageSize="100dp"
         app:backgroundTint="#21b194"
+
+        app:elevation="16dp"
+        app:fabSize="mini"
         app:rippleColor="#00FFCC"
-        android:foregroundTint="@color/White"
-        android:background="@drawable/ic_plus_feather"
-        tools:targetApi="lollipop" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </RelativeLayout>

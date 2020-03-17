@@ -14,11 +14,18 @@ import java.util.List;
 public class WordsRepository {
     private WordsDao wordsDao;
     private LiveData<List<Word>> allWords;
+    private LiveData<List<Word>> AWords;
+    private LiveData<List<Word>> BWords;
+    private LiveData<List<Word>> CWords;
 
     public WordsRepository(Application application) {
         WordsDataBase_Impl wordsDataBase = (WordsDataBase_Impl) WordsDataBase_Impl.getInstance(application);
         wordsDao = wordsDataBase.wordsDao();
         allWords = wordsDao.getAllWords();
+        AWords=wordsDao.getWordslevel1();
+        BWords=wordsDao.getWordslevel2();
+        CWords=wordsDao.getWordslevel3();
+
     }
 
     public void insert(Word word)
@@ -41,6 +48,16 @@ new deleteAsync(wordsDao).execute(word);
     public  LiveData<List<Word>> getAllWords()
     {
         return allWords;
+    }
+    public  LiveData<List<Word>> getAWords()
+    {
+        return AWords;
+    }public  LiveData<List<Word>> getBWords()
+    {
+        return BWords;
+    }public  LiveData<List<Word>> getCWords()
+    {
+        return CWords;
     }
 
    public static class InsertAsync extends AsyncTask<Word,Void,Void>

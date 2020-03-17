@@ -15,10 +15,18 @@ import java.util.List;
 public class WordsViewModel extends AndroidViewModel {
     WordsRepository wordsRepository;
     LiveData<List<Word>> allWords;
+    LiveData<List<Word>> aWords;
+    LiveData<List<Word>> bWords;
+    LiveData<List<Word>> cWords;
+
     public WordsViewModel(@NonNull Application application) {
         super(application);
         wordsRepository=new WordsRepository(application);
         allWords=wordsRepository.getAllWords();
+        aWords=wordsRepository.getAWords();
+        bWords=wordsRepository.getBWords();
+        cWords=wordsRepository.getCWords();
+
     }
     public void insetr(Word word)
     {
@@ -39,5 +47,15 @@ public class WordsViewModel extends AndroidViewModel {
     public LiveData<List<Word>> getAllWords()
     {
     return allWords;
+    }
+    public LiveData<List<Word>> getlevelWords(int level)
+    {
+        if (level==1)
+        { return aWords;}
+        else if (level==2)
+        { return bWords;}
+        else if (level==3)
+        { return cWords;}
+        return null;
     }
 }
