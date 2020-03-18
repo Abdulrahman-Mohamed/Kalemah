@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
+import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.Fragments.exams_frag;
 import com.Motawer.kalemah.Fragments.profile_frag;
 import com.Motawer.kalemah.Fragments.words_frag;
@@ -18,7 +19,8 @@ import com.Motawer.kalemah.ViewModel.WordsViewModel;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
 
-public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner , com.Motawer.kalemah.Fragments.words_frag.GetID {
+public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner
+        , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler {
 
     Fragment selectedFragment = null;
     private WordsViewModel viewModel;
@@ -133,10 +135,21 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
         Word word = new Word(Word, meaning, Integer.parseInt(level.trim()));
         word.setID(wordIdentefire);
         viewModel.update(word);
+
     }
 
     @Override
     public void getidfrompos(int id) {
         wordIdentefire=id;
+    }
+
+    @Override
+    public void onRecyclerRefresh() {
+
+        words_frag fragment = (words_frag) getSupportFragmentManager().getFragments().get(0);
+        getSupportFragmentManager().beginTransaction()
+                .detach(fragment)
+                .attach(fragment)
+                .commit();
     }
 }

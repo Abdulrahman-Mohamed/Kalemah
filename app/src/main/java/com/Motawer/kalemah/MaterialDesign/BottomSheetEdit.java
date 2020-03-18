@@ -1,6 +1,7 @@
 package com.Motawer.kalemah.MaterialDesign;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +17,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 public class BottomSheetEdit extends BottomSheetDialogFragment implements AdapterView.OnItemSelectedListener {
     BottomSheetEditeListner sheetListner;
+    refreshrecycler refresh;
     View view;
     EditText word;
     EditText meaning;
     Spinner spinner;
     Button button;
     String Level,Word,Mean;
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        super.onCancel(dialog);
+        refresh.onRecyclerRefresh();
+
+    }
 
     @Nullable
     @Override
@@ -135,10 +145,17 @@ public class BottomSheetEdit extends BottomSheetDialogFragment implements Adapte
         super.onAttach(context);
         try {
             sheetListner = (BottomSheetEditeListner) context;
+            refresh=(refreshrecycler)context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + "must implement bottom sheet");
         }
+
+    }
+
+public  interface refreshrecycler
+    {
+        void onRecyclerRefresh();
 
     }
 }

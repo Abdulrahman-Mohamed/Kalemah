@@ -1,6 +1,7 @@
 package com.Motawer.kalemah.MaterialDesign;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -135,5 +137,12 @@ public class BottomSheet extends BottomSheetDialogFragment implements AdapterVie
                     + "must implement bottom sheet");
         }
 
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        RecyclerAdapter recyclerAdapter=new RecyclerAdapter();
+        recyclerAdapter.notifyDataSetChanged();
     }
 }
