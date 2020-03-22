@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(WordsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WordsViewModel.class);
 
         final MeowBottomNavigation btv = findViewById(R.id.botnav);
         btv.add(new MeowBottomNavigation.Model(3, R.drawable.a_mark));

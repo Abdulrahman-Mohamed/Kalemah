@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "337338160413",
+    "firebase_url": "https://kalemah-deb63.firebaseio.com",
+    "project_id": "kalemah-deb63",
+    "storage_bucket": "kalemah-deb63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337338160413:android:1f017d9c185e295a74bdf4",
+        "android_client_info": {
+          "package_name": "com.Motawer.kalemah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337338160413-ua4ui9k9pc70r4o5rf5b6r8102qtejjf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Motawer.kalemah",
+            "certificate_hash": "21bbcb4b175f182c9718622d5c97c1e0c5325e6c"
+          }
+        },
+        {
+          "client_id": "337338160413-l8oa93ck1gcnvi8dpqj6dsd6e7gum53c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClzVyQuDZ12tpuMpoZZVHj-lAtqXrAtNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337338160413-l8oa93ck1gcnvi8dpqj6dsd6e7gum53c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
