@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 
 import java.util.List;
@@ -61,7 +59,6 @@ public class words_frag extends Fragment {
     SearchView searchView;
     TextView count;
     int size;
-
     private FloatingActionButton FAB;
     MeowBottomNavigation btv;
 
@@ -80,19 +77,9 @@ public class words_frag extends Fragment {
         InitializUI();
         recyclerInit();
         setViewModel();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                recyclerAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+        search();
+        addWord();
+        swipeDeleteAndEdit();
 
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -101,15 +88,9 @@ public class words_frag extends Fragment {
         setHasOptionsMenu(true);
 
 
-        FAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheet bottomSheet = new BottomSheet();
-                bottomSheet.show(getActivity().getSupportFragmentManager(),
-                        "BottomSheetdialog");
+    }
 
-            }
-        });
+    private void swipeDeleteAndEdit() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
                 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -153,33 +134,44 @@ public class words_frag extends Fragment {
         }).attachToRecyclerView(recyclerView);
     }
 
+    private void addWord() {
+
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheet bottomSheet = new BottomSheet();
+                bottomSheet.show(getActivity().getSupportFragmentManager(),
+                        "BottomSheetdialog");
+
+            }
+        });
+    }
+
+    private void search() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recyclerAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+    }
+
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
 
-//        MenuItem searchItemMenuItem = menu.findItem(R.id.search_bar);
-//        SearchView searchView1 = (SearchView) searchItemMenuItem.getActionView();
-//
-//        searchView1.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                recyclerAdapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-//            case android.R.id.home:
-//                Toast.makeText(requireContext(), "home", Toast.LENGTH_SHORT).show();
-//                return true;
 
             case R.id.all_levels:
                 viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
@@ -264,12 +256,6 @@ public class words_frag extends Fragment {
         count = view.findViewById(R.id.count_text);
 
 
-//           final SearchManager searchManager = (SearchManager) getActivity().getSystemService(SEARCH_SERVICE);
-//             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        focusSearchViewAndOpenOrCloseKeyboard(false);
-//        searchView.setIconified(false);
-//        searchView.clearFocus();
-
 
 //        slide_down = AnimationUtils.loadAnimation(getActivity(),
 //                R.anim.anim);
@@ -301,7 +287,6 @@ public class words_frag extends Fragment {
                 size = words.size();
                 count.setText(String.valueOf(size));
 
-                // Toast.makeText(requireContext(), "hi", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -310,7 +295,7 @@ public class words_frag extends Fragment {
     public interface GetID {
         void getidfrompos(int id);
     }
-
+//ViewModel Necessary
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

@@ -2,20 +2,17 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinator"
     android:layout_marginBottom="50dp"
     android:background="#EFF7F8">
-
-
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-      >
+        android:layout_height="match_parent">
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -26,70 +23,68 @@
             app:elevation="0dp">
 
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/words_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/tool_round"
+                android:elevation="4dp"
+                android:paddingRight="5dp"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/words_toolbar"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/tool_round"
-                    android:elevation="4dp"
-                    android:paddingRight="5dp"
-                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+                    android:layout_height="match_parent"
+                    android:gravity="start">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="start">
-                        <androidx.appcompat.widget.SearchView
-                            android:id="@+id/search_view"
-                            android:layout_marginTop="3dp"
-                            app:searchIcon="@drawable/ic_search_black_24dp"
-                            android:background="#F3D042"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="text"
-                            />
+                    <androidx.appcompat.widget.SearchView
+                        android:id="@+id/search_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:background="#F3D042"
+                        android:inputType="text"
+                        app:searchIcon="@drawable/ic_search_black_24dp" />
 
-                        <LinearLayout
-                            android:layout_below="@+id/search_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="2dp"
-                            android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/search_view"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="2dp"
+                        android:orientation="vertical">
 
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Your"
-                                android:textColor="#000"
-                                android:textSize="24sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Words"
-                                android:textColor="#000"
-                                android:textSize="28sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/count_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="21dp"
+                            android:text="Your"
                             android:textColor="#000"
-                            android:textSize="40sp"
+                            android:textSize="24sp"
                             android:textStyle="bold" />
-                    </RelativeLayout>
-                </androidx.appcompat.widget.Toolbar>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Words"
+                            android:textColor="#000"
+                            android:textSize="28sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/count_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="21dp"
+                        android:textColor="#000"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
 
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -107,21 +102,20 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            app:backgroundTint="#21b194"
-            app:elevation="4dp"
-            app:fabSize="mini"
-            app:rippleColor="#00FFCC"
-            app:srcCompat="@drawable/ic_add_black_24dp"
-            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"/>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="#21b194"
+        app:elevation="4dp"
+        app:fabSize="mini"
+        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
+        app:rippleColor="#00FFCC"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 
