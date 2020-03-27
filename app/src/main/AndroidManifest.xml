@@ -9,7 +9,10 @@
         android:roundIcon="@drawable/ic_logo_concept_1_copy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustNothing">
+<!--            android:windowSoftInputMode="adjustPan"-->
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

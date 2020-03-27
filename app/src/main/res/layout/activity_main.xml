@@ -25,7 +25,8 @@
         app:mbn_defaultIconColor="#3c415e"
         app:mbn_rippleColor="#2f424242"
         app:mbn_selectedIconColor="#fff"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:elevation="8dp"
+
 
 
         />

@@ -1,26 +1,26 @@
 package com.Motawer.kalemah.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Motawer.kalemah.Fragments.words_frag;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordViewHolder> {
-    private List<Word> wordList = new ArrayList<>();
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordViewHolder> implements Filterable {
+    private List<Word> wordList = new ArrayList<Word>();
+    private List<Word> wordLisfull;
+
+
 
     @NonNull
     @Override
@@ -50,6 +50,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
 
     public void setWordList(List<Word> wordList) {
         this.wordList = wordList;
+        wordLisfull = new ArrayList<>(wordList);
         notifyDataSetChanged();
     }
 
@@ -64,11 +65,55 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
 
     public void removeAt(int position) {
         wordList.remove(position);
-       // notifyItemChanged(position);
+        // notifyItemChanged(position);
         notifyItemRemoved(position);
-          notifyItemRangeChanged(position, wordList.size());
+        notifyItemRangeChanged(position, wordList.size());
 
     }
+
+    @Override
+    public Filter getFilter() {
+        return wordFilter;
+    }
+
+    private Filter wordFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Word> filteredList = new ArrayList<>();
+//            for(int i=0;i<=wordList.size();i++)
+//                wordLisfull.add(wordList.get(i));
+
+           if (constraint == null || constraint.length() == 0) {
+              filteredList.addAll(wordLisfull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Word word : wordLisfull)
+                {
+                    if (word.getWord().toLowerCase().trim().contains(filterPattern))
+                    {
+                        filteredList.add(word);
+                    }
+                        if (word.getMeaning().toLowerCase().contains(filterPattern))
+                        {filteredList.add(word);
+                        }
+
+                }
+           }
+            FilterResults results = new FilterResults();
+           if (!filteredList.isEmpty()){
+            results.values = filteredList;}else if (filteredList.isEmpty())
+           {results.values=wordList;}
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            if (!constraint.equals("")){
+            wordList.clear();
+            wordList.addAll((List) results.values);
+            notifyDataSetChanged();}
+        }
+    };
 
     class WordViewHolder extends RecyclerView.ViewHolder {
         private TextView words;

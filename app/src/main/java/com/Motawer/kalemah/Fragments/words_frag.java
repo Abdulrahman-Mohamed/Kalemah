@@ -1,26 +1,27 @@
 package com.Motawer.kalemah.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -29,25 +30,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.Adapter.RecyclerAdapter;
-import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.MaterialDesign.BottomSheet;
 import com.Motawer.kalemah.MaterialDesign.BottomSheetEdit;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.muddzdev.styleabletoast.StyleableToast;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
 
 import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class words_frag extends Fragment  {
+public class words_frag extends Fragment {
     private WordsViewModel viewModel;
     GetID getID;
     View view;
@@ -55,12 +54,13 @@ public class words_frag extends Fragment  {
     RecyclerAdapter recyclerAdapter;
     LinearLayoutManager linearLayoutManager;
     CoordinatorLayout coordinatorLayout;
-    Animation slide_down, slide_up;
     Snackbar snackbar;
+    Toolbar toolbar;
     int undo = 0;
     private int id;
-
-
+    SearchView searchView;
+    TextView count;
+    int size;
 
     private FloatingActionButton FAB;
     MeowBottomNavigation btv;
@@ -69,31 +69,47 @@ public class words_frag extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_words, container, false);
+
         return view;
 
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         InitializUI();
-        btv.setVisibility(View.VISIBLE);
-        //btv.startAnimation(start);
         recyclerInit();
         setViewModel();
 
-
-        //btv.startAnimation(start);
-        FAB.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onClick(View v) {
-                BottomSheet bottomSheet = new BottomSheet();
-                bottomSheet.show(getActivity().getSupportFragmentManager(), "BottomSheetdialog");
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recyclerAdapter.getFilter().filter(newText);
+                return false;
             }
         });
 
 
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        setHasOptionsMenu(true);
+
+
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheet bottomSheet = new BottomSheet();
+                bottomSheet.show(getActivity().getSupportFragmentManager(),
+                        "BottomSheetdialog");
+
+            }
+        });
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
                 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -103,21 +119,19 @@ public class words_frag extends Fragment  {
 
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                 int pos = viewHolder.getAdapterPosition();
-                id=  recyclerAdapter.getWordAt(pos).getID();
+                int pos = viewHolder.getAdapterPosition();
+                id = recyclerAdapter.getWordAt(pos).getID();
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
 
                         snackbar(pos);
                         break;
-
-
                     //StyleableToast.makeText(requireContext(), "Word deleted", Toast.LENGTH_LONG, R.style.mytoast).show();
 
                     case ItemTouchHelper.RIGHT:
 
 
-                         getID.getidfrompos(id);
+                        getID.getidfrompos(id);
                         BottomSheetEdit bottomSheet = new BottomSheetEdit();
                         bottomSheet.show(getActivity().getSupportFragmentManager(), "BottomSheetdialog");
 
@@ -137,16 +151,79 @@ public class words_frag extends Fragment  {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }).attachToRecyclerView(recyclerView);
-        btv.clearAnimation();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+//        MenuItem searchItemMenuItem = menu.findItem(R.id.search_bar);
+//        SearchView searchView1 = (SearchView) searchItemMenuItem.getActionView();
+//
+//        searchView1.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                recyclerAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                Toast.makeText(requireContext(), "home", Toast.LENGTH_SHORT).show();
+//                return true;
+
+            case R.id.all_levels:
+                viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                    @Override
+                    public void onChanged(List<Word> words) {
+                        recyclerAdapter.setWordList(words);
+                    }
+                });
+                return true;
+            case R.id.Level_C:
+                viewModel.getlevelWords(3).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                    @Override
+                    public void onChanged(List<Word> words) {
+                        recyclerAdapter.setWordList(words);
+                    }
+                });
+                return true;
+            case R.id.Level_B:
+                viewModel.getlevelWords(2).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                    @Override
+                    public void onChanged(List<Word> words) {
+                        recyclerAdapter.setWordList(words);
+                    }
+                });
+                return true;
+            case R.id.Level_A:
+                viewModel.getlevelWords(1).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                    @Override
+                    public void onChanged(List<Word> words) {
+                        recyclerAdapter.setWordList(words);
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 
     private void snackbar(final int pos) {
         snackbar = Snackbar.make(coordinatorLayout, "item deleted",
                 BaseTransientBottomBar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
             @Override
             public void onShown(Snackbar sb) {
-                //recyclerAdapter.removeAt(pos);
                 snackbar.setAction("Undo", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -158,7 +235,6 @@ public class words_frag extends Fragment  {
                     }
                 });
 
-                // recyclerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -167,7 +243,6 @@ public class words_frag extends Fragment  {
                 if (undo == 0) {
                     viewModel.delete(recyclerAdapter.getWordAt(pos));
 
-                    //  recyclerAdapter.notifyItemChanged(pos);
                 } else if (undo == 1) {
                     undo = 0;
 
@@ -184,11 +259,22 @@ public class words_frag extends Fragment  {
         recyclerView = view.findViewById(R.id.recycler_words);
         btv = getActivity().findViewById(R.id.botnav);
         coordinatorLayout = view.findViewById(R.id.coordinator);
+        toolbar = view.findViewById(R.id.words_toolbar);
+        searchView = view.findViewById(R.id.search_view);
+        count = view.findViewById(R.id.count_text);
 
-        slide_down = AnimationUtils.loadAnimation(getActivity(),
-                R.anim.anim);
-        slide_up = AnimationUtils.loadAnimation(getActivity(),
-                R.anim.slide_up);
+
+//           final SearchManager searchManager = (SearchManager) getActivity().getSystemService(SEARCH_SERVICE);
+//             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        focusSearchViewAndOpenOrCloseKeyboard(false);
+//        searchView.setIconified(false);
+//        searchView.clearFocus();
+
+
+//        slide_down = AnimationUtils.loadAnimation(getActivity(),
+//                R.anim.anim);
+//        slide_up = AnimationUtils.loadAnimation(getActivity(),
+//                R.anim.slide_up);
 //        start = AnimationUtils.loadAnimation(getActivity(),
 //                R.anim.slide_up);
 //        slide_up.cancel();
@@ -212,41 +298,15 @@ public class words_frag extends Fragment  {
             public void onChanged(List<Word> words) {
                 // recycler view on change
                 recyclerAdapter.setWordList(words);
+                size = words.size();
+                count.setText(String.valueOf(size));
+
                 // Toast.makeText(requireContext(), "hi", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        btv.clearAnimation();
-        slide_up.reset();
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
 
-                    btv.setVisibility(View.INVISIBLE);
-                    btv.startAnimation(slide_down);
-                } else {
-
-                    btv.setVisibility(View.VISIBLE);
-                    //  btv.startAnimation(slide_up);
-
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        btv.clearAnimation();
-        slide_up.reset();
-
-    }
     public interface GetID {
         void getidfrompos(int id);
     }
@@ -261,4 +321,6 @@ public class words_frag extends Fragment  {
                     + "must implement bottom sheet");
         }
     }
+
+
 }

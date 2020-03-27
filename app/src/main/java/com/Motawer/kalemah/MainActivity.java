@@ -1,14 +1,13 @@
 package com.Motawer.kalemah;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
-import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.Fragments.exams_frag;
 import com.Motawer.kalemah.Fragments.profile_frag;
 import com.Motawer.kalemah.Fragments.words_frag;
@@ -19,6 +18,7 @@ import com.Motawer.kalemah.ViewModel.WordsViewModel;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
 
+
 public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner
         , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler {
 
@@ -27,11 +27,13 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
     int wordIdentefire;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewModel = new ViewModelProvider((ViewModelStoreOwner) this).get(WordsViewModel.class);
+        viewModel = new ViewModelProvider(this).get(WordsViewModel.class);
 
         final MeowBottomNavigation btv = findViewById(R.id.botnav);
         btv.add(new MeowBottomNavigation.Model(3, R.drawable.a_mark));
