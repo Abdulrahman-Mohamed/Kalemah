@@ -7,4 +7,9 @@
     <color name="circle">#03AC9C</color>
     <color name="delete">#DA002C</color>
 
+    <color name="welcome_back">#333C46</color>
+    <color name="read_it_together">#83898E</color>
+    <color name="login_button">#FFD16E</color>
+
+
 </resources>
