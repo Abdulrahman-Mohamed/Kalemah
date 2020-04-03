@@ -1,8 +1,5 @@
 package com.Motawer.kalemah.Auth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.R;
@@ -49,15 +49,16 @@ public class SignIn_Activity extends AppCompatActivity
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-     /* if (firebaseAuth.getCurrentUser() != null)
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        initViews();
+      if (firebaseAuth.getCurrentUser() != null)
         {
             startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
             finish();
-        }*/
+        }
 
-        initViews();
+
         initButtons();
     }
     private void initButtons()

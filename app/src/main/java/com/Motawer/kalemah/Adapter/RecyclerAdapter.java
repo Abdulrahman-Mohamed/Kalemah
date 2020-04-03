@@ -100,9 +100,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
                 }
            }
             FilterResults results = new FilterResults();
-           if (!filteredList.isEmpty()){
-            results.values = filteredList;}else if (filteredList.isEmpty())
-           {results.values=wordList;}
+          // if (!filteredList.isEmpty()){
+            results.values = filteredList;
+        //}
+            //else if (filteredList.isEmpty())
+       //    {results.values=wordList;}
             return results;
         }
 
@@ -111,7 +113,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
             if (!constraint.equals("")){
             wordList.clear();
             wordList.addAll((List) results.values);
-            notifyDataSetChanged();}
+            notifyDataSetChanged();}else
+                {
+                    wordList.clear();
+                    wordList.addAll(wordLisfull);
+                    notifyDataSetChanged();
+                }
         }
     };
 

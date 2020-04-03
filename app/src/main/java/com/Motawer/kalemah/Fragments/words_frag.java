@@ -151,12 +151,20 @@ public class words_frag extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                recyclerAdapter.notifyDataSetChanged();
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 recyclerAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                setViewModel();
                 return false;
             }
         });
@@ -244,8 +252,6 @@ public class words_frag extends Fragment {
         snackbar.show();
 
     }
-
-
     private void InitializUI() {
         FAB = view.findViewById(R.id.add_note);
         recyclerView = view.findViewById(R.id.recycler_words);
@@ -291,7 +297,6 @@ public class words_frag extends Fragment {
         });
     }
 
-
     public interface GetID {
         void getidfrompos(int id);
     }
@@ -306,6 +311,4 @@ public class words_frag extends Fragment {
                     + "must implement bottom sheet");
         }
     }
-
-
 }

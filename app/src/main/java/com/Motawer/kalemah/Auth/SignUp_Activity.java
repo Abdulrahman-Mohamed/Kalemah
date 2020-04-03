@@ -1,8 +1,5 @@
 package com.Motawer.kalemah.Auth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.R;
@@ -100,6 +100,8 @@ public class SignUp_Activity extends AppCompatActivity
                             {
                                 if (!task.isSuccessful())
                                 {
+//                                    String id=firebaseAuth.getCurrentUser().getUid();
+//                                    UserModel usermodel=new UserModel(userName,email);
                                     Toast.makeText(SignUp_Activity.this, "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
 

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "Words_Table")
 public class Word {
 @PrimaryKey(autoGenerate = true)
-    private int ID;
+    private int ID=0;
     private String word;
     private String meaning;
     private int level;

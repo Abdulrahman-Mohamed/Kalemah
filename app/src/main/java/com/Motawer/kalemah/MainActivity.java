@@ -1,13 +1,8 @@
 package com.Motawer.kalemah;
-
-import androidx.annotation.NonNull;
+import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Bundle;
-
 import com.Motawer.kalemah.Fragments.exams_frag;
 import com.Motawer.kalemah.Fragments.profile_frag;
 import com.Motawer.kalemah.Fragments.words_frag;
@@ -17,17 +12,13 @@ import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 
-
-
 public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner
-        , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler {
+        , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler
+{
 
     Fragment selectedFragment = null;
     private WordsViewModel viewModel;
     int wordIdentefire;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,41 +103,38 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
                         break;
 
                 }
-
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, selectedFragment).commit();
                 //Toast.makeText(MainActivity.this, "reselected item : " + item.getId(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
         //defult item
            btv.show(2, true);
-
     }
 
     @Override
-    public void onButtomClicked(String Word, String meaning, String level) {
+    public void onButtomClicked(String Word, String meaning, String level)
+    {
         Word word = new Word(Word, meaning, Integer.parseInt(level.trim()));
         viewModel.insetr(word);
     }
 
-
     @Override
-    public void onButtomEditClicked(String Word, String meaning, String level) {
+    public void onButtomEditClicked(String Word, String meaning, String level)
+    {
         Word word = new Word(Word, meaning, Integer.parseInt(level.trim()));
         word.setID(wordIdentefire);
         viewModel.update(word);
-
     }
 
     @Override
-    public void getidfrompos(int id) {
+    public void getidfrompos(int id)
+    {
         wordIdentefire=id;
     }
 
     @Override
-    public void onRecyclerRefresh() {
+    public void onRecyclerRefresh()
+    {
 
         words_frag fragment = (words_frag) getSupportFragmentManager().getFragments().get(0);
         getSupportFragmentManager().beginTransaction()
