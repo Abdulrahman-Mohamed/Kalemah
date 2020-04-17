@@ -8,6 +8,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="forget_password">Forget your Password?</string>
     <string name="Create_new_account">Create new account</string>
+    <string name="Dont_have_an_account">"Don't have an account? "</string>
     <string name="Lets_do_it_now">"Let's do it now" </string>
     <string name="username">Username</string>
     <string name="confirm_password">confirm Password</string>

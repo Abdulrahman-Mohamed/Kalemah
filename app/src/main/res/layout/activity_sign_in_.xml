@@ -51,10 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                android:textColor="@color/read_it_together"
+                android:textColor="@color/welcome_back"
                 android:textColorHint="@color/welcome_back"
                 android:textSize="15sp"
                 android:inputType="textEmailAddress"
+
                 >
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -67,6 +68,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            app:passwordToggleEnabled="true"
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
@@ -88,20 +90,11 @@
             android:layout_marginTop="20dp"
             android:padding="5dp"
             >
-            <TextView
-                android:id="@+id/signUp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sign_up"
-                android:textColor="@color/welcome_back"
-                android:textSize="14sp"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/forgetPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
                 android:text="@string/forget_password"
                 android:textColor="@color/welcome_back"
                 android:textSize="14sp"
@@ -123,13 +116,51 @@
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
                 />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="15dp">
 
-            <com.google.android.gms.common.SignInButton
-                android:layout_marginTop="20dp"
-                android:id="@+id/sign_in_google"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dont_have_account"/>
+
+                <TextView
+                    android:id="@+id/signUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_up"
+                    android:textColor="@color/welcome_back"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                >
+                <com.google.android.gms.common.SignInButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/sign_in_google"
+                    android:layout_marginRight="50dp"
+
+
+                    />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/facebook"
+                    android:clickable="true"
+                    />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
