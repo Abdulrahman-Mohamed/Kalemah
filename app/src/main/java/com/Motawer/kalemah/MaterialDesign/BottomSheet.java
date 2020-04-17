@@ -106,13 +106,13 @@ public class BottomSheet extends BottomSheetDialogFragment implements AdapterVie
        String s = parent.getItemAtPosition(position).toString();
        if (s.equals("A"))
        {
-           Level="1";
+           Level="-1";
        }else if (s.equals("B"))
        {
-           Level="2";
+           Level="-2";
        }else if (s.equals("C"))
        {
-           Level="3";
+           Level="-3";
        }
 
 

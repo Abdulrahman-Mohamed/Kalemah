@@ -100,6 +100,7 @@ public class SignUp_Activity extends AppCompatActivity
                             {
                                 if (!task.isSuccessful())
                                 {
+
 //                                    String id=firebaseAuth.getCurrentUser().getUid();
 //                                    UserModel usermodel=new UserModel(userName,email);
                                     Toast.makeText(SignUp_Activity.this, "SignUp Unsuccessful", Toast.LENGTH_SHORT).show();

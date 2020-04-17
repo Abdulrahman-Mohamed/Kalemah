@@ -9,8 +9,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = Word.class,version = 1)
-abstract class WordsDataBase extends RoomDatabase
+@Database(entities = Word.class,version =2)
+public abstract class WordsDataBase extends RoomDatabase
 {
     private static WordsDataBase instanceRoomDatabase;
     public abstract WordsDao wordsDao();

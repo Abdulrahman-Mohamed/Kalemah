@@ -12,7 +12,10 @@
         <menu>\
             <item
                 android:id="@+id/all_levels"
-                android:title="All" />
+                android:title="All_Levels" />
+            <item
+                android:id="@+id/all_User_levels"
+                android:title="My Words" />
             <item
                 android:id="@+id/Level_C"
                 android:title="C Level" />

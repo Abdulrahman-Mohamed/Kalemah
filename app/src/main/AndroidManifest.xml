@@ -9,23 +9,21 @@
         android:roundIcon="@drawable/ic_logo_concept_1_copy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustNothing">
-
-        </activity>
-        <activity android:name=".Auth.SignIn_Activity"
+        <activity android:name=".Quizz_activity"></activity>
+        <activity android:name=".Excercise_Levels" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustNothing"></activity>
+        <activity
+            android:name=".Auth.SignIn_Activity"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".Auth.SignUp_Activity">
-
-
-        </activity>
+        <activity android:name=".Auth.SignUp_Activity" />
     </application>
 
 </manifest>

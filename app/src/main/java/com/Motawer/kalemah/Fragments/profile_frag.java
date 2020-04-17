@@ -70,7 +70,8 @@ public class profile_frag extends Fragment
         id =view.findViewById(R.id.textId);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(requireContext());
-        if (acct != null) {
+        if (acct != null)
+        {
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
             String personId = acct.getId();

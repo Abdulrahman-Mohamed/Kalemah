@@ -188,9 +188,16 @@ public class words_frag extends Fragment {
                         recyclerAdapter.setWordList(words);
                     }
                 });
+            case R.id.all_User_levels:
+                viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                    @Override
+                    public void onChanged(List<Word> words) {
+                        recyclerAdapter.setWordList(words);
+                    }
+                });
                 return true;
             case R.id.Level_C:
-                viewModel.getlevelWords(3).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                viewModel.getlevelWords(-3).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
                         recyclerAdapter.setWordList(words);
@@ -198,7 +205,7 @@ public class words_frag extends Fragment {
                 });
                 return true;
             case R.id.Level_B:
-                viewModel.getlevelWords(2).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                viewModel.getlevelWords(-2).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
                         recyclerAdapter.setWordList(words);
@@ -206,7 +213,7 @@ public class words_frag extends Fragment {
                 });
                 return true;
             case R.id.Level_A:
-                viewModel.getlevelWords(1).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                viewModel.getlevelWords(-1).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
                         recyclerAdapter.setWordList(words);

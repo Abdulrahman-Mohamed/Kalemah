@@ -23,13 +23,16 @@ public interface WordsDao  {
     @Query("DELETE FROM Words_Table")
     void deleteAll();
 
-    @Query("SELECT * FROM Words_Table ORDER BY level Desc")
+    @Query("SELECT * FROM Words_Table  Order By level Desc")
     LiveData<List<Word>> getAllWords();
 
-    @Query("SELECT * FROM Words_Table WHERE level=3")
+    @Query("SELECT * FROM Words_Table Where 0>level>-4 Order BY level ASC")
+    LiveData<List<Word>> getAllUserWords();
+
+    @Query("SELECT * FROM Words_Table WHERE level=-3")
     LiveData<List<Word>> getWordslevel3();
-    @Query("SELECT * FROM Words_Table WHERE level=2")
+    @Query("SELECT * FROM Words_Table WHERE level=-2")
     LiveData<List<Word>> getWordslevel2();
-    @Query("SELECT * FROM Words_Table WHERE level=1")
+    @Query("SELECT * FROM Words_Table WHERE level=-1")
     LiveData<List<Word>> getWordslevel1();
 }

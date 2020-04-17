@@ -35,14 +35,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         Word currentword = wordList.get(position);
         holder.words.setText(currentword.getWord());
         holder.meaning.setText(currentword.getMeaning());
-        if (currentword.getLevel() == 1) {
+
+        if (currentword.getLevel() == -1) {
             holder.level.setText("A");
             holder.level.setBackgroundResource(R.drawable.level_round_a);
-        } else if (currentword.getLevel() == 2) {
+        } else if (currentword.getLevel() == -2) {
             holder.level.setText("B");
             holder.level.setBackgroundResource(R.drawable.level_round_b);
 
-        } else {
+        } else if (currentword.getLevel() == -3){
             holder.level.setText("C");
             holder.level.setBackgroundResource(R.drawable.level_round_c);
         }

@@ -15,6 +15,7 @@ import java.util.List;
 public class WordsViewModel extends AndroidViewModel {
     WordsRepository wordsRepository;
     LiveData<List<Word>> allWords;
+    LiveData<List<Word>> allUserWords;
     LiveData<List<Word>> aWords;
     LiveData<List<Word>> bWords;
     LiveData<List<Word>> cWords;
@@ -23,6 +24,7 @@ public class WordsViewModel extends AndroidViewModel {
         super(application);
         wordsRepository=new WordsRepository(application);
         allWords=wordsRepository.getAllWords();
+        allUserWords=wordsRepository.getAllUserWords();
         aWords=wordsRepository.getAWords();
         bWords=wordsRepository.getBWords();
         cWords=wordsRepository.getCWords();
@@ -48,13 +50,17 @@ public class WordsViewModel extends AndroidViewModel {
     {
     return allWords;
     }
+    public LiveData<List<Word>> getAllUserWords()
+    {
+        return allUserWords;
+    }
     public LiveData<List<Word>> getlevelWords(int level)
     {
-        if (level==1)
+        if (level==-1)
         { return aWords;}
-        else if (level==2)
+        else if (level==-2)
         { return bWords;}
-        else if (level==3)
+        else if (level==-3)
         { return cWords;}
         return null;
     }
