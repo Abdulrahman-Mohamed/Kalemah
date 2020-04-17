@@ -3,21 +3,27 @@ package com.Motawer.kalemah.Repository;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.RoomDataBase.WordsDao;
-import com.Motawer.kalemah.RoomDataBase.WordsDataBase_Impl;
+import com.Motawer.kalemah.RoomDataBase.WordsDataBase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class WordsRepository {
     private WordsDao wordsDao;
     private LiveData<List<Word>> allWords;
+    private LiveData<List<Word>> allUserWords;
     private LiveData<List<Word>> AWords;
     private LiveData<List<Word>> BWords;
     private LiveData<List<Word>> CWords;
@@ -28,9 +34,10 @@ public class WordsRepository {
 
 
     public WordsRepository(Application application) {
-        WordsDataBase_Impl wordsDataBase = (WordsDataBase_Impl) WordsDataBase_Impl.getInstance(application);
+        WordsDataBase wordsDataBase = (WordsDataBase) WordsDataBase.getInstance(application);
         wordsDao = wordsDataBase.wordsDao();
         allWords = wordsDao.getAllWords();
+        allUserWords = wordsDao.getAllUserWords();
         AWords = wordsDao.getWordslevel1();
         BWords = wordsDao.getWordslevel2();
         CWords = wordsDao.getWordslevel3();
@@ -53,6 +60,31 @@ public class WordsRepository {
         new deleteAsync(wordsDao).execute(word);
         myRef.child(Uid).child("UserWords").child(word.getWord()).removeValue();
     }
+    // use it to return firebase words;
+    public ArrayList<Word> getFireData()
+    {
+       final ArrayList<Word> FireList;
+       FireList=new ArrayList<>();
+        myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
+                {
+                    Word word=dataSnapshot1.getValue(Word.class);
+                    FireList.add(word);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return FireList;
+
+    }
 
     public void deleteAll() {
         new deleteAllAsync(wordsDao).execute();
@@ -60,6 +92,12 @@ public class WordsRepository {
 
     public LiveData<List<Word>> getAllWords() {
         return allWords;
+
+    }
+    public LiveData<List<Word>> getAllUserWords()
+    {
+        return allUserWords;
+
     }
 
     public LiveData<List<Word>> getAWords() {

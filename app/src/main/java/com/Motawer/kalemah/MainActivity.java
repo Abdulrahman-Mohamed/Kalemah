@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
     {
         Word word = new Word(Word, meaning, Integer.parseInt(level.trim()));
         viewModel.insetr(word);
+
     }
 
     @Override

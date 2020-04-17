@@ -17,7 +17,6 @@
     <string name="dont_have_account">"Don't have an account!?"</string>
 
 
-
     <string-array name="level_array">
         <item>A</item>
         <item>B</item>
