@@ -56,17 +56,17 @@ import static com.google.firebase.storage.FirebaseStorage.getInstance;
 public class profile_frag extends Fragment
 {
     View view;
-    CircleImageView circleImageView;
-    TextView textName,textEmail;
-    Button logout;
-    StorageReference storageReference;
-    GoogleSignInClient mGoogleSignInClient;
-    Uri picture;
-    FirebaseUser user;
-    FirebaseAuth firebaseAuth;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    String userID,username,email;
+    private CircleImageView circleImageView;
+    private TextView textName,textEmail;
+    private Button logout;
+    private StorageReference storageReference;
+    private GoogleSignInClient mGoogleSignInClient;
+    private Uri picture;
+    private FirebaseUser user;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private String userID,username,email;
 
     @Nullable
     @Override
@@ -82,12 +82,21 @@ public class profile_frag extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         initViews();
+        if (user!= null)
+        {
+            String name =user.getDisplayName();
+            String email=user.getEmail();
+            String PhotoURL =user.getPhotoUrl().toString();
+
+            Picasso.get().load(PhotoURL).into(circleImageView);
+            textName.setText(name);
+            textEmail.setText(email);
+        }
 
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
         if (acct != null)
         if (firebaseAuth.getCurrentUser().getEmail().equals(acct.getEmail()))
-
 
         googleSignIn();
 
@@ -140,11 +149,7 @@ public class profile_frag extends Fragment
                 {
                     FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(getActivity(),SignIn_Activity.class));
-
                 }
-
-
-
             }
         });
 
@@ -159,9 +164,6 @@ public class profile_frag extends Fragment
                         .start(getActivity());
             }
         });
-
-
-
     }
 
     private void googleSignIn()
@@ -183,7 +185,6 @@ public class profile_frag extends Fragment
             Picasso.get()
                     .load(String.valueOf(personPhoto))
                     .into(circleImageView);
-
         }
     }
 
@@ -197,8 +198,12 @@ public class profile_frag extends Fragment
                 email =userModel.getEmail();
                 textName.setText(username);
                 textEmail.setText(email);
-            }
 
+                String photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
+                    Picasso.get()
+                            .load(String.valueOf(photo))
+                            .into(circleImageView);
+            }
     }
 
     private void initViews()

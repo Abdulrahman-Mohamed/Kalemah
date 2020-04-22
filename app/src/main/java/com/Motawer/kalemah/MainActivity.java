@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Fragments.exams_frag;
 import com.Motawer.kalemah.Fragments.profile_frag;
 import com.Motawer.kalemah.Fragments.words_frag;
@@ -14,6 +16,8 @@ import com.Motawer.kalemah.MaterialDesign.BottomSheetEdit;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner
         , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler
@@ -22,11 +26,18 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
     Fragment selectedFragment = null;
     private WordsViewModel viewModel;
     int wordIdentefire;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        firebaseAuth=FirebaseAuth.getInstance();
+
+
+
         viewModel = new ViewModelProvider(this).get(WordsViewModel.class);
 
         final MeowBottomNavigation btv = findViewById(R.id.botnav);
@@ -155,5 +166,25 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
             fragment.onActivityResult(requestCode, resultCode, data);
 
         }
+    }
+
+    private  void checkUserStatus()
+    {
+        FirebaseUser user =firebaseAuth.getCurrentUser();
+        if (user != null)
+        {
+
+        }else
+        {
+            startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
+            finish();
+        }
+    }
+
+    @Override
+    protected void onStart()
+    {
+        checkUserStatus();
+        super.onStart();
     }
 }
