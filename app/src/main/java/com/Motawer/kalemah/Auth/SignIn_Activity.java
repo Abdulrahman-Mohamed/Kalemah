@@ -113,7 +113,6 @@ public class SignIn_Activity extends AppCompatActivity
 
     }
 
-
    /* @Override
     public void onStart() {
         super.onStart();
@@ -124,28 +123,23 @@ public class SignIn_Activity extends AppCompatActivity
         }
     }*/
 
-
-
-
-
-    private void handleFacebookAccessToken(AccessToken token) {
-        
+    private void handleFacebookAccessToken(AccessToken token)
+    {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if (task.isSuccessful())
+                        {
 
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
                             String uid =task.getResult().getUser().getUid();
                             gUsername=task.getResult().getUser().getDisplayName();
                             gEmail=task.getResult().getUser().getEmail();
                             image =task.getResult().getUser().getPhotoUrl();
-
-
 
                             UserModel userModel=new UserModel(gUsername,gEmail);
                             reference.child(uid).setValue(userModel);
@@ -153,13 +147,10 @@ public class SignIn_Activity extends AppCompatActivity
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-
                             Toast.makeText(SignIn_Activity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
@@ -168,6 +159,7 @@ public class SignIn_Activity extends AppCompatActivity
     {
         if ( user != null)
         {
+            Toast.makeText(this, "Facebook sign in successful..", Toast.LENGTH_SHORT).show();
 
             Intent intent =new Intent(SignIn_Activity.this,MainActivity.class);
             startActivity(intent);
@@ -178,7 +170,6 @@ public class SignIn_Activity extends AppCompatActivity
 
     }
 
-
     private void initButtons()
     {
         signInGoogle.setOnClickListener(new View.OnClickListener()
@@ -188,7 +179,6 @@ public class SignIn_Activity extends AppCompatActivity
             {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
 
             }
         });
@@ -250,6 +240,7 @@ public class SignIn_Activity extends AppCompatActivity
                                 {
                                     progressDialog.dismiss();
                                     FirebaseUser user =firebaseAuth.getCurrentUser();
+                                    Toast.makeText(SignIn_Activity.this, "Sign in successful..", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(SignIn_Activity.this,MainActivity.class));
                                     finish();
                                 }else
@@ -319,6 +310,7 @@ public class SignIn_Activity extends AppCompatActivity
                                 reference.child(uid).child("photo").setValue(String.valueOf(image));
 
                             }
+                            Toast.makeText(SignIn_Activity.this, "Sign in with gmail successful..", Toast.LENGTH_SHORT).show();
 
                             startActivity(new Intent(SignIn_Activity.this,MainActivity.class));
                             finish();

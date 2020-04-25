@@ -131,7 +131,7 @@ public class SignUp_Activity extends AppCompatActivity
                             DatabaseReference reference =database.getReference("User");
                             reference.child(uid).setValue(userModel);
 
-                           Toast.makeText(SignUp_Activity.this, "Registered.../n"+user.getEmail(), Toast.LENGTH_SHORT).show();
+                           Toast.makeText(SignUp_Activity.this, "Registered successful..", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUp_Activity.this,MainActivity.class));
                             finish();
 

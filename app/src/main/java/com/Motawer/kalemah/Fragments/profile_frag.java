@@ -5,21 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.Motawer.kalemah.Auth.SignIn_Activity;
-import com.Motawer.kalemah.Auth.SignUp_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,8 +23,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,35 +31,30 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.util.HashMap;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
 public class profile_frag extends Fragment
 {
-    View view;
-    private CircleImageView circleImageView;
-    private TextView textName,textEmail;
-    private Button logout;
-    private StorageReference storageReference;
-    private GoogleSignInClient mGoogleSignInClient;
-    private Uri picture;
-    private FirebaseUser user;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private String userID,username,email;
+     View view;
+     CircleImageView circleImageView;
+     TextView textName,textEmail;
+     Button logout;
+     StorageReference storageReference;
+     GoogleSignInClient mGoogleSignInClient;
+     Uri picture;
+     FirebaseUser user;
+     FirebaseAuth firebaseAuth;
+     FirebaseDatabase firebaseDatabase;
+     DatabaseReference databaseReference;
+     String userID,username,email;
 
     @Nullable
     @Override
@@ -82,7 +70,7 @@ public class profile_frag extends Fragment
         super.onViewCreated(view, savedInstanceState);
 
         initViews();
-        if (user!= null)
+     /*   if (user!= null)
         {
             String name =user.getDisplayName();
             String email=user.getEmail();
@@ -91,7 +79,7 @@ public class profile_frag extends Fragment
             Picasso.get().load(PhotoURL).into(circleImageView);
             textName.setText(name);
             textEmail.setText(email);
-        }
+        }*/
 
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
@@ -130,7 +118,7 @@ public class profile_frag extends Fragment
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
+      /*  logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
@@ -151,7 +139,17 @@ public class profile_frag extends Fragment
                     startActivity(new Intent(getActivity(),SignIn_Activity.class));
                 }
             }
-        });
+        });*/
+
+      logout.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              FirebaseAuth.getInstance().signOut();
+              Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
+              startActivity(new Intent(getActivity(),SignIn_Activity.class));
+
+          }
+      });
 
         circleImageView.setOnClickListener(new View.OnClickListener()
         {
@@ -239,7 +237,6 @@ public class profile_frag extends Fragment
                     Picasso.get()
                             .load(picture)
                             .into(circleImageView);
-
                     uploadImage(picture);
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE)
