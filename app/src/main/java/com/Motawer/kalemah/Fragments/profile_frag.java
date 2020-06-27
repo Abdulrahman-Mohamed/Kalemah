@@ -6,13 +6,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
@@ -44,9 +50,8 @@ import static com.google.firebase.storage.FirebaseStorage.getInstance;
 public class profile_frag extends Fragment
 {
      View view;
-     CircleImageView circleImageView;
+     ImageView circleImageView;
      TextView textName,textEmail;
-     Button logout;
      StorageReference storageReference;
      GoogleSignInClient mGoogleSignInClient;
      Uri picture;
@@ -55,6 +60,7 @@ public class profile_frag extends Fragment
      FirebaseDatabase firebaseDatabase;
      DatabaseReference databaseReference;
      String userID,username,email;
+     Toolbar toolbar;
 
     @Nullable
     @Override
@@ -67,26 +73,42 @@ public class profile_frag extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
+
         super.onViewCreated(view, savedInstanceState);
 
         initViews();
-     /*   if (user!= null)
+        initGoogle();
+        initButtons();
+
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        setHasOptionsMenu(true);
+    }
+
+    private void initButtons()
+    {
+
+
+        circleImageView.setOnClickListener(new View.OnClickListener()
         {
-            String name =user.getDisplayName();
-            String email=user.getEmail();
-            String PhotoURL =user.getPhotoUrl().toString();
+            @Override
+            public void onClick(View view)
+            {
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
+                        .setAspectRatio(1,1)
+                        .start(getActivity());
+            }
+        });
+    }
 
-            Picasso.get().load(PhotoURL).into(circleImageView);
-            textName.setText(name);
-            textEmail.setText(email);
-        }*/
-
-
+    private void initGoogle()
+    {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
         if (acct != null)
-        if (firebaseAuth.getCurrentUser().getEmail().equals(acct.getEmail()))
+            if (firebaseAuth.getCurrentUser().getEmail().equals(acct.getEmail()))
 
-        googleSignIn();
+                googleSignIn();
 
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -115,51 +137,6 @@ public class profile_frag extends Fragment
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-      /*  logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
-                if (firebaseAuth.getCurrentUser().getEmail().equals(acct.getEmail()))
-                {
-                    mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task)
-                        {
-                            startActivity(new Intent(getActivity(),SignIn_Activity.class));
-                            Toast.makeText(getActivity(), "Sign Out success", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                }else
-                {
-                    FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(getActivity(),SignIn_Activity.class));
-                }
-            }
-        });*/
-
-      logout.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              FirebaseAuth.getInstance().signOut();
-              Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
-              startActivity(new Intent(getActivity(),SignIn_Activity.class));
-
-          }
-      });
-
-        circleImageView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
-                        .setAspectRatio(1,1)
-                        .start(getActivity());
             }
         });
     }
@@ -209,13 +186,13 @@ public class profile_frag extends Fragment
         circleImageView =view.findViewById(R.id.circleImageView);
         textName =view.findViewById(R.id.textName);
         textEmail =view.findViewById(R.id.textEmail);
-        logout=view.findViewById(R.id.logout);
         firebaseAuth=FirebaseAuth.getInstance();
         user=firebaseAuth.getCurrentUser();
         firebaseDatabase=FirebaseDatabase.getInstance();
         databaseReference=firebaseDatabase.getReference();
         storageReference= getInstance().getReference();
         userID=user.getUid();
+        toolbar = view.findViewById(R.id.setting_toolbar);
 
     }
 
@@ -279,5 +256,25 @@ public class profile_frag extends Fragment
         String uid= user.getUid();
         databaseReference.child("User").child(uid).child("photo").setValue(String.valueOf(pictureUrl));
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.setting, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        int id =item.getItemId();
+        if (id== R.id.log_out)
+        {
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(),SignIn_Activity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
