@@ -185,21 +185,35 @@ public class words_frag extends Fragment {
                 viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
+                      //  recyclerAdapter.clear();
+                        int size = words.size();
+                        count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
+                        recyclerAdapter.notifyDataSetChanged();
                     }
                 });
+                return true;
+
             case R.id.all_User_levels:
                 viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
+                       // recyclerAdapter.clear();
+                        int size = words.size();
+                        count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
+                        recyclerAdapter.notifyDataSetChanged();
+
                     }
                 });
                 return true;
+
             case R.id.Level_C:
                 viewModel.getlevelWords(-3).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
+                        int size = words.size();
+                        count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
                     }
                 });
@@ -208,6 +222,8 @@ public class words_frag extends Fragment {
                 viewModel.getlevelWords(-2).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
+                        int size = words.size();
+                        count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
                     }
                 });
@@ -216,6 +232,8 @@ public class words_frag extends Fragment {
                 viewModel.getlevelWords(-1).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
+                        int size = words.size();
+                        count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
                     }
                 });
@@ -295,13 +313,28 @@ public class words_frag extends Fragment {
         viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
-                // recycler view on change
-                recyclerAdapter.setWordList(words);
-                size = words.size();
-                count.setText(String.valueOf(size));
+                if (words.isEmpty())
+                {if (viewModel.getFireWords()!=null)
+                {
+                    viewModel.getFireWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                        @Override
+                        public void onChanged(List<Word> words) {
+                            recyclerAdapter.setWordList(words);
+                            size = words.size();
+                            count.setText(String.valueOf(size));
+                        }
+                    });
+                }
+                }
+                else {
+                    // recycler view on change
+                    recyclerAdapter.setWordList(words);
+                    size = words.size();
+                    count.setText(String.valueOf(size));
 
-            }
+                }}
         });
+
     }
 
     public interface GetID {

@@ -46,6 +46,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         } else if (currentword.getLevel() == -3){
             holder.level.setText("C");
             holder.level.setBackgroundResource(R.drawable.level_round_c);
+        }else if (currentword.getLevel()>0)
+        {
+            holder.level.setText(String.valueOf(currentword.getLevel()));
+            holder.level.setBackgroundResource(R.drawable.level_round_c);
         }
     }
 
@@ -134,6 +138,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
             level = itemView.findViewById(R.id.word_level);
             meaning = itemView.findViewById(R.id.meaning_text);
 
+        }
+    }
+    public void clear() {
+        int size = wordList.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                wordList.remove(0);
+            }
+
+            notifyItemRangeRemoved(0, size);
         }
     }
 }

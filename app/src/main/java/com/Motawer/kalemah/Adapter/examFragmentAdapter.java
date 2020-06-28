@@ -13,7 +13,10 @@ public class examFragmentAdapter extends FragmentStateAdapter
 {
     private List<Fragment> fragmentList=new ArrayList<>();
 
-    public examFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, List<Fragment> fragmentList) {
+    public examFragmentAdapter(@NonNull FragmentManager fragmentManager
+            , @NonNull Lifecycle lifecycle
+            , List<Fragment> fragmentList)
+    {
         super(fragmentManager, lifecycle);
         this.fragmentList=fragmentList;
     }

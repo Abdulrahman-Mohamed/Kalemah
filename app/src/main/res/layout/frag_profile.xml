@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="201dp"
-        android:background="@drawable/backprofile"
+        android:background="@drawable/ic_exam1"
         />
 
     <LinearLayout
@@ -34,7 +35,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="106dp"
                 android:elevation="1dp"
-                android:src="@drawable/backprofile"
+                app:srcCompat="@drawable/ic_exam1"
                 />
 
             <LinearLayout
@@ -87,9 +88,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-
-                                >
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -123,7 +122,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="15"
                                     android:textSize="20sp" />
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -167,7 +165,5 @@
         android:text="logout"
         android:textColor="@color/colorPrimary"
         />
-
-
-
+    
 </RelativeLayout>

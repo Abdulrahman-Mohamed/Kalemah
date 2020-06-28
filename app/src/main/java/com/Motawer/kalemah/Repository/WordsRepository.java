@@ -2,9 +2,11 @@ package com.Motawer.kalemah.Repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.RoomDataBase.WordsDao;
@@ -23,10 +25,13 @@ import java.util.List;
 public class WordsRepository {
     private WordsDao wordsDao;
     private LiveData<List<Word>> allWords;
+    private MutableLiveData<List<Word>> fireWords;
+    private LiveData<List<Word>> fireLevelsWords;
     private LiveData<List<Word>> allUserWords;
     private LiveData<List<Word>> AWords;
     private LiveData<List<Word>> BWords;
     private LiveData<List<Word>> CWords;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Users");
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -38,13 +43,41 @@ public class WordsRepository {
         wordsDao = wordsDataBase.wordsDao();
         allWords = wordsDao.getAllWords();
         allUserWords = wordsDao.getAllUserWords();
+        fireWords=new MutableLiveData<>();
+        FireBase();
+
         AWords = wordsDao.getWordslevel1();
         BWords = wordsDao.getWordslevel2();
         CWords = wordsDao.getWordslevel3();
 
     }
 
-    public void insert(Word word) {
+    private void FireBase()
+    {
+        myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Word> list=new ArrayList<>();
+
+                if (dataSnapshot.exists())
+                    for (DataSnapshot snapshot:dataSnapshot.getChildren())
+                    {
+                        list.add(snapshot.getValue(Word.class));
+                    }
+                fireWords.setValue(list);
+                getFireWords();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void insert(Word word)
+    {
         new InsertAsync(wordsDao).execute(word);
      //   Log.d(TAG,Uid);
         myRef.child(Uid).child("UserWords").child(word.getWord()).setValue(word);
@@ -90,8 +123,14 @@ public class WordsRepository {
         new deleteAllAsync(wordsDao).execute();
     }
 
-    public LiveData<List<Word>> getAllWords() {
+    public LiveData<List<Word>> getAllWords()
+    {
         return allWords;
+
+    }
+    public LiveData<List<Word>> getFireWords()
+    {
+        return fireWords;
 
     }
     public LiveData<List<Word>> getAllUserWords()
@@ -112,6 +151,8 @@ public class WordsRepository {
         return CWords;
     }
 
+
+
     public static class InsertAsync extends AsyncTask<Word, Void, Void> {
         private WordsDao wordsDao;
 
@@ -122,10 +163,12 @@ public class WordsRepository {
         @Override
         protected Void doInBackground(Word... words) {
             wordsDao.insert(words[0]);
+            Log.e("TAG",words[0].getWord());
 
             return null;
         }
     }
+
 
     public static class updateAsync extends AsyncTask<Word, Void, Void> {
         private WordsDao wordsDao;

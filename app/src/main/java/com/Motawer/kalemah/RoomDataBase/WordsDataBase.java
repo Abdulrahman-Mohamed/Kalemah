@@ -9,11 +9,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = Word.class,version =2)
+@Database(entities = Word.class,version =4)
 public abstract class WordsDataBase extends RoomDatabase
 {
     private static WordsDataBase instanceRoomDatabase;
     public abstract WordsDao wordsDao();
+
     public static synchronized WordsDataBase getInstance(Context context)
     {
         if (instanceRoomDatabase==null)
@@ -24,6 +25,7 @@ public abstract class WordsDataBase extends RoomDatabase
         }
         return instanceRoomDatabase;
     }
+
     private static RoomDatabase.Callback callback=new RoomDatabase.Callback()
     {
 

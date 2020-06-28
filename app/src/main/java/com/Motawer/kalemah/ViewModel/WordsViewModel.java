@@ -15,6 +15,7 @@ import java.util.List;
 public class WordsViewModel extends AndroidViewModel {
     WordsRepository wordsRepository;
     LiveData<List<Word>> allWords;
+    LiveData<List<Word>> fireWords;
     LiveData<List<Word>> allUserWords;
     LiveData<List<Word>> aWords;
     LiveData<List<Word>> bWords;
@@ -24,6 +25,7 @@ public class WordsViewModel extends AndroidViewModel {
         super(application);
         wordsRepository=new WordsRepository(application);
         allWords=wordsRepository.getAllWords();
+        fireWords=wordsRepository.getFireWords();
         allUserWords=wordsRepository.getAllUserWords();
         aWords=wordsRepository.getAWords();
         bWords=wordsRepository.getBWords();
@@ -32,6 +34,8 @@ public class WordsViewModel extends AndroidViewModel {
     }
     public void insetr(Word word)
     {
+
+
         wordsRepository.insert(word);
     }
     public void update(Word word)
@@ -48,7 +52,11 @@ public class WordsViewModel extends AndroidViewModel {
     }
     public LiveData<List<Word>> getAllWords()
     {
-    return allWords;
+        return allWords;
+    }
+    public LiveData<List<Word>> getFireWords()
+    {
+        return fireWords;
     }
     public LiveData<List<Word>> getAllUserWords()
     {

@@ -5,10 +5,25 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "Words_Table")
+@Entity(tableName = "Words_Table" )
 public class Word implements Serializable {
-@PrimaryKey(autoGenerate = true)
-    private int ID=0;
+@PrimaryKey(autoGenerate = true )
+    private int ID;//here
+
+    private String word;
+    private String meaning;
+    private int level;
+
+    public Word()
+    {
+    }
+
+    public Word(String word, String meaning, int level)
+    {
+        this.word = word;
+        this.meaning = meaning;
+        this.level = level;
+    }
 
     public void setWord(String word) {
         this.word = word;
@@ -22,18 +37,6 @@ public class Word implements Serializable {
         this.level = level;
     }
 
-    private String word;
-    private String meaning;
-    private int level;
-
-    public Word() {
-    }
-
-    public Word(String word, String meaning, int level) {
-        this.word = word;
-        this.meaning = meaning;
-        this.level = level;
-    }
 
     public void setID(int ID) {
         this.ID = ID;

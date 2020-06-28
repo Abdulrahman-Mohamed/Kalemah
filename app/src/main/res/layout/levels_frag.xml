@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ImageView
         android:id="@+id/star1"
         android:layout_width="wrap_content"
@@ -86,5 +87,19 @@
         android:elevation="20dp"
 
         />
+    <FrameLayout
+        android:id="@+id/lock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#ddd"
+        android:elevation="26dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="26dp"
+            app:srcCompat="@drawable/ic_lock_black_24dp"/>
+
+    </FrameLayout>
 
 </RelativeLayout>
