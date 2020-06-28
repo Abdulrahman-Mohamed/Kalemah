@@ -50,10 +50,9 @@ public class SignIn_Activity extends AppCompatActivity
 {
     EditText emailEditText,passwordEditText;
     TextView signUp,forgetPassword;
-    Button btn_login;
+    Button btn_login,fb, signInGoogle;
     String email,password,gUsername,gEmail;
     ProgressDialog progressDialog;
-    SignInButton signInGoogle;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database=FirebaseDatabase.getInstance();
@@ -67,6 +66,7 @@ public class SignIn_Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sign_in_);
         // init facebook sdk
         FacebookSdk.sdkInitialize(SignIn_Activity.this);
@@ -79,11 +79,7 @@ public class SignIn_Activity extends AppCompatActivity
                 .build();
         mGoogleSignInClient =GoogleSignIn.getClient(this,gso);
 
-     /* if (firebaseAuth.getCurrentUser() != null)
-        {
-            startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
-            finish();
-        }*/
+
 
         initViews();
         initButtons();
@@ -91,37 +87,27 @@ public class SignIn_Activity extends AppCompatActivity
 
     private void initFacebook()
     {
-        // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>()
+        {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(LoginResult loginResult)
+            {
                 handleFacebookAccessToken(loginResult.getAccessToken());
             }
-
             @Override
-            public void onCancel() {
-
+            public void onCancel()
+            {
             }
-
             @Override
-            public void onError(FacebookException error) {
+            public void onError(FacebookException error)
+            {
             }
         });
 
     }
-
-   /* @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            updateUI(currentUser);
-        }
-    }*/
 
     private void handleFacebookAccessToken(AccessToken token)
     {
@@ -133,7 +119,6 @@ public class SignIn_Activity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
-
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             String uid =task.getResult().getUser().getUid();
@@ -265,11 +250,13 @@ public class SignIn_Activity extends AppCompatActivity
         btn_login = findViewById(R.id.btn_login);
         firebaseAuth=FirebaseAuth.getInstance();
         signInGoogle =findViewById(R.id.sign_in_google);
+        fb =  findViewById(R.id.fb);
+
     }
 
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -287,7 +274,9 @@ public class SignIn_Activity extends AppCompatActivity
             }
         }
     }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct)
+    {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
@@ -328,6 +317,13 @@ public class SignIn_Activity extends AppCompatActivity
                 Toast.makeText(SignIn_Activity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void onClickFacebookButton(View view)
+    {
+        if (view == fb) {
+            loginButton.performClick();
+        }
     }
 
 }

@@ -86,9 +86,7 @@
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 
-
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_words"
@@ -100,7 +98,6 @@
             app:reverseLayout="true"
             tools:listitem="@layout/words_item" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_note"
