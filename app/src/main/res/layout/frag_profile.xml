@@ -86,7 +86,6 @@
                         android:id="@+id/textName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/arbutus"
                         android:text="@string/Email"
                         android:textColor="#000"
                         android:textSize="16sp" />
@@ -141,7 +140,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/arbutus"
                                 android:text="Words"
                                 android:textColor="#89640B"
                                 android:textSize="12sp" />
@@ -184,8 +182,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/arbutus"
-                                android:text="Exams"
+                                android:text="Levels"
                                 android:textColor="#89640B"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -226,8 +223,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/arbutus"
-                                android:text="Success"
+                                android:text="Points"
                                 android:textColor="#89640B"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -261,7 +257,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="0dp"
-                    android:text="Wrong Words"
+                    android:text="Prefered Words"
                     android:textColor="#000"
                     android:textSize="18sp"
                     />
@@ -270,6 +266,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/prefered_Words"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
 
                 </androidx.cardview.widget.CardView>
 

@@ -18,10 +18,6 @@ import com.Motawer.kalemah.ViewModel.WordsViewModel;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner
         , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler
@@ -31,11 +27,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
     private WordsViewModel viewModel;
     int wordIdentefire;
     FirebaseAuth firebaseAuth;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Users");
-    ArrayList<Word> Cword = new ArrayList<>();
-    final String KEY="MY_APP_SHARED_PREFRENCES";
-    final String WORSLIST="MY_APP_WORDS_LIST";
+
 
 
 
