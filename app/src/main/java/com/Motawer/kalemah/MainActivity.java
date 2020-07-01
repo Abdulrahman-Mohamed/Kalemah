@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 //        Window window=getWindow();
 //        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 //                , WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
                 }
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frag_container, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().addToBackStack(null);
             }
         });
 
@@ -125,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
 
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, selectedFragment).commit();
+                getSupportFragmentManager().beginTransaction().addToBackStack(null);
+
                 //Toast.makeText(MainActivity.this, "reselected item : " + item.getId(), Toast.LENGTH_SHORT).show();
             }
         });

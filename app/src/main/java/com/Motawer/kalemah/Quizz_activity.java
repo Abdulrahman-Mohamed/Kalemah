@@ -299,11 +299,11 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     }
 
 
-    private void insertWord() {
-        Word word = new Word(wordQuistion, meaning, -3);
-
-        viewModel.insetr(word);
-    }
+//    private void insertWord() {
+//        Word word = new Word(wordQuistion, meaning, -3);
+//
+//        viewModel.insetr(word);
+//    }
 
     @Override
     public void sendcounter(int counter) {

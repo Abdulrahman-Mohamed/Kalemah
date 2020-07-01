@@ -32,8 +32,7 @@ public class QuizzFragment extends Fragment {
     onSomeEventListener someEventListener;
     ArrayList<String> listMeanings = new ArrayList<>();
     //    ArrayList<Word> Cword ;
-    final String KEY = "MY_APP_SHARED_PREFRENCES";
-    final String WORDSLIST = "MY_APP_WORDS_LIST";
+
     private WordsViewModel viewModel;
     MediaPlayer right;
     MediaPlayer wrong;

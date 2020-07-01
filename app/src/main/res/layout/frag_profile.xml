@@ -130,6 +130,7 @@
                                 android:src="@drawable/word"/>
 
                             <TextView
+                                android:id="@+id/words_Count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -172,6 +173,7 @@
                                 android:src="@drawable/checklist"/>
 
                             <TextView
+                                android:id="@+id/levels_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -213,6 +215,7 @@
                                 android:src="@drawable/examm"/>
 
                             <TextView
+                                android:id="@+id/points"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
