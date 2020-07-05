@@ -13,7 +13,7 @@
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="send_your_link">"Enter your email address and we we'll send a link to reset your password"</string>
-    <string name="reset_password">reset password</string>
+    <string name="reset_password">Reset password</string>
     <string name="dont_have_account">"Don't have an account!?"</string>
     <string name="facebook_app_id">2549573815309618</string>
     <string name="fb_login_protocol_scheme">fb2549573815309618</string>

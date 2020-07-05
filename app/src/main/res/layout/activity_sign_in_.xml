@@ -6,11 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Auth.SignIn_Activity"
-    android:layout_marginTop="30dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginLeft="20dp"
     android:background="@drawable/background">
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp">
 
     <TextView
         android:id="@+id/WelcomeTextView"
@@ -139,79 +142,55 @@
                     android:text="@string/sign_up"
                     android:textColor="@color/welcome_back"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:clickable="true"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="1dp"
-                        android:layout_marginBottom="20dp"
-                        android:focusable="true">
-
-                        <Button
-                            android:id="@+id/sign_in_google"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="@drawable/google_button"
-                            android:drawableLeft="@drawable/google_icon"
-                            android:text="Sign up with Google"
-                            android:textAllCaps="false"
-                            android:textColor="#868686"
-                            android:textSize="14sp" />
-
-                    </androidx.cardview.widget.CardView>
-
-                <FrameLayout
+                <Button
+                    android:id="@+id/sign_in_google"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/google_button"
+                    android:drawableLeft="@drawable/google_icon"
+                    android:text="Sign up with Google"
+                    android:textAllCaps="false"
+                    android:textColor="#868686"
+                    android:textSize="14sp" />
 
-                    <androidx.cardview.widget.CardView
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/fb"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:clickable="true"
-                        app:cardCornerRadius="10dp"
-                        app:cardElevation="1dp"
-                        android:layout_marginBottom="20dp"
-                        android:focusable="true">
+                        android:background="@drawable/facebook_button"
+                        android:drawableLeft="@drawable/facebook_icon"
+                        android:onClick="onClickFacebookButton"
+                        android:text="Sign up with Facebook"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="10dp"/>
 
-                        <com.facebook.login.widget.LoginButton
-                            android:id="@+id/login_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone" />
-
-                        <Button
-                            android:id="@+id/fb"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="@drawable/facebook_button"
-                            android:drawableLeft="@drawable/facebook_icon"
-                            android:onClick="onClickFacebookButton"
-                            android:text="Sign up with Facebook"
-                            android:textAllCaps="false"
-                            android:textColor="#ffffff"
-                            android:textSize="14sp" />
-
-                    </androidx.cardview.widget.CardView>
-
-                </FrameLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+</RelativeLayout>
 
 </RelativeLayout>

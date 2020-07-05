@@ -81,7 +81,6 @@ public class profile_frag extends Fragment {
     List<Boolean> levelList = new ArrayList<>();
     List<Integer> levelPoint = new ArrayList<>();
 
-
     int WordsCounter, pointCounter = 0;
 
     @Nullable
@@ -93,10 +92,10 @@ public class profile_frag extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
 
         super.onViewCreated(view, savedInstanceState);
-
 
         checkInternet();
         if (!connected)
@@ -106,7 +105,6 @@ public class profile_frag extends Fragment {
         getWordsCount();
         BackThread backThread=new BackThread();
         backThread.start();
-
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -148,7 +146,6 @@ public class profile_frag extends Fragment {
             connected = false;
     }
 
-
     private void LoadShared()
     {
         Context context = getActivity();
@@ -167,7 +164,6 @@ public class profile_frag extends Fragment {
         levels.setText(String.valueOf(levelsshared));
         points.setText(String.valueOf(pointsshared));
     }
-
 
 //    private void getWordsCount() {
 //        viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
@@ -190,11 +186,14 @@ public class profile_frag extends Fragment {
 //
 //    }
 
-    private void setViews() {
+    private void setViews()
+
+    {
         wordsCount.setText(String.valueOf(WordsCounter));
     }
 
-    private void initButtons() {
+    private void initButtons()
+    {
 
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +207,8 @@ public class profile_frag extends Fragment {
         });
     }
 
-    private void initGoogle() {
+    private void initGoogle()
+    {
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
         if (acct != null)
@@ -278,6 +278,7 @@ public class profile_frag extends Fragment {
 //
 //        });
     }
+
     private void SaveData(int pointCounter,int size)
     {
         SharedPreferences sharedPref = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
@@ -292,7 +293,8 @@ public class profile_frag extends Fragment {
         editor.apply();
     }
 
-    private void googleSignIn() {
+    private void googleSignIn()
+    {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -313,7 +315,8 @@ public class profile_frag extends Fragment {
 
     }
 
-    private void showData(DataSnapshot dataSnapshot) {
+    private void showData(DataSnapshot dataSnapshot)
+    {
         UserModel userModel = dataSnapshot.child(userID).getValue(UserModel.class);
 
         if (userModel != null) {
@@ -330,7 +333,8 @@ public class profile_frag extends Fragment {
 
     }
 
-    private void initViews() {
+    private void initViews()
+    {
         circleImageView = view.findViewById(R.id.circleImageView);
         textName = view.findViewById(R.id.textName);
         textEmail = view.findViewById(R.id.textEmail);
@@ -348,13 +352,15 @@ public class profile_frag extends Fragment {
 
     }
 
-    private void setViewModel() {
+    private void setViewModel()
+    {
         viewModel = new ViewModelProvider((ViewModelStoreOwner) requireContext()).get(WordsViewModel.class);
 
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -376,7 +382,8 @@ public class profile_frag extends Fragment {
         }
     }
 
-    private void uploadImage(Uri picture) {
+    private void uploadImage(Uri picture)
+    {
         UploadTask uploadTask;
         storageReference = FirebaseStorage.getInstance().getReference().child("images/" + picture.getLastPathSegment());
         uploadTask = storageReference.putFile(picture);
@@ -397,7 +404,8 @@ public class profile_frag extends Fragment {
         });
     }
 
-    private void saveToDatabase(String pictureUrl) {
+    private void saveToDatabase(String pictureUrl)
+    {
         user = firebaseAuth.getCurrentUser();
         String uid = user.getUid();
         databaseReference.child("User").child(uid).child("photo").setValue(String.valueOf(pictureUrl));
@@ -405,13 +413,15 @@ public class profile_frag extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
         inflater.inflate(R.menu.setting, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
         int id = item.getItemId();
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
@@ -420,6 +430,7 @@ public class profile_frag extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
     class BackThread extends Thread
     {
         @Override
