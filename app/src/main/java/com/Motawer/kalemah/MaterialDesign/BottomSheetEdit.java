@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -31,6 +30,7 @@ public class BottomSheetEdit extends BottomSheetDialogFragment implements Adapte
     Spinner spinner;
     Button button;
     String Level,Word,Mean;
+    int rate;
 
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
@@ -66,7 +66,7 @@ public class BottomSheetEdit extends BottomSheetDialogFragment implements Adapte
                 {
                     sheetListner.onButtomEditClicked(Word
                             ,Mean
-                            ,Level);
+                            ,Level,rate);
                     dismiss();
                 }
                 else
@@ -119,13 +119,16 @@ public class BottomSheetEdit extends BottomSheetDialogFragment implements Adapte
        String s = parent.getItemAtPosition(position).toString();
        if (s.equals("A"))
        {
-           Level="1";
+           Level="-1";
+           rate=5;
        }else if (s.equals("B"))
        {
-           Level="2";
+           Level="-2";
+           rate=3;
        }else if (s.equals("C"))
        {
-           Level="3";
+           Level="-3";
+           rate=1;
        }
 
 
@@ -137,7 +140,7 @@ public class BottomSheetEdit extends BottomSheetDialogFragment implements Adapte
     }
 
     public interface BottomSheetEditeListner {
-        void onButtomEditClicked(String Word, String meaning, String level);
+        void onButtomEditClicked(String Word, String meaning, String level,int rate);
     }
 
     @Override

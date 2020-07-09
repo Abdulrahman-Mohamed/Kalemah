@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Motawer.kalemah.Adapter.Exams_Adapter;
 import com.Motawer.kalemah.Excercise_Levels;
 import com.Motawer.kalemah.Models.ExamsItems;
+import com.Motawer.kalemah.My_Words_Quizz;
 import com.Motawer.kalemah.R;
 
 import java.util.ArrayList;
@@ -52,7 +53,11 @@ public class exams_frag extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         ExamsItems examsItems = new ExamsItems(R.drawable.ic_exam1, R.drawable.ic_feather, "Exercise");
+        ExamsItems examsItems2 = new ExamsItems(R.drawable.ic_item_model, R.drawable.ic_feather, "Words");
+
         itemsList.add(examsItems);
+        itemsList.add(examsItems2);
+
         exams_adapter = new Exams_Adapter(itemsList);
         recyclerView.setAdapter(exams_adapter);
         exams_adapter.setOnItemClickListener(new Exams_Adapter.OnItemClickListener() {
@@ -63,6 +68,14 @@ public class exams_frag extends Fragment {
                     Intent intent = new Intent(getActivity(), Excercise_Levels.class);
                     startActivity(intent);
                    // Toast.makeText(requireContext(),itemsList.get(position).getTextView().toString(),Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(getActivity(), exams_frag.class);
+//                    startActivity(intent);
+                }
+                if ( itemsList.get(position).getTextView().toString().equals("Words"))
+                {
+                    Intent intent = new Intent(getActivity(), My_Words_Quizz.class);
+                    startActivity(intent);
+                    // Toast.makeText(requireContext(),itemsList.get(position).getTextView().toString(),Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(getActivity(), exams_frag.class);
 //                    startActivity(intent);
                 }

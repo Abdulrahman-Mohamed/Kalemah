@@ -7,15 +7,24 @@ import java.io.Serializable;
 
 @Entity(tableName = "Words_Table" )
 public class Word implements Serializable {
-@PrimaryKey(autoGenerate = true )
-    private int ID;//here
 
+    @PrimaryKey(autoGenerate = true)
+    private int ID;
     private String word;
     private String meaning;
     private int level;
+    int Rate;
 
     public Word()
     {
+
+    }
+
+    public Word(String word, String meaning, int level, int rate) {
+        this.word = word;
+        this.meaning = meaning;
+        this.level = level;
+        Rate = rate;
     }
 
     public Word(String word, String meaning, int level)
@@ -23,6 +32,15 @@ public class Word implements Serializable {
         this.word = word;
         this.meaning = meaning;
         this.level = level;
+
+    }
+
+    public int getRate() {
+        return Rate;
+    }
+
+    public void setRate(int rate) {
+        Rate = rate;
     }
 
     public void setWord(String word) {

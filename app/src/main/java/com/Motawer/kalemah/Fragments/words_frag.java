@@ -1,6 +1,7 @@
 package com.Motawer.kalemah.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,12 +34,14 @@ import com.Motawer.kalemah.MaterialDesign.BottomSheetEdit;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
-import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -59,8 +61,9 @@ public class words_frag extends Fragment {
     SearchView searchView;
     TextView count;
     int size;
+    ArrayList<Word> wordArrayList = new ArrayList<>();
     private FloatingActionButton FAB;
-    MeowBottomNavigation btv;
+    //  MeowBottomNavigation btv;
 
     @Nullable
     @Override
@@ -76,18 +79,13 @@ public class words_frag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         InitializUI();
         recyclerInit();
-        setViewModel();
+        //setViewModel();
         search();
         addWord();
-        swipeDeleteAndEdit();
-
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-
         setHasOptionsMenu(true);
-
-
     }
 
     private void swipeDeleteAndEdit() {
@@ -101,11 +99,26 @@ public class words_frag extends Fragment {
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getAdapterPosition();
+                Word word = recyclerAdapter.getWordAt(pos);
                 id = recyclerAdapter.getWordAt(pos).getID();
+                ArrayList<Word> loadList = loadData();
+
                 switch (direction) {
                     case ItemTouchHelper.LEFT:
-
-                        snackbar(pos);
+                        // viewModel.deleteAllWords();
+                        if (wordArrayList.size() == 0) {
+                            recyclerAdapter.notifyDataSetChanged();
+                            recyclerAdapter.notifyAll();
+                        }
+                        viewModel.delete(recyclerAdapter.getWordAt(pos));
+                        //recyclerAdapter.removeAt(pos,requireContext());
+                        recyclerAdapter.notifyItemRemoved(pos);
+                        recyclerAdapter.removeshared(word, requireContext(), loadList);
+                        snackbar(pos, word);
+                        if (pos == 0) {
+                            recyclerAdapter.clear();
+                            count.setText("0");
+                        }
                         break;
                     //StyleableToast.makeText(requireContext(), "Word deleted", Toast.LENGTH_LONG, R.style.mytoast).show();
 
@@ -117,7 +130,29 @@ public class words_frag extends Fragment {
                         bottomSheet.show(getActivity().getSupportFragmentManager(), "BottomSheetdialog");
 
                 }
+                recyclerAdapter.notifyDataSetChanged();
+
             }
+
+            private ArrayList<Word> loadData() {
+                ArrayList<Word> wordArrayList;
+                final String KEY = "FAVORIT_WORDS";
+                final String WORD_FAVORIT = "MY_FAV_WORDS";
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+                Gson gson = new Gson();
+                String json = sharedPreferences.getString(WORD_FAVORIT, null);
+                Type type = new TypeToken<ArrayList<Word>>() {
+                }.getType();
+                wordArrayList = gson.fromJson(json, type);
+
+                //recyclerAdapter.setWordList(wordArrayList);
+
+                if (wordArrayList == null) {
+                    wordArrayList = new ArrayList<>();
+                }
+                return wordArrayList;
+            }
+
 
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -127,6 +162,7 @@ public class words_frag extends Fragment {
                         .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
                         .addSwipeRightActionIcon(R.drawable.ic_edit_black_24dp)
+
                         .create()
                         .decorate();
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
@@ -185,7 +221,7 @@ public class words_frag extends Fragment {
                 viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
-                      //  recyclerAdapter.clear();
+                        //  recyclerAdapter.clear();
                         int size = words.size();
                         count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
@@ -198,7 +234,7 @@ public class words_frag extends Fragment {
                 viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
-                       // recyclerAdapter.clear();
+                        // recyclerAdapter.clear();
                         int size = words.size();
                         count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
@@ -244,7 +280,7 @@ public class words_frag extends Fragment {
 
     }
 
-    private void snackbar(final int pos) {
+    private void snackbar(final int pos, final Word word) {
         snackbar = Snackbar.make(coordinatorLayout, "item deleted",
                 BaseTransientBottomBar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
             @Override
@@ -252,10 +288,12 @@ public class words_frag extends Fragment {
                 snackbar.setAction("Undo", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        undo = 1;
+                        // undo = 1;
                         Toast.makeText(requireContext(), "recoverd", Toast.LENGTH_SHORT).show();
-                        setViewModel();
-                        recyclerAdapter.notifyItemChanged(pos);
+                        recyclerAdapter.restoreItem(word, pos);
+                        viewModel.insetr(word);
+                        recyclerView.scrollToPosition(pos);
+
 
                     }
                 });
@@ -265,38 +303,21 @@ public class words_frag extends Fragment {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 super.onDismissed(transientBottomBar, event);
-                if (undo == 0) {
-                    viewModel.delete(recyclerAdapter.getWordAt(pos));
-
-                } else if (undo == 1) {
-                    undo = 0;
-
-                }
+//
             }
         });
         snackbar.show();
 
     }
+
     private void InitializUI() {
         FAB = view.findViewById(R.id.add_note);
         recyclerView = view.findViewById(R.id.recycler_words);
-        btv = getActivity().findViewById(R.id.botnav);
+        // btv = getActivity().findViewById(R.id.botnav);
         coordinatorLayout = view.findViewById(R.id.coordinator);
         toolbar = view.findViewById(R.id.words_toolbar);
         searchView = view.findViewById(R.id.search_view);
         count = view.findViewById(R.id.count_text);
-
-
-
-//        slide_down = AnimationUtils.loadAnimation(getActivity(),
-//                R.anim.anim);
-//        slide_up = AnimationUtils.loadAnimation(getActivity(),
-//                R.anim.slide_up);
-//        start = AnimationUtils.loadAnimation(getActivity(),
-//                R.anim.slide_up);
-//        slide_up.cancel();
-//        slide_down.cancel();
-
 
     }
 
@@ -305,7 +326,9 @@ public class words_frag extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerAdapter = new RecyclerAdapter();
+        setViewModel();
         recyclerView.setAdapter(recyclerAdapter);
+        swipeDeleteAndEdit();
     }
 
     private void setViewModel() {
@@ -313,26 +336,16 @@ public class words_frag extends Fragment {
         viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
-                if (words.isEmpty())
-                {if (viewModel.getFireWords()!=null)
-                {
-                    viewModel.getFireWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-                        @Override
-                        public void onChanged(List<Word> words) {
-                            recyclerAdapter.setWordList(words);
-                            size = words.size();
-                            count.setText(String.valueOf(size));
-                        }
-                    });
-                }
-                }
-                else {
-                    // recycler view on change
+                if (!words.isEmpty()) {
+                    wordArrayList = new ArrayList<>(words);
                     recyclerAdapter.setWordList(words);
                     size = words.size();
                     count.setText(String.valueOf(size));
+                } else {
+                    viewModel.setFireBaseWords();
+                }
+            }
 
-                }}
         });
 
     }
@@ -340,7 +353,8 @@ public class words_frag extends Fragment {
     public interface GetID {
         void getidfrompos(int id);
     }
-//ViewModel Necessary
+
+    //ViewModel Necessary
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

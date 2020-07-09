@@ -1,6 +1,7 @@
 package com.Motawer.kalemah.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,6 +24,7 @@ public class WordsViewModel extends AndroidViewModel {
 
     public WordsViewModel(@NonNull Application application) {
         super(application);
+        Log.e("thread", String.valueOf(Thread.currentThread()));
         wordsRepository=new WordsRepository(application);
         allWords=wordsRepository.getAllWords();
         fireWords=wordsRepository.getFireWords();
@@ -37,6 +39,10 @@ public class WordsViewModel extends AndroidViewModel {
 
 
         wordsRepository.insert(word);
+    }
+    public void setFireBaseWords()
+    {
+        wordsRepository.getFireData();
     }
     public void update(Word word)
     {

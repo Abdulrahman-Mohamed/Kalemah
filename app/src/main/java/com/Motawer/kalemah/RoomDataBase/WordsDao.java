@@ -15,8 +15,12 @@ public interface WordsDao  {
     @Insert
     void insert(Word word);
 
+//    @Insert
+//    void insert(Word... word);
+
     @Update
     void update(Word word);
+
 
     @Delete
     void delete(Word word);
@@ -24,7 +28,7 @@ public interface WordsDao  {
     @Query("DELETE FROM Words_Table")
     void deleteAll();
 
-    @Query("SELECT * FROM Words_Table WHERE level>=1 Order By level Desc")
+    @Query("SELECT * FROM Words_Table WHERE level>=-3 Order By level Desc")
     LiveData<List<Word>> getAllWords();
 
     @Query("SELECT * FROM Words_Table Where 0>level Order BY level ASC")

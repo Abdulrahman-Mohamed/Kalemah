@@ -1,4 +1,5 @@
 package com.Motawer.kalemah;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,15 +21,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements BottomSheet.BottomSheetListner, BottomSheetEdit.BottomSheetEditeListner
-        , com.Motawer.kalemah.Fragments.words_frag.GetID,BottomSheetEdit.refreshrecycler
-{
+        , com.Motawer.kalemah.Fragments.words_frag.GetID, BottomSheetEdit.refreshrecycler {
 
     Fragment selectedFragment = null;
     private WordsViewModel viewModel;
     int wordIdentefire;
     FirebaseAuth firebaseAuth;
-
-
 
 
     @Override
@@ -41,8 +39,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
 //                , WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
 
-        firebaseAuth=FirebaseAuth.getInstance();
-
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
         viewModel = new ViewModelProvider(this).get(WordsViewModel.class);
@@ -52,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
         btv.add(new MeowBottomNavigation.Model(2, R.drawable.selector));
         btv.add(new MeowBottomNavigation.Model(1, R.drawable.ic_person_black_24dp));
 
-
+//defult item
 
         //click item but not show
         btv.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
@@ -64,11 +61,18 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
                         selectedFragment = new profile_frag();
                         break;
                     case 2:
-                        btv.clearAnimation();
-
-                        selectedFragment = new words_frag();
+                      //  btv.clearAnimation();
+                           // item.setIcon(R.drawable.ic_add_black_24dp);
                      //   item.setIcon(R.drawable.ic_add_black_24dp);
-                       // btv.setSelected(true);
+                      //  item.setIcon(R.drawable.ic_add_black_24dp);
+                 //       btv.clearCount(2);
+                     //   btv.clearCount();
+                       // btv.getModelPosition(2);
+                    //    btv.add(new MeowBottomNavigation.Model(2, R.drawable.ic_add_black_24dp));
+                     //   btv.getModelById(2).setIcon(R.drawable.ic_add_black_24dp);
+                        selectedFragment = new words_frag();
+                        //   item.setIcon(R.drawable.ic_add_black_24dp);
+                        // btv.setSelected(true);
                         break;
                     case 3:
                         selectedFragment = new exams_frag();
@@ -89,8 +93,11 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
                         selectedFragment = new profile_frag();
                         break;
                     case 2:
-                      //  item.setIcon(R.drawable.ic_add_black_24dp);
-                       // onContentChanged();
+                        //  item.setIcon(R.drawable.ic_add_black_24dp);
+                        // onContentChanged();
+//                        btv.clearCount(2);
+//                        btv.add(new MeowBottomNavigation.Model(2, R.drawable.ic_add_black_24dp));
+                       // btv.getModelById(2).setIcon(R.drawable.ic_add_black_24dp);
                         btv.clearAnimation();
                         selectedFragment = new words_frag();
 
@@ -105,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
                 getSupportFragmentManager().beginTransaction().addToBackStack(null);
             }
         });
+        btv.show(2, false);
 
         //re_click handler
         btv.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
@@ -132,37 +140,21 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
                 //Toast.makeText(MainActivity.this, "reselected item : " + item.getId(), Toast.LENGTH_SHORT).show();
             }
         });
-        //defult item
-           btv.show(2, true);
+
     }
+
+
+
 
 
 
     @Override
-    public void onButtomClicked(String Word, String meaning, String level)
-    {
-        Word word = new Word(Word, meaning, Integer.parseInt(level.trim()));
-        viewModel.insetr(word);
-
+    public void getidfrompos(int id) {
+        wordIdentefire = id;
     }
 
     @Override
-    public void onButtomEditClicked(String Word, String meaning, String level)
-    {
-        Word word = new Word(Word, meaning, Integer.parseInt(level.trim()));
-        word.setID(wordIdentefire);
-        viewModel.update(word);
-    }
-
-    @Override
-    public void getidfrompos(int id)
-    {
-        wordIdentefire=id;
-    }
-
-    @Override
-    public void onRecyclerRefresh()
-    {
+    public void onRecyclerRefresh() {
 
         words_frag fragment = (words_frag) getSupportFragmentManager().getFragments().get(0);
         getSupportFragmentManager().beginTransaction()
@@ -181,23 +173,32 @@ public class MainActivity extends AppCompatActivity implements BottomSheet.Botto
         }
     }
 
-    private  void checkUserStatus()
-    {
-        FirebaseUser user =firebaseAuth.getCurrentUser();
-        if (user != null)
-        {
+    private void checkUserStatus() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
 
-        }else
-        {
+        } else {
             startActivity(new Intent(MainActivity.this, SignIn_Activity.class));
             finish();
         }
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         checkUserStatus();
         super.onStart();
+    }
+
+    @Override
+    public void onButtomClicked(String Word, String meaning, String level, int rate) {
+        Word word = new Word(Word, meaning, Integer.parseInt(level.trim()),rate);
+        viewModel.insetr(word);
+    }
+
+    @Override
+    public void onButtomEditClicked(String Word, String meaning, String level, int rate) {
+        Word word = new Word(Word, meaning, Integer.parseInt(level.trim()),rate);
+        word.setID(wordIdentefire);
+        viewModel.update(word);
     }
 }

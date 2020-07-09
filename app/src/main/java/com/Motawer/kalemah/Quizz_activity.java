@@ -62,7 +62,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     int progress = 0;
     int level;
     int USER_POINTS;
-    boolean hasAword = true;
+    //boolean hasAword = true;
 
 
     @Override
@@ -260,8 +260,6 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     public void sendRate(int rate) {
         if (rate == 1) {
             successRate = ++successRate;
-//
-
         } else if (rate == 0) {
             SaveWord();
         }
@@ -270,26 +268,6 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     private void SaveWord() {
         word = new Word(wordQuistion, meaning, -3);
         Cword.add(word);
-//
-//        LiveData<List<Word>> wordList = viewModel.getAllWords();
-//        wordList.observe(this, new Observer<List<Word>>() {
-//            @Override
-//            public void onChanged(List<Word> words) {
-//
-//                     if (!words.contains(word.getWord()))
-//                    {
-//                        insertWord();
-//                    }
-//                }
-//
-//        //    }
-//
-//
-//
-//        });
-
-
-        // viewModel.insetr(word);
         SharedPreferences sharedPref = getSharedPreferences(KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Gson gson = new Gson();
@@ -360,6 +338,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
 
     private void SuccessDialog(Dialog dialog) {
         dialog.setContentView(R.layout.success_dialog);
+        savePoints();
         TextView Rate_Text = dialog.findViewById(R.id.points);
         Button button = dialog.findViewById(R.id.succeed_btn);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

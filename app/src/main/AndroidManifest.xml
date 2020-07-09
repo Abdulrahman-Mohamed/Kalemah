@@ -1,52 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.Motawer.kalemah">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
+        android:name=".kalemah"
         android:allowBackup="false"
         android:icon="@drawable/ic_logo_concept_1_copy"
         android:label="@string/app_name"
-        android:name=".kalemah"
-
         android:roundIcon="@drawable/ic_logo_concept_1_copy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Quizz_activity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Excercise_Levels">
-        </activity>
-
-
-        <activity android:name=".Excercise_Levels"
-            android:screenOrientation="portrait"
-            />
-
-
+        <activity android:name=".My_Words_Quizz"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Quizz_activity"
+            android:parentActivityName=".Excercise_Levels"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Excercise_Levels"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:screenOrientation="portrait"
-            >
-
-        </activity>
-        <activity android:name=".Auth.SignIn_Activity"
-            android:windowSoftInputMode="adjustNothing"
+            android:windowSoftInputMode="adjustNothing"></activity>
+        <activity
+            android:name=".Auth.SignIn_Activity"
             android:screenOrientation="portrait"
-            />
-
-
-
-
-        <activity android:name=".Auth.ForgetPassword_Activity"
-            android:windowSoftInputMode="adjustNothing"/>
-
-        <activity android:name=".Auth.SignUp_Activity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".Auth.ForgetPassword_Activity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".Auth.SignUp_Activity"
             android:screenOrientation="portrait"
-
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,39 +43,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-<!--        <meta-data-->
-<!--            android:name="preloaded_fonts"-->
-<!--            android:resource="@array/preloaded_fonts" />-->
-
-
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" /> <!-- <meta-data -->
+        <!-- android:name="preloaded_fonts" -->
+        <!-- android:resource="@array/preloaded_fonts" /> -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
-        <activity android:name="com.facebook.CustomTabActivity"
+        <activity
+            android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-
         </activity>
-
-
-
-
-
     </application>
 
 </manifest>

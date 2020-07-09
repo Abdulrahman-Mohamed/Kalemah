@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -23,11 +24,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.R;
@@ -50,18 +56,26 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
 public class profile_frag extends Fragment {
     private WordsViewModel viewModel;
     View view;
+    RecyclerView recyclerView;
+    RecyclerAdapter recyclerAdapter;
+    LinearLayoutManager linearLayoutManager;
     ImageView circleImageView;
     TextView textName, textEmail, wordsCount, points, levels;
     StorageReference storageReference;
@@ -80,8 +94,7 @@ public class profile_frag extends Fragment {
     Toolbar toolbar;
     List<Boolean> levelList = new ArrayList<>();
     List<Integer> levelPoint = new ArrayList<>();
-
-
+    ArrayList<Word> wordArrayList=new ArrayList<>();
     int WordsCounter, pointCounter = 0;
 
     @Nullable
@@ -96,8 +109,6 @@ public class profile_frag extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-
-
         checkInternet();
         if (!connected)
         LoadShared();
@@ -106,12 +117,10 @@ public class profile_frag extends Fragment {
         getWordsCount();
         BackThread backThread=new BackThread();
         backThread.start();
-
-
+        swipeDeleteAndEdit();
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
-
     }
 
     private void getWordsCount()
@@ -169,26 +178,20 @@ public class profile_frag extends Fragment {
     }
 
 
-//    private void getWordsCount() {
-//        viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-//            @Override
-//            public void onChanged(List<Word> words) {
-//                for (int i = 0; i < words.size(); i++)
-//                    WordsCounter++;
-//            }
-//        });
-//        viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-//            @Override
-//            public void onChanged(List<Word> words) {
-//                for (int i = 0; i < words.size(); i++)
-//                    WordsCounter++;
-//                setViews();
-//
-//            }
-//        });
-//
-//
-//    }
+    private void loadData() {
+        final String KEY="FAVORIT_WORDS";
+        final String WORD_FAVORIT="MY_FAV_WORDS";
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(WORD_FAVORIT, null);
+        Type type = new TypeToken<ArrayList<Word>>() {}.getType();
+        wordArrayList = gson.fromJson(json, type);
+        recyclerAdapter.setWordList(wordArrayList);
+
+        if (wordArrayList == null) {
+            wordArrayList = new ArrayList<>();
+        }
+    }
 
     private void setViews() {
         wordsCount.setText(String.valueOf(WordsCounter));
@@ -229,54 +232,7 @@ public class profile_frag extends Fragment {
 
             }
         });
-//        databaseReference.child("UserLevels").child(userID).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists())
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
-//                        levelList.add(snapshot.getValue(Boolean.class));
-//                levels.setText(String.valueOf(levelList.size()));
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//        databaseReference.child("UserPoints").child(userID).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists())
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
-//                        levelPoint.add(snapshot.getValue(Integer.class));
-//                for (int i = 0; i < levelPoint.size(); i++)
-//                {
-//                    if (levelPoint.get(i) != 0)
-//                    {
-//                        pointCounter = pointCounter + levelPoint.get(i);
-//                    } else if (levelPoint.get(i) == 0) {
-//                        points.setText(String.valueOf(pointCounter));
-//                        return;
-//                    }
-//
-//                }
-//
-//                points.setText(String.valueOf(pointCounter));
-//
-//
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//
-//        });
+
     }
     private void SaveData(int pointCounter,int size)
     {
@@ -334,6 +290,7 @@ public class profile_frag extends Fragment {
         circleImageView = view.findViewById(R.id.circleImageView);
         textName = view.findViewById(R.id.textName);
         textEmail = view.findViewById(R.id.textEmail);
+        recyclerView=view.findViewById(R.id.prefered_Words);
         wordsCount = view.findViewById(R.id.words_Count);
         levels = view.findViewById(R.id.levels_count);
         points = view.findViewById(R.id.points);
@@ -345,9 +302,55 @@ public class profile_frag extends Fragment {
         storageReference = getInstance().getReference();
         userID = user.getUid();
         toolbar = view.findViewById(R.id.setting_toolbar);
-
+InitializeRecycler();
     }
 
+    private void InitializeRecycler()
+    {
+        linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerAdapter = new RecyclerAdapter();
+        recyclerView.setAdapter(recyclerAdapter);
+        loadData();
+    }
+    private void swipeDeleteAndEdit() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
+                , ItemTouchHelper.LEFT ) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getAdapterPosition();
+            //    Word word=recyclerAdapter.getWordAt(pos);
+//
+                switch (direction) {
+                    case ItemTouchHelper.LEFT:
+//
+                        recyclerAdapter.removeAt(pos,requireContext());
+
+
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.delete))
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        }).attachToRecyclerView(recyclerView);
+    }
     private void setViewModel() {
         viewModel = new ViewModelProvider((ViewModelStoreOwner) requireContext()).get(WordsViewModel.class);
 

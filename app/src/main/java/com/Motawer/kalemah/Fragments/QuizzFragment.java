@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.Motawer.kalemah.R;
@@ -21,7 +21,6 @@ import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class QuizzFragment extends Fragment {
@@ -36,9 +35,11 @@ public class QuizzFragment extends Fragment {
     private WordsViewModel viewModel;
     MediaPlayer right;
     MediaPlayer wrong;
-    String choise;
-    int level, index = 0, size;
+    String choise, type;
+    int level, index = 0, size, id,old_rate;
     boolean checkerword;
+
+
 
     public QuizzFragment() {
     }
@@ -55,6 +56,9 @@ public class QuizzFragment extends Fragment {
             recivedWord = getArguments().getString("word");
             listMeanings = getArguments().getStringArrayList("meanings");
             level = getArguments().getInt("Level");
+            type = getArguments().getString("type");
+            id = getArguments().getInt("ID");
+            old_rate=getArguments().getInt("rate");
 
 //
         }
@@ -70,7 +74,8 @@ public class QuizzFragment extends Fragment {
         right = MediaPlayer.create(getActivity(), R.raw.success);
         wrong = MediaPlayer.create(getActivity(), R.raw.fail);
         InitChoose();
-        meaning = listMeanings.get(0);
+        if (listMeanings.size() != 0)
+            meaning = listMeanings.get(0);
         if (recivedWord != null)
             setWord();
         if (listMeanings.size() != 0)
@@ -85,30 +90,11 @@ public class QuizzFragment extends Fragment {
 
             return true;
 
-        } else {
-            viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-                @Override
-                public void onChanged(List<Word> words) {
-                    for (int i = 0; i < words.size(); i++) {
-                        if (words.get(i).getWord().equals(recivedWord)) {
-                            checkerword = true;
-                            return;
-//                      Log.d("Word",words.get(i).getWord());
-//                      Log.e("Word",words.get(i).getWord());
-                        } else {
-                            index++;
-                        }
-                    }
-                    size = words.size() - 1;
-                }
-            });
-            Word word = new Word(recivedWord, meaning, level);
-            //   viewModel.insetr(word);
-            if (index == size)
-                viewModel.insetr(word);
-            return false;
         }
+        return false;
+
     }
+
     private void buttons() {
         final Handler handler = new Handler();
         button1.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +109,8 @@ public class QuizzFragment extends Fragment {
                         @Override
                         public void run() {
                             // Do something after 5s = 5000ms
+                        //    setRate();
+
                             someEventListener.sendRate(1);
                             someEventListener.sendcounter(1);
 
@@ -155,6 +143,7 @@ public class QuizzFragment extends Fragment {
                         @Override
                         public void run() {
                             // Do something after 5s = 5000ms
+                          //  setRate();
                             someEventListener.sendRate(1);
                             someEventListener.sendcounter(1);
                         }
@@ -186,6 +175,7 @@ public class QuizzFragment extends Fragment {
                         @Override
                         public void run() {
                             // Do something after 5s = 5000ms
+                          //  setRate();
                             someEventListener.sendRate(1);
                             someEventListener.sendcounter(1);
                         }
@@ -216,6 +206,7 @@ public class QuizzFragment extends Fragment {
                         @Override
                         public void run() {
                             // Do something after 5s = 5000ms
+                       //     setRate();
                             someEventListener.sendRate(1);
                             someEventListener.sendcounter(1);
                         }
@@ -235,6 +226,52 @@ public class QuizzFragment extends Fragment {
             }
         });
     }
+
+    private void setRate() {
+        if (type.equals("wordRevvv")) {
+            int rate;
+            Word word;
+            //  word.setID(id);
+            // Log.e("rate",String.valueOf(old_rate));
+
+            if (old_rate < 5) {
+                rate = (old_rate + 1);
+                checkRate(rate);
+                word = new Word(recivedWord, meaning, level,rate);
+
+                Log.e("OLD_rate", String.valueOf(old_rate));
+                Log.e("new_Rate", String.valueOf(rate));
+                word.setID(id);
+                viewModel.update(word);
+            } else {
+                word = new Word(recivedWord, meaning, -1);
+                word.setID(id);
+                viewModel.update(word);
+            }
+        }
+
+    }
+
+    private void checkRate(int rate) {
+        Word word;
+        if (rate == 3 && level == -3) {
+            word = new Word(recivedWord, meaning, -2);
+            word.setID(id);
+            viewModel.update(word);
+        }
+        if (rate == 5 && level == -3) {
+            word = new Word(recivedWord, meaning, -1);
+            word.setID(id);
+            viewModel.update(word);
+        }
+        if (rate == 3 && level == -2) {
+            word = new Word(recivedWord, meaning, -1);
+            word.setID(id);
+            viewModel.update(word);
+        }
+
+    }
+
     private void setMeanings() {
         Random random = new Random();
         int a = random.nextInt(listMeanings.size());
@@ -248,9 +285,11 @@ public class QuizzFragment extends Fragment {
         listMeanings.remove(c);
         button4.setText(listMeanings.get(0));
     }
+
     private void setWord() {
         word.setText(recivedWord);
     }
+
     private void InitChoose() {
         word = view.findViewById(R.id.quistion_word);
         button1 = view.findViewById(R.id.button2);
@@ -260,6 +299,7 @@ public class QuizzFragment extends Fragment {
 
 
     }
+
     public interface onSomeEventListener {
         void sendRate(int rate);
 
@@ -267,6 +307,7 @@ public class QuizzFragment extends Fragment {
 
 
     }
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);

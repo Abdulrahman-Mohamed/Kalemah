@@ -31,6 +31,7 @@ public class BottomSheet extends BottomSheetDialogFragment implements AdapterVie
     Spinner spinner;
     Button button;
     String Level,Word,Mean;
+    int rate;
 
     @Nullable
     @Override
@@ -59,7 +60,7 @@ public class BottomSheet extends BottomSheetDialogFragment implements AdapterVie
                 {
                     sheetListner.onButtomClicked(Word
                             ,Mean
-                            ,Level);
+                            ,Level,rate);
                     dismiss();
                 }
                 else
@@ -107,12 +108,15 @@ public class BottomSheet extends BottomSheetDialogFragment implements AdapterVie
        if (s.equals("A"))
        {
            Level="-1";
+           rate=5;
        }else if (s.equals("B"))
        {
            Level="-2";
+           rate=3;
        }else if (s.equals("C"))
        {
            Level="-3";
+           rate=1;
        }
 
 
@@ -124,7 +128,7 @@ public class BottomSheet extends BottomSheetDialogFragment implements AdapterVie
     }
 
     public interface BottomSheetListner {
-        void onButtomClicked(String Word, String meaning, String level);
+        void onButtomClicked(String Word, String meaning, String level,int rate);
     }
 
     @Override

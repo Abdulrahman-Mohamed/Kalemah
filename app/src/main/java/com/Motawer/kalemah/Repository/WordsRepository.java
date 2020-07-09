@@ -36,32 +36,31 @@ public class WordsRepository {
     DatabaseReference myRef = database.getReference("Users");
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String Uid = firebaseAuth.getCurrentUser().getUid();
-
+    int size;
 
     public WordsRepository(Application application) {
         WordsDataBase wordsDataBase = (WordsDataBase) WordsDataBase.getInstance(application);
         wordsDao = wordsDataBase.wordsDao();
         allWords = wordsDao.getAllWords();
         allUserWords = wordsDao.getAllUserWords();
-        fireWords=new MutableLiveData<>();
+        fireWords = new MutableLiveData<>();
         FireBase();
 
         AWords = wordsDao.getWordslevel1();
         BWords = wordsDao.getWordslevel2();
         CWords = wordsDao.getWordslevel3();
 
+
     }
 
-    private void FireBase()
-    {
+    private void FireBase() {
         myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Word> list=new ArrayList<>();
+                List<Word> list = new ArrayList<>();
 
                 if (dataSnapshot.exists())
-                    for (DataSnapshot snapshot:dataSnapshot.getChildren())
-                    {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         list.add(snapshot.getValue(Word.class));
                     }
                 fireWords.setValue(list);
@@ -76,13 +75,20 @@ public class WordsRepository {
 
     }
 
-    public void insert(Word word)
-    {
+    public void insert(Word word) {
         new InsertAsync(wordsDao).execute(word);
-     //   Log.d(TAG,Uid);
+        //   Log.d(TAG,Uid);
         myRef.child(Uid).child("UserWords").child(word.getWord()).setValue(word);
 
     }
+
+    public void insert2(Word word) {
+        new InsertAsync(wordsDao).execute(word);
+        //   Log.d(TAG,Uid);
+        //  myRef.child(Uid).child("UserWords").child(word.getWord()).setValue(word);
+
+    }
+
 
     public void update(Word word) {
         new updateAsync(wordsDao).execute(word);
@@ -93,21 +99,24 @@ public class WordsRepository {
         new deleteAsync(wordsDao).execute(word);
         myRef.child(Uid).child("UserWords").child(word.getWord()).removeValue();
     }
+
     // use it to return firebase words;
-    public ArrayList<Word> getFireData()
-    {
-       final ArrayList<Word> FireList;
-       FireList=new ArrayList<>();
-        myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener()
-        {
+    public void getFireData() {
+//       final ArrayList<Word> FireList;
+//       FireList=new ArrayList<>();
+        myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1:dataSnapshot.getChildren())
-                {
-                    Word word=dataSnapshot1.getValue(Word.class);
-                    FireList.add(word);
+                allWords = wordsDao.getAllWords();
+                if (allWords.getValue() != null)
+                    if (dataSnapshot.exists())
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            Word word = dataSnapshot1.getValue(Word.class);
+                            insert2(word);
+                            // FireList.add(word);
 
-                }
+
+                        }
             }
 
             @Override
@@ -115,7 +124,6 @@ public class WordsRepository {
 
             }
         });
-        return FireList;
 
     }
 
@@ -123,18 +131,17 @@ public class WordsRepository {
         new deleteAllAsync(wordsDao).execute();
     }
 
-    public LiveData<List<Word>> getAllWords()
-    {
+    public LiveData<List<Word>> getAllWords() {
         return allWords;
 
     }
-    public LiveData<List<Word>> getFireWords()
-    {
+
+    public LiveData<List<Word>> getFireWords() {
         return fireWords;
 
     }
-    public LiveData<List<Word>> getAllUserWords()
-    {
+
+    public LiveData<List<Word>> getAllUserWords() {
         return allUserWords;
 
     }
@@ -152,7 +159,6 @@ public class WordsRepository {
     }
 
 
-
     public static class InsertAsync extends AsyncTask<Word, Void, Void> {
         private WordsDao wordsDao;
 
@@ -163,7 +169,25 @@ public class WordsRepository {
         @Override
         protected Void doInBackground(Word... words) {
             wordsDao.insert(words[0]);
-            Log.e("TAG",words[0].getWord());
+            Log.e("TAG", words[0].getWord());
+
+            return null;
+        }
+    }
+
+    public static class InsertlistAsync extends AsyncTask<Word, Void, Void> {
+        private WordsDao wordsDao;
+
+        public InsertlistAsync(WordsDao wordsDao) {
+            this.wordsDao = wordsDao;
+        }
+
+        @Override
+        protected Void doInBackground(Word... words) {
+            for (int i = 0; i < words.length; i++) {
+                wordsDao.insert(words[i]);
+                Log.e("TAG", words[i].getWord());
+            }
 
             return null;
         }
@@ -182,6 +206,21 @@ public class WordsRepository {
         @Override
         protected Void doInBackground(Word... words) {
             wordsDao.update(words[0]);
+            return null;
+        }
+    }
+
+    public static class updateRateAsync extends AsyncTask<Integer, String, Void> {
+        private WordsDao wordsDao;
+
+
+        public updateRateAsync(WordsDao wordsDao) {
+            this.wordsDao = wordsDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
             return null;
         }
     }
