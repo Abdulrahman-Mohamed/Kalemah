@@ -2,7 +2,6 @@ package com.Motawer.kalemah.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.R;
 import com.facebook.AccessToken;
@@ -67,6 +65,8 @@ public class SignIn_Activity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_sign_in_);
         // init facebook sdk
         FacebookSdk.sdkInitialize(SignIn_Activity.this);
@@ -79,10 +79,14 @@ public class SignIn_Activity extends AppCompatActivity
                 .build();
         mGoogleSignInClient =GoogleSignIn.getClient(this,gso);
 
-
-
         initViews();
         initButtons();
+
+        if (firebaseAuth.getCurrentUser() != null)
+        {
+            startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
+            finish();
+        }
     }
 
     private void initFacebook()

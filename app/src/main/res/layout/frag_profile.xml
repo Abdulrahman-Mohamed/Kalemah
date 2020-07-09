@@ -23,7 +23,6 @@
                 android:elevation="0dp"
                 app:elevation="0dp">
 
-
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/setting_toolbar"
                     android:layout_width="match_parent"

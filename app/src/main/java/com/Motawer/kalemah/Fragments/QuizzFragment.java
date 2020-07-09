@@ -71,8 +71,8 @@ public class QuizzFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         wordcounter = getActivity().findViewById(R.id.counter_quistions);
-        right = MediaPlayer.create(getActivity(), R.raw.success);
-        wrong = MediaPlayer.create(getActivity(), R.raw.fail);
+       // right = MediaPlayer.create(getActivity(), R.raw.success);
+     //   wrong = MediaPlayer.create(getActivity(), R.raw.fail);
         InitChoose();
         if (listMeanings.size() != 0)
             meaning = listMeanings.get(0);
@@ -81,6 +81,7 @@ public class QuizzFragment extends Fragment {
         if (listMeanings.size() != 0)
             setMeanings();
         buttons();
+
 
 
     }
