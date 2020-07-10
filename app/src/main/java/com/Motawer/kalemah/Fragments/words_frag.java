@@ -130,7 +130,7 @@ public class words_frag extends Fragment {
                         bottomSheet.show(getActivity().getSupportFragmentManager(), "BottomSheetdialog");
 
                 }
-                recyclerAdapter.notifyDataSetChanged();
+              //  recyclerAdapter.notifyDataSetChanged();
 
             }
 

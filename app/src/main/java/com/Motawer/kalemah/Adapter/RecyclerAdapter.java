@@ -50,7 +50,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int i ;
+                int i;
                 final String KEY = "FAVORIT_WORDS";
                 final String WORD_FAVORIT = "MY_FAV_WORDS";
                 SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);
@@ -64,19 +64,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
                     //wordArrayList = new ArrayList<>();
                     SaveFavorit(v, currentword);
                     holder.favorite.setImageResource(R.drawable.favorite_word_red);
-
-
                 } else {
-                    for ( i =0; i<wordArrayList.size(); i++) {
-                        if (wordArrayList.get(i).getWord().equals(currentword.getWord())){
+                    for (i = 0; i < wordArrayList.size(); i++) {
+                        if (wordArrayList.get(i).getWord().equals(currentword.getWord())) {
                             doubleRemove(currentword, view.getContext(), wordArrayList);
-                        holder.favorite.setImageResource(R.drawable.favorite_word);
-                        return;}
+                            holder.favorite.setImageResource(R.drawable.favorite_word);
+                            return;
+                        }
                     }
-                   // if (!wordArrayList.get(i).getWord().equals(currentword.getWord())){
+                    // if (!wordArrayList.get(i).getWord().equals(currentword.getWord())){
                     SaveFavorit(v, currentword);
-                    holder.favorite.setImageResource(R.drawable.favorite_word_red);}
-             //   }
+                    holder.favorite.setImageResource(R.drawable.favorite_word_red);
+                }
+                //   }
 
             }
         });
@@ -100,7 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
     private void SaveFavorit(View view, Word currentword) {
         SharedPreferences sharedPref = view.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        wordArrayList=new ArrayList<>();
+       // wordArrayList = new ArrayList<>();
         wordArrayList.add(currentword);
         Gson gson = new Gson();
         String json = gson.toJson(wordArrayList);
@@ -131,8 +131,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
 
     public void setWordList(List<Word> wordList) {
         this.wordList = wordList;
-        if (wordList!=null)
-        wordLisfull = new ArrayList<>(wordList);
+        if (wordList != null)
+            wordLisfull = new ArrayList<>(wordList);
         notifyDataSetChanged();
     }
 
