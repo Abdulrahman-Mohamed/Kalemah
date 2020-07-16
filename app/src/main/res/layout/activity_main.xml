@@ -5,32 +5,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <FrameLayout
         android:id="@+id/frag_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
-    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
-        android:id="@+id/botnav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_centerInParent="true"
+    android:layout_height="100dp"
+    >
+    <LinearLayout
+        android:id="@+id/bottom_Nav_Bar"
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
-        android:background="@null"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:elevation="8dp"
-        app:mbn_backgroundBottomColor="#FFC839"
-        app:mbn_circleColor="#FFC839"
-        app:mbn_countBackgroundColor="#ff6f00"
-        app:mbn_countTextColor="#ffffff"
-        app:mbn_defaultIconColor="#3c415e"
-        app:mbn_rippleColor="#2f424242"
-        app:mbn_selectedIconColor="#fff"
+        android:background="@drawable/nav_bar_corners">
 
+        <ImageButton
+            android:id="@+id/exams_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity=""
+            android:layout_marginRight="25dp"
+            android:layout_weight="1"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_a_mark_gray" />
 
-        />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="0dp"
+            android:layout_marginLeft="25dp"
+            android:minHeight="32dp"
+            android:minWidth="32dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_height="wrap_content"
+            app:civ_border_color="#E6B318"
+            android:layout_weight="1"
 
+             />
 
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/words_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        app:maxImageSize="35dp"
+        app:fabCustomSize="65dp"
+        app:elevation="25dp"
+        app:backgroundTint="@color/White"
+        app:srcCompat="@drawable/ic_yellow_feather_new" />
 </RelativeLayout>
 
 
+
+
+    <!--    <com.etebarian.meowbottomnavigation.MeowBottomNavigation-->
+    <!--        android:id="@+id/botnav"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:background="@null"-->
+    <!--        android:elevation="8dp"-->
+    <!--        app:mbn_backgroundBottomColor="#FFC839"-->
+    <!--        app:mbn_circleColor="#FFC839"-->
+    <!--        app:mbn_countBackgroundColor="#ff6f00"-->
+    <!--        app:mbn_countTextColor="#ffffff"-->
+    <!--        app:mbn_defaultIconColor="#3c415e"-->
+    <!--        app:mbn_rippleColor="#2f424242"-->
+    <!--        app:mbn_selectedIconColor="#fff"-->
+
+
+    <!--        />-->
+
+
+</RelativeLayout>

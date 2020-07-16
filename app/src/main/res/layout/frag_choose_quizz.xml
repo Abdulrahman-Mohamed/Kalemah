@@ -71,12 +71,16 @@
         android:id="@+id/view"
         android:layout_width="423dp"
         android:layout_height="125dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="60dp"
         android:background="@drawable/quistion_round"
         android:elevation="16dp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.949" />
 
     <TextView
         android:id="@+id/quistion_phrase"
@@ -104,7 +108,6 @@
         android:layout_width="152dp"
 
         android:layout_height="45dp"
-        android:layout_marginStart="124dp"
         android:elevation="16dp"
         android:maxLines="1"
         android:textColor="#000000"
@@ -112,6 +115,7 @@
         app:autoSizeMaxTextSize="24sp"
         app:autoSizeMinTextSize="18sp"
         app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quistion_phrase" />
 

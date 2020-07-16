@@ -5,8 +5,8 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="50dp"
-    android:background="#FFFFFF">
+
+    android:background="#EDF3F3">
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,15 +18,14 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:elevation="0dp"
+            android:background="#EDF3F3"
             app:elevation="0dp">
 
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/words_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="120dp"
                 android:background="@drawable/tool_round"
                 android:elevation="4dp"
                 android:paddingRight="5dp"
@@ -51,25 +50,26 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/search_view"
                         android:layout_marginLeft="30dp"
-
+                        android:layout_marginBottom="5dp"
                         android:orientation="vertical">
 
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Your"
+                            android:text="Words"
                             android:textColor="#000"
-                            android:textSize="19sp"
+                            android:textSize="24sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Words"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:fontFamily="@font/andada"
+                            android:text="Your"
                             android:textColor="#000"
-                            android:textSize="19sp"
-                            android:textStyle="bold" />
+                            android:textSize="24sp" />
                     </LinearLayout>
 
                     <TextView
@@ -78,8 +78,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginBottom="12dp"
                         android:text="0"
                         android:textColor="#000"
                         android:textSize="34sp"
@@ -103,19 +103,6 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        app:backgroundTint="#21b194"
-        app:elevation="4dp"
-        app:fabSize="mini"
-        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
-        app:rippleColor="#00FFCC"
-        app:srcCompat="@drawable/ic_add_black_24dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

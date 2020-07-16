@@ -3,13 +3,8 @@ package com.Motawer.kalemah.MaterialDesign;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,7 +18,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.Motawer.kalemah.Adapter.RecyclerAdapter;
-import com.Motawer.kalemah.MaterialDesign.BottomSheet;
 import com.Motawer.kalemah.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -38,7 +32,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment implements AdapterVi
     String Level,Word,Mean;
     int rate;
     AlertDialog alertDialog;
-    BottomSheet.BottomSheetListner sheetListner;
+    AddWord_Dialog.BottomSheetListner sheetListner;
     
     @NonNull
     @Override
@@ -144,7 +138,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment implements AdapterVi
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            sheetListner = (BottomSheet.BottomSheetListner) context;
+            sheetListner = (BottomSheetListner) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + "must implement bottom sheet");

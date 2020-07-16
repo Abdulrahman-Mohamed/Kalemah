@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.Motawer.kalemah.R;
-import com.Motawer.kalemah.RoomDataBase.Word;
-import com.Motawer.kalemah.ViewModel.WordsViewModel;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,14 +26,11 @@ public class QuizzFragment extends Fragment {
     String recivedWord, meaning;
     onSomeEventListener someEventListener;
     ArrayList<String> listMeanings = new ArrayList<>();
-    //    ArrayList<Word> Cword ;
 
-    private WordsViewModel viewModel;
     MediaPlayer right;
     MediaPlayer wrong;
     String choise, type;
-    int level, index = 0, size, id,old_rate;
-    boolean checkerword;
+    int level, id,old_rate;
 
 
 
@@ -50,8 +43,6 @@ public class QuizzFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater
             , @Nullable ViewGroup container
             , @Nullable Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(this).get(WordsViewModel.class);
-
         if (getArguments() != null) {
             recivedWord = getArguments().getString("word");
             listMeanings = getArguments().getStringArrayList("meanings");
@@ -105,7 +96,7 @@ public class QuizzFragment extends Fragment {
                 boolean result = check(choise);
                 if (result) {
                     button1.setBackgroundResource(R.drawable.right_choise_button);
-                  //  right.start();
+            //        right.start();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -118,7 +109,7 @@ public class QuizzFragment extends Fragment {
                         }
                     }, 800);
                 } else {
-                   // wrong.start();
+//                    wrong.start();
                     button1.setBackgroundResource(R.drawable.wrong_choice_botton);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -137,7 +128,7 @@ public class QuizzFragment extends Fragment {
                 choise = button2.getText().toString();
                 boolean result = check(choise);
                 if (result) {
-                  //  right.start();
+                 //   right.start();
 //
                     button2.setBackgroundResource(R.drawable.right_choise_button);
                     handler.postDelayed(new Runnable() {
@@ -152,7 +143,7 @@ public class QuizzFragment extends Fragment {
                 } else {
 //
                     button2.setBackgroundResource(R.drawable.wrong_choice_botton);
-                   // wrong.start();
+                  //  wrong.start();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -170,7 +161,7 @@ public class QuizzFragment extends Fragment {
                 choise = button3.getText().toString();
                 boolean result = check(choise);
                 if (result) {
-                   // right.start();
+                //    right.start();
                     button3.setBackgroundResource(R.drawable.right_choise_button);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -182,7 +173,7 @@ public class QuizzFragment extends Fragment {
                         }
                     }, 800);
                 } else {
-                 //   wrong.start();
+               //     wrong.start();
                     button3.setBackgroundResource(R.drawable.wrong_choice_botton);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -201,7 +192,7 @@ public class QuizzFragment extends Fragment {
                 choise = button4.getText().toString();
                 boolean result = check(choise);
                 if (result) {
-                   // right.start();
+                 //   right.start();
                     button4.setBackgroundResource(R.drawable.right_choise_button);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -213,7 +204,7 @@ public class QuizzFragment extends Fragment {
                         }
                     }, 800);
                 } else {
-                //    wrong.start();
+                  //  wrong.start();
                     button4.setBackgroundResource(R.drawable.wrong_choice_botton);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -228,50 +219,50 @@ public class QuizzFragment extends Fragment {
         });
     }
 
-    private void setRate() {
-        if (type.equals("wordRevvv")) {
-            int rate;
-            Word word;
-            //  word.setID(id);
-            // Log.e("rate",String.valueOf(old_rate));
-
-            if (old_rate < 5) {
-                rate = (old_rate + 1);
-                checkRate(rate);
-                word = new Word(recivedWord, meaning, level,rate);
-
-                Log.e("OLD_rate", String.valueOf(old_rate));
-                Log.e("new_Rate", String.valueOf(rate));
-                word.setID(id);
-                viewModel.update(word);
-            } else {
-                word = new Word(recivedWord, meaning, -1);
-                word.setID(id);
-                viewModel.update(word);
-            }
-        }
-
-    }
-
-    private void checkRate(int rate) {
-        Word word;
-        if (rate == 3 && level == -3) {
-            word = new Word(recivedWord, meaning, -2);
-            word.setID(id);
-            viewModel.update(word);
-        }
-        if (rate == 5 && level == -3) {
-            word = new Word(recivedWord, meaning, -1);
-            word.setID(id);
-            viewModel.update(word);
-        }
-        if (rate == 3 && level == -2) {
-            word = new Word(recivedWord, meaning, -1);
-            word.setID(id);
-            viewModel.update(word);
-        }
-
-    }
+//    private void setRate() {
+//        if (type.equals("wordRevvv")) {
+//            int rate;
+//            Word word;
+//            //  word.setID(id);
+//            // Log.e("rate",String.valueOf(old_rate));
+//
+//            if (old_rate < 5) {
+//                rate = (old_rate + 1);
+//                checkRate(rate);
+//                word = new Word(recivedWord, meaning, level,rate);
+//
+//                Log.e("OLD_rate", String.valueOf(old_rate));
+//                Log.e("new_Rate", String.valueOf(rate));
+//                word.setID(id);
+//                viewModel.update(word);
+//            } else {
+//                word = new Word(recivedWord, meaning, -1);
+//                word.setID(id);
+//                viewModel.update(word);
+//            }
+//        }
+//
+//    }
+//
+//    private void checkRate(int rate) {
+//        Word word;
+//        if (rate == 3 && level == -3) {
+//            word = new Word(recivedWord, meaning, -2);
+//            word.setID(id);
+//            viewModel.update(word);
+//        }
+//        if (rate == 5 && level == -3) {
+//            word = new Word(recivedWord, meaning, -1);
+//            word.setID(id);
+//            viewModel.update(word);
+//        }
+//        if (rate == 3 && level == -2) {
+//            word = new Word(recivedWord, meaning, -1);
+//            word.setID(id);
+//            viewModel.update(word);
+//        }
+//
+//    }
 
     private void setMeanings() {
         Random random = new Random();

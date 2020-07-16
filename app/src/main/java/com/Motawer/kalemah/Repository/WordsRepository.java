@@ -175,23 +175,23 @@ public class WordsRepository {
         }
     }
 
-    public static class InsertlistAsync extends AsyncTask<Word, Void, Void> {
-        private WordsDao wordsDao;
+//    public static class InsertlistAsync extends AsyncTask<Word, Void, Void> {
+//        private WordsDao wordsDao;
+//
+//        public InsertlistAsync(WordsDao wordsDao) {
+//            this.wordsDao = wordsDao;
+//        }
 
-        public InsertlistAsync(WordsDao wordsDao) {
-            this.wordsDao = wordsDao;
-        }
-
-        @Override
-        protected Void doInBackground(Word... words) {
-            for (int i = 0; i < words.length; i++) {
-                wordsDao.insert(words[i]);
-                Log.e("TAG", words[i].getWord());
-            }
-
-            return null;
-        }
-    }
+//        @Override
+//        protected Void doInBackground(Word... words) {
+//            for (int i = 0; i < words.length; i++) {
+//                wordsDao.insert(words[i]);
+//                Log.e("TAG", words[i].getWord());
+//            }
+//
+//            return null;
+//        }
+//    }
 
 
     public static class updateAsync extends AsyncTask<Word, Void, Void> {
@@ -210,20 +210,20 @@ public class WordsRepository {
         }
     }
 
-    public static class updateRateAsync extends AsyncTask<Integer, String, Void> {
-        private WordsDao wordsDao;
+//    public static class updateRateAsync extends AsyncTask<Integer, String, Void> {
+//        private WordsDao wordsDao;
+//
+//
+//        public updateRateAsync(WordsDao wordsDao) {
+//            this.wordsDao = wordsDao;
+//        }
 
 
-        public updateRateAsync(WordsDao wordsDao) {
-            this.wordsDao = wordsDao;
-        }
-
-
-        @Override
-        protected Void doInBackground(Integer... integers) {
-            return null;
-        }
-    }
+//        @Override
+//        protected Void doInBackground(Integer... integers) {
+//            return null;
+//        }
+//    }
 
     public static class deleteAsync extends AsyncTask<Word, Void, Void> {
         private WordsDao wordsDao;

@@ -2,8 +2,8 @@ package com.Motawer.kalemah.MaterialDesign;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,8 +23,8 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 public class AddWord_DialogEdit extends AppCompatDialogFragment implements AdapterView.OnItemSelectedListener
 {
-    BottomSheetEdit.BottomSheetEditeListner sheetListner;
-    BottomSheetEdit.refreshrecycler refresh;
+    AddWord_DialogEdit.AddWordSheetEditeListner sheetListner;
+    AddWord_DialogEdit.refreshrecycler refresh;
     View view;
     EditText word;
     EditText meaning;
@@ -34,12 +34,18 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment implements Adapt
     AlertDialog alertDialog;
     int rate;
 
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        super.onCancel(dialog);
+        refresh.onRecyclerRefresh();
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
     {
         alertDialog =  new MaterialAlertDialogBuilder(getActivity(),R.style.MyRounded_MaterialComponents_MaterialAlertDialog)  // for fragment you can use getActivity() instead of this
-                .setView(R.layout.word_dialog_edit) // custom layout is here
+                .setView(R.layout.word_dialog) // custom layout is here
                 .show();
 
 
@@ -78,7 +84,7 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment implements Adapt
                     {
                         if (!Level.isEmpty())
                         {
-                            sheetListner.onButtomEditClicked(Word
+                            sheetListner.onAddWordEditClicked(Word
                                     ,Mean
                                     ,Level,rate);
                             dismiss();
@@ -126,16 +132,16 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment implements Adapt
 
     }
 
-    /*public interface BottomSheetEditeListner {
-        void onButtomEditClicked(String Word, String meaning, String level,int rate);
-    }*/
+    public interface AddWordSheetEditeListner {
+        void onAddWordEditClicked(String Word, String meaning, String level,int rate);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
-            sheetListner = (BottomSheetEdit.BottomSheetEditeListner) context;
-            refresh=(BottomSheetEdit.refreshrecycler)context;
+            sheetListner = (AddWordSheetEditeListner) context;
+            refresh= (refreshrecycler) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + "must implement bottom sheet");

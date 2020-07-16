@@ -1,10 +1,9 @@
 package com.Motawer.kalemah.Fragments;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +31,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.Adapter.RecyclerAdapter;
-import com.Motawer.kalemah.MaterialDesign.AddWord_Dialog;
 import com.Motawer.kalemah.MaterialDesign.AddWord_DialogEdit;
-import com.Motawer.kalemah.MaterialDesign.BottomSheetEdit;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -59,11 +59,16 @@ public class words_frag extends Fragment {
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
     Toolbar toolbar;
-    int undo = 0;
+    //  int undo = 0;
     private int id;
+    int y=1;
     SearchView searchView;
     TextView count;
+    LinearLayout linearLayout;
+    FloatingActionButton floatingActionButton;
     int size;
+    int firstVisibleInListview;
+
     ArrayList<Word> wordArrayList = new ArrayList<>();
     private FloatingActionButton FAB;
     //  MeowBottomNavigation btv;
@@ -82,14 +87,16 @@ public class words_frag extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         InitializUI();
         recyclerInit();
+        onScroll();
         //setViewModel();
         search();
-        addWord();
+        //  addWord();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
     }
+
 
     private void swipeDeleteAndEdit() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
@@ -133,7 +140,7 @@ public class words_frag extends Fragment {
                         addWord_dialogEdit.show(getActivity().getSupportFragmentManager(), "WordDialog");
 
                 }
-              //  recyclerAdapter.notifyDataSetChanged();
+                //  recyclerAdapter.notifyDataSetChanged();
 
             }
 
@@ -173,34 +180,25 @@ public class words_frag extends Fragment {
         }).attachToRecyclerView(recyclerView);
     }
 
-    private void addWord() {
-
-       /* FAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheet bottomSheet = new BottomSheet();
-                bottomSheet.show(getActivity().getSupportFragmentManager(),
-                        "BottomSheetdialog");
-
-            }
-        });*/
-       FAB.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               openDialog();
-           }
-       });
+//    private void addWord() {
+//
+//        FAB.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                BottomSheet bottomSheet = new BottomSheet();
+//                bottomSheet.show(getActivity().getSupportFragmentManager(),
+//                        "BottomSheetdialog");
+//
+//            }
+//        });
+    //  }
 
 
-    }
-
-    private void openDialog()
-    {
-        AddWord_Dialog addWord_dialog = new AddWord_Dialog();
-        addWord_dialog.show(getActivity().getSupportFragmentManager(),"WordDialog");
 
 
-    }
+
+
+
 
     private void search() {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -216,6 +214,8 @@ public class words_frag extends Fragment {
                 return true;
             }
         });
+
+
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -330,7 +330,7 @@ public class words_frag extends Fragment {
     }
 
     private void InitializUI() {
-        FAB = view.findViewById(R.id.add_note);
+        // FAB = view.findViewById(R.id.add_note);
         recyclerView = view.findViewById(R.id.recycler_words);
         // btv = getActivity().findViewById(R.id.botnav);
         coordinatorLayout = view.findViewById(R.id.coordinator);
@@ -348,7 +348,146 @@ public class words_frag extends Fragment {
         setViewModel();
         recyclerView.setAdapter(recyclerAdapter);
         swipeDeleteAndEdit();
+
     }
+
+    private void onScroll() {
+
+        linearLayout = getActivity().findViewById(R.id.bottom_Nav_Bar);
+        floatingActionButton = getActivity().findViewById(R.id.words_fab);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+//                if (recyclerView.SCROLL_STATE_DRAGGING == newState) {
+//                    linearLayout.setVisibility(View.GONE);
+//
+////                    YoYo.with(Techniques.SlideInDown)
+////                            .duration(400)
+////                            .onEnd(new YoYo.AnimatorCallback() {
+////                                @Override
+////                                public void call(Animator animator) {
+////                                    linearLayout.setVisibility(View.GONE);
+////
+////                                }
+////                            }).playOn(linearLayout);
+//                } else if (recyclerView.SCROLL_STATE_IDLE == newState) {
+//                    int currentFirstVisible = linearLayoutManager.findFirstVisibleItemPosition();
+//
+//                    // linearLayout.setVisibility(View.VISIBLE);
+//                    if (y <= 0) {
+//                        linearLayout.setVisibility(View.VISIBLE);
+//                    } else {
+//                        y = 0;
+//                        linearLayout.setVisibility(View.GONE);
+//                    }
+////                    YoYo.with(Techniques.SlideOutUp)
+////                            .duration(600)
+////                            .onEnd(new YoYo.AnimatorCallback() {
+////                                @Override
+////                                public void call(Animator animator) {
+////                                    linearLayout.setVisibility(View.VISIBLE);
+////
+////                                }
+////                            }).playOn(linearLayout);
+//
+//                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                linearLayout.setVisibility(View.VISIBLE);
+                floatingActionButton.setVisibility(View.VISIBLE);
+
+
+//                int currentFirstVisible = linearLayoutManager.findFirstVisibleItemPosition();
+//
+//                if(currentFirstVisible > firstVisibleInListview){
+//                   linearLayout.setVisibility(View.GONE);}
+//                else{
+//                    linearLayout.setVisibility(View.VISIBLE);}
+//
+//
+//                firstVisibleInListview = currentFirstVisible;
+                if (dy > 0) {
+                  y=0;
+//                         floatingActionButton.setVisibility(View.GONE);
+//                       linearLayout.setVisibility(View.GONE);
+
+                    YoYo.with(Techniques.SlideOutDown)
+                            .duration(400)
+                            .onEnd(new YoYo.AnimatorCallback() {
+                                @Override
+                                public void call(Animator animator) {
+                                    linearLayout.setVisibility(View.GONE);
+
+                                }
+                            })
+                            .playOn(linearLayout);
+
+                    YoYo.with(Techniques.SlideOutDown)
+                            .duration(400)
+                            .onEnd(new YoYo.AnimatorCallback() {
+                                @Override
+                                public void call(Animator animator) {
+                                    floatingActionButton.setVisibility(View.GONE);
+
+                                }
+                            })
+                            .playOn(floatingActionButton);
+
+
+                }else {
+//                             floatingActionButton.setVisibility(View.VISIBLE);
+//                     linearLayout.setVisibility(View.VISIBLE);
+
+                    if (y == 0){
+                        YoYo.with(Techniques.SlideInUp)
+                                .duration(400)
+                                .playOn(linearLayout);
+                    linearLayout.setVisibility(View.VISIBLE);
+
+                    YoYo.with(Techniques.SlideInUp)
+                            .duration(400)
+                            .playOn(floatingActionButton);
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                    y=1;
+                    }
+
+                }
+
+//                if (dy > 0) {
+//                    YoYo.with(Techniques.SlideInDown)
+//                            .duration(400)
+//                            .onEnd(new YoYo.AnimatorCallback() {
+//                                @Override
+//                                public void call(Animator animator) {
+//                                    linearLayout.setVisibility(View.GONE);
+//
+//                                }
+//                            }).playOn(linearLayout);
+//
+//
+//                } else {
+//                    YoYo.with(Techniques.SlideOutUp)
+//                            .duration(600)
+//                            .onEnd(new YoYo.AnimatorCallback() {
+//                                @Override
+//                                public void call(Animator animator) {
+//                                    linearLayout.setVisibility(View.VISIBLE);
+//
+//                                }
+//                            }).playOn(linearLayout); // Scrolling down
+//                }
+            }
+
+
+        });
+    }
+
 
     private void setViewModel() {
         viewModel = new ViewModelProvider((ViewModelStoreOwner) requireContext()).get(WordsViewModel.class);

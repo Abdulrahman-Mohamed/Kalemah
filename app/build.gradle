@@ -45,6 +45,9 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.1@aar'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
 
     implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
