@@ -19,6 +19,15 @@
     <string name="fb_login_protocol_scheme">fb2549573815309618</string>
     <string name="email_gmail_com">email@gmail.com</string>
     <string name="Email">Email</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <!-- [START fcm_default_icon_string] -->
+    <string name="default_notification_channel_name" translatable="true">Weather</string>
+    <!-- [END fcm_default_icon_string] -->
+
 
 
     <string-array name="level_array">

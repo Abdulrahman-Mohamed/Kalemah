@@ -106,7 +106,8 @@ public class WordsRepository {
 //       FireList=new ArrayList<>();
         myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
                 allWords = wordsDao.getAllWords();
                 if (allWords.getValue() != null)
                     if (dataSnapshot.exists())
@@ -114,7 +115,6 @@ public class WordsRepository {
                             Word word = dataSnapshot1.getValue(Word.class);
                             insert2(word);
                             // FireList.add(word);
-
 
                         }
             }

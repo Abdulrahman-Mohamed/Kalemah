@@ -3,6 +3,8 @@ package com.Motawer.kalemah.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +31,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.Adapter.RecyclerAdapter;
-import com.Motawer.kalemah.MaterialDesign.BottomSheet;
+import com.Motawer.kalemah.MaterialDesign.AddWord_Dialog;
+import com.Motawer.kalemah.MaterialDesign.AddWord_DialogEdit;
 import com.Motawer.kalemah.MaterialDesign.BottomSheetEdit;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
@@ -126,8 +129,8 @@ public class words_frag extends Fragment {
 
 
                         getID.getidfrompos(id);
-                        BottomSheetEdit bottomSheet = new BottomSheetEdit();
-                        bottomSheet.show(getActivity().getSupportFragmentManager(), "BottomSheetdialog");
+                        AddWord_DialogEdit addWord_dialogEdit = new AddWord_DialogEdit();
+                        addWord_dialogEdit.show(getActivity().getSupportFragmentManager(), "WordDialog");
 
                 }
               //  recyclerAdapter.notifyDataSetChanged();
@@ -172,7 +175,7 @@ public class words_frag extends Fragment {
 
     private void addWord() {
 
-        FAB.setOnClickListener(new View.OnClickListener() {
+       /* FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BottomSheet bottomSheet = new BottomSheet();
@@ -180,7 +183,23 @@ public class words_frag extends Fragment {
                         "BottomSheetdialog");
 
             }
-        });
+        });*/
+       FAB.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               openDialog();
+           }
+       });
+
+
+    }
+
+    private void openDialog()
+    {
+        AddWord_Dialog addWord_dialog = new AddWord_Dialog();
+        addWord_dialog.show(getActivity().getSupportFragmentManager(),"WordDialog");
+
+
     }
 
     private void search() {

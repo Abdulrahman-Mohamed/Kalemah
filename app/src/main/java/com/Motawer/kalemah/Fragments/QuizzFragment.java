@@ -105,7 +105,7 @@ public class QuizzFragment extends Fragment {
                 boolean result = check(choise);
                 if (result) {
                     button1.setBackgroundResource(R.drawable.right_choise_button);
-                    right.start();
+                  //  right.start();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -118,7 +118,7 @@ public class QuizzFragment extends Fragment {
                         }
                     }, 800);
                 } else {
-                    wrong.start();
+                   // wrong.start();
                     button1.setBackgroundResource(R.drawable.wrong_choice_botton);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -137,7 +137,7 @@ public class QuizzFragment extends Fragment {
                 choise = button2.getText().toString();
                 boolean result = check(choise);
                 if (result) {
-                    right.start();
+                  //  right.start();
 //
                     button2.setBackgroundResource(R.drawable.right_choise_button);
                     handler.postDelayed(new Runnable() {
@@ -152,7 +152,7 @@ public class QuizzFragment extends Fragment {
                 } else {
 //
                     button2.setBackgroundResource(R.drawable.wrong_choice_botton);
-                    wrong.start();
+                   // wrong.start();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -170,7 +170,7 @@ public class QuizzFragment extends Fragment {
                 choise = button3.getText().toString();
                 boolean result = check(choise);
                 if (result) {
-                    right.start();
+                   // right.start();
                     button3.setBackgroundResource(R.drawable.right_choise_button);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -182,7 +182,7 @@ public class QuizzFragment extends Fragment {
                         }
                     }, 800);
                 } else {
-                    wrong.start();
+                 //   wrong.start();
                     button3.setBackgroundResource(R.drawable.wrong_choice_botton);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -201,7 +201,7 @@ public class QuizzFragment extends Fragment {
                 choise = button4.getText().toString();
                 boolean result = check(choise);
                 if (result) {
-                    right.start();
+                   // right.start();
                     button4.setBackgroundResource(R.drawable.right_choise_button);
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -213,7 +213,7 @@ public class QuizzFragment extends Fragment {
                         }
                     }, 800);
                 } else {
-                    wrong.start();
+                //    wrong.start();
                     button4.setBackgroundResource(R.drawable.wrong_choice_botton);
                     handler.postDelayed(new Runnable() {
                         @Override

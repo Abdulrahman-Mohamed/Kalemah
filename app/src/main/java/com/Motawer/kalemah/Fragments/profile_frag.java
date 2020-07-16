@@ -131,16 +131,17 @@ public class profile_frag extends Fragment {
             public void onChanged(List<Word> words) {
                 for (int i = 0; i < words.size(); i++)
                     WordsCounter++;
+                setViews();
+
             }
         });
-        viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+      /*  viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
                 for (int i = 0; i < words.size(); i++)
                     WordsCounter++;
-                setViews();
             }
-        });
+        });*/
     }
 
     private void checkInternet()
@@ -186,6 +187,7 @@ public class profile_frag extends Fragment {
         String json = sharedPreferences.getString(WORD_FAVORIT, null);
         Type type = new TypeToken<ArrayList<Word>>() {}.getType();
         wordArrayList = gson.fromJson(json, type);
+        if(wordArrayList.size() != 0 &&  wordArrayList != null)
         recyclerAdapter.setWordList(wordArrayList);
 
         if (wordArrayList == null) {
@@ -418,7 +420,7 @@ InitializeRecycler();
         int id = item.getItemId();
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Logout successful..", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), SignIn_Activity.class));
         }
         return super.onOptionsItemSelected(item);

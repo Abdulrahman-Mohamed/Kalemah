@@ -15,11 +15,56 @@
       },
       "oauth_client": [
         {
+          "client_id": "337338160413-4m8freh1qadosailnpguavuoceub86m1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Motawer.kalemah",
+            "certificate_hash": "eda8817143107ed52f8b27ec0758b6f6509016b3"
+          }
+        },
+        {
           "client_id": "337338160413-ua4ui9k9pc70r4o5rf5b6r8102qtejjf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.Motawer.kalemah",
             "certificate_hash": "21bbcb4b175f182c9718622d5c97c1e0c5325e6c"
+          }
+        },
+        {
+          "client_id": "337338160413-l8oa93ck1gcnvi8dpqj6dsd6e7gum53c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClzVyQuDZ12tpuMpoZZVHj-lAtqXrAtNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337338160413-l8oa93ck1gcnvi8dpqj6dsd6e7gum53c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337338160413:android:f6b0ee461f66e40d74bdf4",
+        "android_client_info": {
+          "package_name": "com.motawer.kalimah_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337338160413-q3oke2r1mkh9gt7ovcqk4h870tjn454r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.motawer.kalimah_admin",
+            "certificate_hash": "eda8817143107ed52f8b27ec0758b6f6509016b3"
           }
         },
         {
