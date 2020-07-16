@@ -37,5 +37,17 @@
         <item name="stRadius">5dp</item>
     </style>
 
+    <style name="MyRounded.MaterialComponents.MaterialAlertDialog" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.App.CustomDialog.Rounded
+        </item>
+        <item name="colorSurface">@color/White</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CustomDialog.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+
 
 </resources>

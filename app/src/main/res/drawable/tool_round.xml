@@ -8,7 +8,7 @@
 
     <corners
         android:bottomLeftRadius="80dp"
-        />
+            />
     <padding
 
         android:left="6dp"
