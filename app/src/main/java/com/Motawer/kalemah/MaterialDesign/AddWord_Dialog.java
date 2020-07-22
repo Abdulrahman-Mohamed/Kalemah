@@ -5,10 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,9 +21,10 @@ import com.Motawer.kalemah.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.muddzdev.styleabletoast.StyleableToast;
 
-public class AddWord_Dialog extends AppCompatDialogFragment implements AdapterView.OnItemSelectedListener
+public class AddWord_Dialog extends AppCompatDialogFragment
 {
     View view;
+    NumberPicker numberPicker;
     EditText word;
     EditText meaning;
     Spinner spinner;
@@ -33,6 +33,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment implements AdapterVi
     int rate;
     AlertDialog alertDialog;
     AddWord_Dialog.BottomSheetListner sheetListner;
+    private String[] pickerVals;
     
     @NonNull
     @Override
@@ -52,20 +53,72 @@ public class AddWord_Dialog extends AppCompatDialogFragment implements AdapterVi
 
     private void spinner()
     {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.level_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(2);
+        pickerVals  = new String[] {"A", "B", "C"};
+        numberPicker.setDisplayedValues(pickerVals);
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if (pickerVals[picker.getValue()].equals("A"))
+              {
+
+                    Level="-1";
+                  rate=5;
+               }else if (pickerVals[picker.getValue()].equals("B"))
+
+                {
+                   Level="-2";
+                  rate=3;
+                }else if (pickerVals[picker.getValue()].equals("C"))
+
+                {
+                    Level="-3";
+                   rate=1;
+              }
+           }
+        });
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
+//                R.array.level_array, R.layout.spinner_item);
+//        // Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        // Apply the adapter to the spinner
+//        spinner.setAdapter(adapter);
+//        spinner.setGravity(Spinner.TEXT_ALIGNMENT_GRAVITY);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String s = parent.getItemAtPosition(position).toString();
+//                if (s.equals("A"))
+//                {
+//
+//                    Level="-1";
+//                    rate=5;
+//                }else if (s.equals("B"))
+//                {
+//                    Level="-2";
+//                    rate=3;
+//                }else if (s.equals("C"))
+//                {
+//                    Level="-3";
+//                    rate=1;
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 
     private void Initiate()
     {
         word = alertDialog.findViewById(R.id.word_edit);
         meaning = alertDialog.findViewById(R.id.meaning_edit);
-        spinner = alertDialog.findViewById(R.id.spinner);
+        numberPicker=alertDialog.findViewById(R.id.number_picker);
+       // spinner = alertDialog.findViewById(R.id.spinner);
         button = alertDialog.findViewById(R.id.save_word);
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -103,31 +156,6 @@ public class AddWord_Dialog extends AppCompatDialogFragment implements AdapterVi
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String s = parent.getItemAtPosition(position).toString();
-        if (s.equals("A"))
-        {
-            Level="-1";
-            rate=5;
-        }else if (s.equals("B"))
-        {
-            Level="-2";
-            rate=3;
-        }else if (s.equals("C"))
-        {
-            Level="-3";
-            rate=1;
-        }
-
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-
-    }
 
     public interface BottomSheetListner
     {

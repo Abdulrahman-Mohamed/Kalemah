@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        app:cardCornerRadius="45dp"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:elevation="5dp"
+            android:gravity="fill"
+
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="5"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_exam1" />
+
+            <TextView
+                android:id="@+id/textview_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:breakStrategy="simple"
+                android:gravity="center"
+                android:maxLines="1"
+                android:rotation="-90"
+                android:text="Exercise"
+                android:autoSizeMinTextSize="15sp"
+                android:autoSizeMaxTextSize="24sp"
+                android:textColor="#0E3C65"
+                android:textIsSelectable="true"
+                android:textScaleX="0.8"
+                android:textStyle="bold"
+                android:autoSizeTextType="uniform"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/card"
+        android:layout_marginRight="45dp"
+        android:elevation="15dp"
+        android:rotation="16">
+
+        <ImageView
+            android:id="@+id/image_upon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_feather"
+            />
+
+    </LinearLayout>
+    <ImageButton
+        android:id="@+id/help"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+android:layout_below="@+id/card"
+        app:srcCompat="@drawable/ic_ask"
+        android:layout_alignParentEnd="true"
+        android:elevation="2dp"
+        android:background="@null"
+        />
+</RelativeLayout>

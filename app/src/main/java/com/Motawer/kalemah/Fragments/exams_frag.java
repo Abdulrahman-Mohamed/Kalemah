@@ -1,6 +1,5 @@
 package com.Motawer.kalemah.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.Adapter.Exams_Adapter;
-import com.Motawer.kalemah.Excercise_Levels;
 import com.Motawer.kalemah.Models.ExamsItems;
-import com.Motawer.kalemah.My_Words_Quizz;
 import com.Motawer.kalemah.R;
 
 import java.util.ArrayList;
@@ -58,24 +55,24 @@ public class exams_frag extends Fragment {
 
         exams_adapter = new Exams_Adapter(itemsList);
         recyclerView.setAdapter(exams_adapter);
-        exams_adapter.setOnItemClickListener(new Exams_Adapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                if ( itemsList.get(position).getTextView().toString().equals("Exercise"))
-                {
-                    Intent intent = new Intent(getActivity(), Excercise_Levels.class);
-                    startActivity(intent);
-
-                }
-                if ( itemsList.get(position).getTextView().toString().equals("Words"))
-                {
-                    Intent intent = new Intent(getActivity(), My_Words_Quizz.class);
-                    startActivity(intent);
-
-                }
-
-            }
-        });
+//        exams_adapter.setOnItemClickListener(new Exams_Adapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                if ( itemsList.get(position).getTextView().toString().equals("Exercise"))
+//                {
+//                    Intent intent = new Intent(getActivity(), Excercise_Levels.class);
+//                    startActivity(intent);
+//
+//                }
+//                if ( itemsList.get(position).getTextView().toString().equals("Words"))
+//                {
+//                    Intent intent = new Intent(getActivity(), My_Words_Quizz.class);
+//                    startActivity(intent);
+//
+//                }
+//
+//            }
+//        });
 
     }
 }

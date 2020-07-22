@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="18dp"
+    android:layout_marginLeft="18dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_success">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Like a Champ!"
+            android:textStyle="italic|bold"
+            android:textColor="#000"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Succeed"
+            android:textStyle="italic|bold"
+            android:textColor="#000"
+            android:textSize="18sp" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="success.json"
+            app:lottie_loop="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Challenge complited Keep it up."
+            android:lines="1"
+            android:maxLines="2"
+            android:textStyle="italic"
+            android:textColor="#000"
+            android:textSize="16sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textStyle="italic|bold"
+                android:textColor="#000"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textStyle="italic|bold"
+                android:textColor="#000"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_marginLeft="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Points"
+                android:textStyle="italic|bold"
+                android:textColor="#000"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/succeed_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="5dp"
+            android:text="Continue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/success_button"
+            />
+    </LinearLayout>
+</LinearLayout>

@@ -29,7 +29,6 @@
     <!-- [END fcm_default_icon_string] -->
 
 
-
     <string-array name="level_array">
         <item>A</item>
         <item>B</item>

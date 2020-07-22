@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/star1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/text_layout"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="-1dp"
+        android:layout_toLeftOf="@id/star2"
+        android:rotation="-15"
+        app:srcCompat="@drawable/ic_star2" />
+
+    <ImageView
+        android:id="@+id/star2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/text_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="40dp"
+        app:srcCompat="@drawable/ic_star2" />
+
+    <ImageView
+        android:id="@+id/star3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/text_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="-1dp"
+        android:layout_toRightOf="@id/star2"
+        android:rotation="15"
+        app:srcCompat="@drawable/ic_star2" />
+
+    <RelativeLayout
+        android:id="@+id/text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/text_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="level"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="#3DC59C"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="50sp"
+            android:autoSizeMinTextSize="18sp"
+
+            />
+        <TextView
+
+            android:id="@+id/text_level_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:textColor="#3DC59C"
+            android:layout_below="@+id/text_level"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="50sp"
+            android:autoSizeMinTextSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="220dp"
+        android:layout_height="75dp"
+        android:text="Go"
+        android:textColor="#fff"
+        android:layout_centerInParent="true"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="50sp"
+        android:autoSizeMinTextSize="18sp"
+        android:layout_marginBottom="40dp"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/item_botton_round"
+        android:elevation="20dp"
+
+        />
+    <FrameLayout
+        android:id="@+id/lock"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#ddd"
+        android:elevation="26dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="26dp"
+            app:srcCompat="@drawable/ic_lock_black_24dp"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

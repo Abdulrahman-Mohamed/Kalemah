@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,6 +64,9 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +117,8 @@ public class profile_frag extends Fragment {
         checkInternet();
         if (!connected)
         LoadShared();
+        loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
+
         initGoogle();
         initButtons();
         getWordsCount();
@@ -121,6 +128,17 @@ public class profile_frag extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
+    }
+
+    private void loadImageFromStorage(String s) {
+        try {
+            File f = new File(s, "profile.jpg");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            if (b != null){
+                circleImageView.setImageBitmap(b);}
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getWordsCount()
@@ -188,7 +206,7 @@ public class profile_frag extends Fragment {
         String json = sharedPreferences.getString(WORD_FAVORIT, null);
         Type type = new TypeToken<ArrayList<Word>>() {}.getType();
         wordArrayList = gson.fromJson(json, type);
-        if (wordArrayList.size()!=0 && wordArrayList!=null)
+        if (wordArrayList!=null)
         recyclerAdapter.setWordList(wordArrayList);
 
         if (wordArrayList == null) {
@@ -265,9 +283,9 @@ public class profile_frag extends Fragment {
 
             textName.setText(personName);
             textEmail.setText(personEmail);
-            Picasso.get()
-                    .load(String.valueOf(personPhoto))
-                    .into(circleImageView);
+//            Picasso.get()
+//                    .load(String.valueOf(personPhoto))
+//                    .into(circleImageView);
         }
 
     }
@@ -281,10 +299,10 @@ public class profile_frag extends Fragment {
             textName.setText(username);
             textEmail.setText(email);
 
-            String photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
-            Picasso.get()
-                    .load(photo)
-                    .into(circleImageView);
+//            String photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
+//            Picasso.get()
+//                    .load(photo)
+//                    .into(circleImageView);
         }
 
     }

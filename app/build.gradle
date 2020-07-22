@@ -1,8 +1,11 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion '29.0.2'
     defaultConfig { vectorDrawables.useSupportLibrary = true }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
@@ -30,6 +33,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 
@@ -46,6 +53,7 @@ dependencies {
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
     implementation 'com.daimajia.easing:library:2.0@aar'
+
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
 
 
@@ -72,13 +80,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.3.1'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.google.firebase:firebase-analytics:17.4.4'
-    //
-    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+
+
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     implementation 'com.google.firebase:firebase-database:19.3.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.facebook.android:facebook-login:5.15.3'
+    implementation 'com.facebook.android:facebook-login:6.0.0'
 
 
     implementation 'com.android.support:multidex:1.0.3'
@@ -93,7 +101,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
 
+
+    // Add the Firebase Crashlytics SDK.
+
+
+
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'

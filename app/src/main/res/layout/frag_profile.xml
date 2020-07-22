@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#EDF3F3"
+
     android:orientation="vertical">
 
     <RelativeLayout
@@ -19,14 +21,14 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:background="#EDF3F3"
                 android:elevation="0dp"
                 app:elevation="0dp">
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/setting_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="130dp"
                     android:background="@drawable/tool_round"
                     android:elevation="4dp"
                     android:paddingRight="5dp"
@@ -50,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -242,7 +244,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
             >
 
@@ -268,6 +269,9 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text">
                     <androidx.recyclerview.widget.RecyclerView
+                        android:background="#EDF3F3"
+                        android:nestedScrollingEnabled="true"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         android:id="@+id/prefered_Words"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"/>

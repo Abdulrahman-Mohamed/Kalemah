@@ -61,7 +61,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
                 wordArrayList = gson.fromJson(json, type);
 
                 if (wordArrayList == null || wordArrayList.size() == 0) {
-                    //wordArrayList = new ArrayList<>();
+                    wordArrayList = new ArrayList<>();
                     SaveFavorit(v, currentword);
                     holder.favorite.setImageResource(R.drawable.favorite_word_red);
                 } else {
@@ -100,7 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
     private void SaveFavorit(View view, Word currentword) {
         SharedPreferences sharedPref = view.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        // wordArrayList = new ArrayList<>();
+       // wordArrayList = new ArrayList<>();
         wordArrayList.add(currentword);
         Gson gson = new Gson();
         String json = gson.toJson(wordArrayList);

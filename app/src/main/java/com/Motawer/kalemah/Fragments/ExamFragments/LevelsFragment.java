@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class  LevelsFragment extends Fragment {
+public class LevelsFragment extends Fragment {
     View view;
     ImageView star1, star2, star3;
     Button button;
@@ -37,7 +37,7 @@ public class  LevelsFragment extends Fragment {
     boolean levelAccess;
     ArrayList<Word> wordsList = new ArrayList<>();
     //    int myStr = getArguments().getInt("my_key");
-    int level,points=0;
+    int level, points = 0;
     TextView textView;
     FrameLayout lock;
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -68,30 +68,29 @@ public class  LevelsFragment extends Fragment {
 
     }
 
-    private void StarsDisplay()
-    {
-        if (points>0)
-        {
-            if (points>=10)
-            {star1.setImageResource(R.drawable.ic_star);
-                if (points>20)
-                {star2.setImageResource(R.drawable.ic_star);}
-                if (points==60)
-                {star3.setImageResource(R.drawable.ic_star);}}
+    private void StarsDisplay() {
+        if (points > 0) {
+            if (points >= 10) {
+                star1.setImageResource(R.drawable.ic_star);
+                if (points > 20) {
+                    star2.setImageResource(R.drawable.ic_star);
+                }
+                if (points == 60) {
+                    star3.setImageResource(R.drawable.ic_star);
+                }
+            }
 
-    }}
+        }
+    }
 
-    private void getPoints()
-    {
+    private void getPoints() {
         myRef.child("UserPoints")
                 .child(uid).child(String.valueOf(level)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists())
-                {
-                    points=dataSnapshot.getValue(Integer.class);
+                if (dataSnapshot.exists()) {
+                    points = dataSnapshot.getValue(Integer.class);
                     StarsDisplay();
-
                 }
             }
 
@@ -102,7 +101,8 @@ public class  LevelsFragment extends Fragment {
         });
     }
 
-    private void firebaseinit() {
+    private void firebaseinit()
+    {
         myRef.child("UserLevels")
                 .child(firebaseAuth.getCurrentUser().getUid())
 
@@ -110,7 +110,8 @@ public class  LevelsFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            if (dataSnapshot.child(String.valueOf(level)).getValue(Boolean.class) != null) {
+                            if (dataSnapshot.child(String.valueOf(level))
+                                    .getValue(Boolean.class) != null) {
                                 levelAccess = dataSnapshot.child(String.valueOf(level)).getValue(Boolean.class);
                                 if (!levelAccess)
                                     lock.setVisibility(View.VISIBLE);
@@ -130,26 +131,24 @@ public class  LevelsFragment extends Fragment {
 
     }
 
-
-    private void startButton()
-    {
+// on card click
+    private void startButton() {
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               setInitialPoint();
+                setInitialPoint();
                 Intent intent = new Intent(getActivity(), Quizz_activity.class);
-
-                intent.putExtra("WordsList", wordsList);
-                intent.putExtra("Level", level);
+                intent.putExtra("WordsList",wordsList);
+                intent.putExtra("Level",level);
                 startActivity(intent);
                 getActivity().finish();
 
             }
         });
     }
-
+// set initial Level points
     private void setInitialPoint() {
         myRef.child("UserPoints")
                 .child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level)).addValueEventListener(new ValueEventListener() {
@@ -158,8 +157,8 @@ public class  LevelsFragment extends Fragment {
                 if (dataSnapshot.exists())
                     return;
                 myRef.child("UserPoints")
-                        .child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level)).setValue(0);
-
+                        .child(firebaseAuth.getCurrentUser().getUid())
+                        .child(String.valueOf(level)).setValue(0);
             }
 
             @Override
@@ -181,7 +180,7 @@ public class  LevelsFragment extends Fragment {
 
 
     }
-
+// get words from current level needs edit
     private void getWords() {
         myRef.child("WordsEng").child(String.valueOf(level)).addValueEventListener(new ValueEventListener() {
             @Override
