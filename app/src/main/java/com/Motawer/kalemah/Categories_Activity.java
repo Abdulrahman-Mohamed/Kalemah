@@ -1,7 +1,6 @@
 package com.Motawer.kalemah;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -37,6 +36,7 @@ public class Categories_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_);
         FireBase();
+        setPoints();
     }
 
     private void InitializeRecycler() {
@@ -45,20 +45,40 @@ public class Categories_Activity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         categories_adapter=new Categories_Adapter(list);
-        recyclerView.setOnTouchListener(new View.OnTouchListener()
-        {
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
         recyclerView.setAdapter(categories_adapter);
 
+
+
     }
 
-    private void FireBase()
-    {
+    private void setPoints() {
+
+        myRef.child("UserPoints")
+                .child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    for (int levels = 1; levels <= 16; levels++)
+                        myRef.child("UserPoints")
+                                .child(uid).child(String.valueOf(levels)).setValue(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    private void FireBase() {
         if (uid != null)
             myRef.child("UserLevels").child(uid)
                     .addValueEventListener(new ValueEventListener() {
@@ -67,13 +87,13 @@ public class Categories_Activity extends AppCompatActivity {
                             if (dataSnapshot.exists()) {
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                                     levelList.add(snapshot.getValue(Boolean.class));
-                                Log.e("hi", "iam here " );
+                                //Log.e("hi", "iam here " );
 
 
                             } else {
                                 myRef.child("UserLevels").child(uid).child("1").setValue(true);
                                 levelList.add(0, true);
-                                Log.e("hi", "iam here but no snap " );
+                              //  Log.e("hi", "iam here but no snap " );
 
                             }
                             if (levelList.size() <= 5) {

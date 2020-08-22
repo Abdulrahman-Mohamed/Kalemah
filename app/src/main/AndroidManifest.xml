@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/ic_logo_concept_1_copy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Categories_Activity"></activity>
+        <activity android:name=".Categories_Activity"
+            ></activity>
         <activity
             android:name=".My_Words_Quizz"
             android:screenOrientation="portrait" />
@@ -26,6 +27,7 @@
         <activity
             android:name=".Excercise_Levels"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

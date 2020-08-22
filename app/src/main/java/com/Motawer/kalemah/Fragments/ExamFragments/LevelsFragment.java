@@ -156,6 +156,7 @@ public class LevelsFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists())
                     return;
+
                 myRef.child("UserPoints")
                         .child(firebaseAuth.getCurrentUser().getUid())
                         .child(String.valueOf(level)).setValue(0);

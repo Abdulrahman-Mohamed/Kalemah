@@ -11,27 +11,27 @@ import java.util.List;
 
 public class examFragmentAdapter extends FragmentStateAdapter
 {
-    private List<Fragment> fragmentList=new ArrayList<>();
+  private List<Fragment> fragmentList=new ArrayList<>();
 
-    public examFragmentAdapter(@NonNull FragmentManager fragmentManager
-            , @NonNull Lifecycle lifecycle
-            , List<Fragment> fragmentList)
-    {
-        super(fragmentManager, lifecycle);
-        this.fragmentList=fragmentList;
-    }
+  public examFragmentAdapter(@NonNull FragmentManager fragmentManager
+          , @NonNull Lifecycle lifecycle
+          , List<Fragment> fragmentList)
+  {
+    super(fragmentManager, lifecycle);
+    this.fragmentList=fragmentList;
+  }
 
-    @NonNull
-    @Override
-    public Fragment createFragment(int position)
+  @NonNull
+  @Override
+  public Fragment createFragment(int position)
 
-    {
-        return fragmentList.get(position);
-    }
+  {
+    return fragmentList.get(position);
+  }
 
-    @Override
-    public int getItemCount()
-    {
-        return fragmentList.size();
-    }
+  @Override
+  public int getItemCount()
+  {
+    return fragmentList.size();
+  }
 }

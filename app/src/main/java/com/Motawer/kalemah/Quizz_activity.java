@@ -73,10 +73,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Intent intent = new Intent(Quizz_activity.this, Excercise_Levels.class);
 
-                startActivity(intent);
-                finish();
             }
         };
         initViews();
@@ -99,7 +96,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(Quizz_activity.this, Excercise_Levels.class);
+                Intent intent = new Intent(Quizz_activity.this, Categories_Activity.class);
 
                 startActivity(intent);
                 finish();
@@ -279,7 +276,8 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
 
 
     private void insertWord() {
-        Word word = new Word(wordQuistion, meaning, -3);
+        Word word = new Word(wordQuistion, meaning, -3,5);
+
 
         viewModel.insetr(word);
     }
@@ -368,7 +366,8 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                 int points;
                 int total;
                 if (dataSnapshot.exists())
-                    if (dataSnapshot.child(String.valueOf(level)).getValue(Integer.class) != null) {
+                    if (dataSnapshot.child(String.valueOf(level)).getValue(Integer.class) != null)
+                    {
                         points = dataSnapshot.child(String.valueOf(level)).getValue(Integer.class);
 
                         if (points >= 20 && points < 40) {
