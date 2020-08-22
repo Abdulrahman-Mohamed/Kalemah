@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#EDF3F3"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#EDF3F3"
+
     android:orientation="vertical">
 
     <RelativeLayout
@@ -100,14 +101,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal"
+                    android:layout_gravity="start"
+
                     >
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="70dp"
+                        android:layout_width="85dp"
                         android:layout_height="70dp"
                         android:layout_marginEnd="10dp"
                         android:clickable="true"
@@ -149,7 +152,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="70dp"
+                        android:layout_width="85dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="10dp"
                         android:clickable="true"
@@ -192,7 +195,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="70dp"
+                        android:layout_width="85dp"
                         android:layout_height="70dp"
                         android:clickable="true"
                         app:cardBackgroundColor="#FECE2E"
@@ -268,8 +271,8 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text">
                     <androidx.recyclerview.widget.RecyclerView
-                        android:background="#EDF3F3"
                         android:id="@+id/prefered_Words"
+                        android:background="#EDF3F3"
                         android:nestedScrollingEnabled="true"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         android:layout_width="match_parent"

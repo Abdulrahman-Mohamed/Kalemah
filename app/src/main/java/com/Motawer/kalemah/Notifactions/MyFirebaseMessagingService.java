@@ -83,6 +83,7 @@ import android.util.Log;
 
 import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.R;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -93,15 +94,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
 
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(RemoteMessage remoteMessage)
+    {
 
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-
         // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
+        if (remoteMessage.getNotification() != null)
+        {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-
 
         }
 
@@ -143,7 +144,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
     }
 
     @Override
-    public void onNewToken(String s) {
-        super.onNewToken(s);
+    public void onNewToken(String s)
+    {
+        // go android monitor
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG,"Refreshed Token:"+refreshedToken);
+
     }
 }

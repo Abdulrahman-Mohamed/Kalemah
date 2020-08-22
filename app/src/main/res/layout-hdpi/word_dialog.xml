@@ -110,7 +110,7 @@
                       android:layout_marginStart="10dp"
                       android:layout_marginEnd="10dp"
                       >
-
+       
                       <com.google.android.material.textfield.TextInputEditText
                           android:id="@+id/word_edit"
                           android:layout_width="match_parent"
@@ -120,9 +120,9 @@
                           android:padding="6dp"
                           android:background="@drawable/edittext_word_dialog"
                           >
-
+       
                       </com.google.android.material.textfield.TextInputEditText>
-
+       
                   </com.google.android.material.textfield.TextInputLayout>
                   <com.google.android.material.textfield.TextInputLayout
                       android:layout_width="match_parent"
@@ -130,19 +130,19 @@
                       android:layout_marginStart="10dp"
                       android:layout_marginEnd="10dp"
                       >
-
+       
                       <com.google.android.material.textfield.TextInputEditText
                           android:id="@+id/meaning_edit"
-
+       
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:background="@drawable/edittext_word_dialog"
                           android:hint="Menning :"
                           android:padding="6dp"
                           android:textSize="15sp">
-
+       
                       </com.google.android.material.textfield.TextInputEditText>
-
+       
                   </com.google.android.material.textfield.TextInputLayout>  -->
 
             </LinearLayout>

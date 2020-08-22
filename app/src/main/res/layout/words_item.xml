@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -22,34 +23,61 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-
-        <TextView
-            android:id="@+id/word_text"
+        <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_toStartOf="@+id/word_level"
-            android:hint="Word"
-            android:maxLines="1"
+            android:orientation="horizontal">
 
-            android:padding="2dp"
-            android:textColor="#000"
-            android:textColorHint="#000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/word_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@+id/word_level"
+                android:hint="Word"
+                android:maxLines="1"
+                android:padding="2dp"
+                android:textColor="#000"
+                android:textColorHint="#000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/favorite_Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/word_text"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/White"
-            app:srcCompat="@drawable/favorite_word"
-           />
+            <ImageButton
+                android:id="@+id/speaker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_volume"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+            <ImageButton
+                android:id="@+id/favorite_Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                app:srcCompat="@drawable/favorite_word"
+                android:layout_below="@+id/linear"
+
+
+                />
+
+
+
+
+
 
         <TextView
             android:id="@+id/word_level"

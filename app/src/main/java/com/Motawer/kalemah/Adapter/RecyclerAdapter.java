@@ -2,6 +2,7 @@ package com.Motawer.kalemah.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordViewHolder> implements Filterable {
     private List<Word> wordList = new ArrayList<Word>();
@@ -29,6 +31,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
     final String WORD_FAVORIT = "MY_FAV_WORDS";
     ArrayList<Word> wordArrayList = new ArrayList<>();
     View view;
+    TextToSpeech textToSpeech ;
+
+
+
+
+
 
 
     @NonNull
@@ -36,6 +44,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.words_item, parent, false);
+
+
+
+
+
         return new WordViewHolder(view);
     }
 
@@ -44,6 +57,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         //viewModel = new ViewModelProvider( this).get(WordsViewModel.class);
         final Word currentword = wordList.get(position);
         loadData(view, holder, currentword);
+
+
 
         holder.words.setText(currentword.getWord());
         holder.meaning.setText(currentword.getMeaning());
@@ -80,6 +95,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
 
             }
         });
+
+        textToSpeech =new TextToSpeech(view.getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status)
+            {
+                if (status ==TextToSpeech.SUCCESS)
+                {
+                    int lang = textToSpeech.setLanguage(Locale.GERMANY);
+                }
+
+            }
+        });
+        holder.speaker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s= holder.words.getText().toString();
+                int speech = textToSpeech.speak(s,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        });
+
+
+
+
+
 
         if (currentword.getLevel() == -1) {
             holder.level.setText("A");
@@ -244,6 +283,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         private TextView level;
         private TextView meaning;
         private ImageButton favorite;
+        //
+        private  ImageButton speaker;
 
 
         public WordViewHolder(@NonNull View itemView) {
@@ -252,6 +293,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
             level = itemView.findViewById(R.id.word_level);
             meaning = itemView.findViewById(R.id.meaning_text);
             favorite = itemView.findViewById(R.id.favorite_Button);
+            speaker= itemView.findViewById(R.id.speaker);
 
         }
     }

@@ -4,13 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.Motawer.kalemah.MainActivity;
@@ -42,13 +47,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class SignIn_Activity extends AppCompatActivity
 {
     EditText emailEditText,passwordEditText;
+    ImageButton fb, signInGoogle;
     TextView signUp,forgetPassword;
-    Button btn_login,fb, signInGoogle;
+    Button btn_login;
     String email,password,gUsername,gEmail;
     ProgressDialog progressDialog;
     GoogleSignInClient mGoogleSignInClient;
@@ -64,6 +72,20 @@ public class SignIn_Activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.Motawer.kalemah.Auth",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        }
+        catch (PackageManager.NameNotFoundException e) {
+        }
+        catch (NoSuchAlgorithmException e) {
+        }
 
 
 

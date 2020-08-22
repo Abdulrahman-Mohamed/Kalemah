@@ -49,7 +49,8 @@ import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class words_frag extends Fragment {
+public class words_frag extends Fragment
+{
     private WordsViewModel viewModel;
     GetID getID;
     View view;
@@ -85,16 +86,22 @@ public class words_frag extends Fragment {
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         InitializUI();
         recyclerInit();
         onScroll();
         //setViewModel();
         search();
+        speaker();
         //  addWord();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
+    }
+
+    private void speaker()
+    {
     }
 
 
@@ -201,15 +208,19 @@ public class words_frag extends Fragment {
 
 
     private void search() {
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String query)
+            {
                 recyclerAdapter.notifyDataSetChanged();
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String newText)
+            {
                 recyclerAdapter.getFilter().filter(newText);
                 return true;
             }
@@ -336,6 +347,7 @@ public class words_frag extends Fragment {
         coordinatorLayout = view.findViewById(R.id.coordinator);
         toolbar = view.findViewById(R.id.words_toolbar);
         searchView = view.findViewById(R.id.search_view);
+
         count = view.findViewById(R.id.count_text);
 
     }

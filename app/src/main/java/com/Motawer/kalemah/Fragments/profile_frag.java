@@ -119,6 +119,7 @@ public class profile_frag extends Fragment {
         LoadShared();
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
 
+
         initGoogle();
         initButtons();
         getWordsCount();

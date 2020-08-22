@@ -35,32 +35,33 @@
         android:textSize="15sp" />
 
     <LinearLayout
-        android:layout_below="@+id/WelcomeTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp"
-        >
+        android:layout_below="@+id/WelcomeTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="73dp"
+        android:layout_marginEnd="-1dp"
+        android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            >
+            android:layout_marginEnd="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/welcome_back"
                 android:textColorHint="@color/welcome_back"
                 android:textSize="15sp"
-                android:inputType="textEmailAddress"
 
                 >
+
             </com.google.android.material.textfield.TextInputEditText>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -69,42 +70,37 @@
             android:id="@+id/passwordEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            app:passwordToggleEnabled="true"
-            >
+            app:passwordToggleEnabled="true">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:inputType="textPassword"
                 android:textColor="@color/read_it_together"
                 android:textColorHint="@color/welcome_back"
-                android:textSize="15sp"
-                android:inputType="textPassword"
-                >
+                android:textSize="15sp">
+
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/forgetPassword"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:padding="5dp"
-            >
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/forget_password"
+            android:textColor="@color/welcome_back"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/forgetPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/forget_password"
-                android:textColor="@color/welcome_back"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,7 +113,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/login_button"
-                android:text="@string/sign_in"
+                android:text="Log In"
                 android:textAllCaps="false"
                 android:textColor="@color/welcome_back"
                 android:textSize="16sp" />
@@ -125,9 +121,106 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"
+                    android:background="@color/read_it_together"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OR"
+                    android:textSize="18dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginLeft="7dp"
+                   />
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"
+                    android:background="@color/read_it_together"
+                   />
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
                 android:orientation="horizontal">
+
+
+                <ImageButton
+                    android:id="@+id/sign_in_google"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:srcCompat="@drawable/google_icon"
+                    android:layout_marginEnd="50dp"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:focusable="true" />
+
+                <!--<Button
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/google_button"
+                    android:drawableLeft="@drawable/google_icon"
+                    android:text="Sign up with Google"
+                    android:textAllCaps="false"
+                    android:textColor="#868686"
+                    android:textSize="14sp" />-->
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/fb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_facebook"
+                    android:onClick="onClickFacebookButton"
+                    />
+
+                <!-- <Button
+                    android:id="@+id/fb"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/facebook_button"
+                    android:drawableLeft="@drawable/facebook_icon"
+                    android:onClick="onClickFacebookButton"
+                    android:text="Sign up with Facebook"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />-->
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -140,52 +233,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="@string/sign_up"
-                    android:textColor="@color/welcome_back"
+                    android:textColor="#FFD16E"
                     android:textSize="14sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/sign_in_google"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/google_button"
-                    android:drawableLeft="@drawable/google_icon"
-                    android:text="Sign up with Google"
-                    android:textAllCaps="false"
-                    android:textColor="#868686"
-                    android:textSize="14sp" />
-
-                <com.facebook.login.widget.LoginButton
-                    android:id="@+id/login_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/fb"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/facebook_button"
-                        android:drawableLeft="@drawable/facebook_icon"
-                        android:onClick="onClickFacebookButton"
-                        android:text="Sign up with Facebook"
-                        android:textAllCaps="false"
-                        android:textColor="#ffffff"
-                        android:textSize="14sp"
-                        android:layout_marginBottom="10dp"/>
-
-
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>

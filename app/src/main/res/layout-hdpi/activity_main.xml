@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
     <FrameLayout
         android:id="@+id/frag_container"
         android:layout_width="match_parent"
@@ -62,7 +63,7 @@
             android:layout_marginBottom="35dp"
             app:maxImageSize="35dp"
             app:fabCustomSize="65dp"
-            app:elevation="25dp"
+            app:elevation="20dp"
             app:backgroundTint="@color/White"
             app:srcCompat="@drawable/ic_yellow_feather_new" />
     </RelativeLayout>

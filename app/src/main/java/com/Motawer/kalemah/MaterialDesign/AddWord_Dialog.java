@@ -57,6 +57,12 @@ public class AddWord_Dialog extends AppCompatDialogFragment
         numberPicker.setMaxValue(2);
         pickerVals  = new String[] {"A", "B", "C"};
         numberPicker.setDisplayedValues(pickerVals);
+        numberPicker.setValue(0);
+        if (numberPicker.getValue()==0)
+        {
+            Level="-1";
+            rate=5;
+        }
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -65,6 +71,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment
 
                     Level="-1";
                   rate=5;
+
                }else if (pickerVals[picker.getValue()].equals("B"))
 
                 {
@@ -76,6 +83,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment
                     Level="-3";
                    rate=1;
               }
+
            }
         });
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),

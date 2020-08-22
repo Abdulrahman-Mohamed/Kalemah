@@ -45,22 +45,20 @@ public class Categories_Activity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         categories_adapter=new Categories_Adapter(list);
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+        recyclerView.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 return true;
             }
         });
         recyclerView.setAdapter(categories_adapter);
 
-
-
     }
 
-
-
-
-    private void FireBase() {
+    private void FireBase()
+    {
         if (uid != null)
             myRef.child("UserLevels").child(uid)
                     .addValueEventListener(new ValueEventListener() {

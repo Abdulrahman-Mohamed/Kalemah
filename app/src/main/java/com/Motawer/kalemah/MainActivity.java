@@ -269,12 +269,14 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     private void getimage() {
 
-        databaseReference.child("User").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("User").addListenerForSingleValueEvent(new ValueEventListener()
+        {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
 
                     UserModel userModel = dataSnapshot.child(firebaseAuth.getUid()).getValue(UserModel.class);
+                    if (dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class)!=null)
                     if (userModel.getImage() != null || !dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class).equals("")) {
                         photo = dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class);
 //                        Picasso.get()
