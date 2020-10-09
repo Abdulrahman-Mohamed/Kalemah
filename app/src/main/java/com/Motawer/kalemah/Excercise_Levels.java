@@ -1,18 +1,16 @@
 package com.Motawer.kalemah;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.Motawer.kalemah.Adapter.exerciseAdapter;
 import com.Motawer.kalemah.Models.ItemExam;
-import com.Motawer.kalemah.Models.examItemModel;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,18 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Excercise_Levels extends AppCompatActivity {
-    // ViewPager2 viewPager2;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
-    FragmentStateAdapter levelAdapter;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference myRef = firebaseDatabase.getReference();
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    List<Fragment> fragmentArrayList = new ArrayList<>();
-    int levels;
     List<Boolean> levelList = new ArrayList<>();
     ArrayList<String> titleList = new ArrayList<>();
-    ArrayList<examItemModel> modelList = new ArrayList<>();
     ArrayList<Integer> integers = new ArrayList<>();
     ArrayList<Word> wordArrayList = new ArrayList<>();
     ArrayList<Word> wordsList = new ArrayList<>();
@@ -45,7 +38,6 @@ public class Excercise_Levels extends AppCompatActivity {
     ArrayList<Integer> size=new ArrayList<>();
     int categories_level;
     int finalPoints;
-    exerciseAdapter adapter1,adapter2;
 ArrayList<ItemExam> itemExams=new ArrayList<>();
 
 
@@ -69,9 +61,12 @@ ArrayList<ItemExam> itemExams=new ArrayList<>();
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
        // exerciseAdapter examItemsAdapter = new exerciseAdapter(modelList, categories_level);
-       exerciseAdapter exerciseAdapter=new exerciseAdapter(itemExams);
+        Context context=Excercise_Levels.this;
+        exerciseAdapter exerciseAdapter=new exerciseAdapter(context,itemExams);
         recyclerView.setAdapter(exerciseAdapter);
     }
+
+
 
     private void LevelsHandeler() {
 

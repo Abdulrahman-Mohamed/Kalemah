@@ -1,5 +1,7 @@
 package com.Motawer.kalemah.Adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -27,9 +29,11 @@ public class Categories_Adapter extends RecyclerView.Adapter<Categories_ViewHold
     View view;
     int currentlevel;
     ArrayList<CategoriesItems> list = new ArrayList<>();
+    Context context;
 
-    public Categories_Adapter(ArrayList<CategoriesItems> list) {
+    public Categories_Adapter(Context context, ArrayList<CategoriesItems> list) {
         this.list = list;
+        this.context=context;
     }
 
     @NonNull
@@ -42,7 +46,8 @@ public class Categories_Adapter extends RecyclerView.Adapter<Categories_ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Categories_ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Categories_ViewHolder holder, int position)
+    {
         if (list != null) {
             final CategoriesItems categoriesItems = list.get(position);
             holder.MyCurrentLevel.setText(categoriesItems.getMyCurrentLevel());
@@ -111,12 +116,18 @@ public class Categories_Adapter extends RecyclerView.Adapter<Categories_ViewHold
                         Intent intent = new Intent(v.getContext(), Excercise_Levels.class);
                         intent.putExtra("level", 1);
                         v.getContext().startActivity(intent);
+                        ((Activity)context).finish();
+
                     }
                     if (categoriesItems.getTitle().equals("Intermediate Words") && currentlevel != 0)
                     {
-                        Intent intent = new Intent(v.getContext(), Excercise_Levels.class);
+                        Intent intent = new Intent( ((Activity)context), Excercise_Levels.class);
                         intent.putExtra("level", 2);
-                        v.getContext().startActivity(intent);
+                       // v.getContext().startActivity(intent);
+                        ((Activity)context).startActivity(intent);
+                        ((Activity)context).finish();
+
+
 
                     } else if (categoriesItems.getTitle().equals("Intermediate Words") && currentlevel == 0)
                     {
@@ -128,6 +139,8 @@ public class Categories_Adapter extends RecyclerView.Adapter<Categories_ViewHold
                         Intent intent = new Intent(v.getContext(), Excercise_Levels.class);
                         intent.putExtra("level", 3);
                         v.getContext().startActivity(intent);
+                        ((Activity)context).finish();
+
                     } else if (categoriesItems.getTitle().equals("Advanced Words") && currentlevel == 0)
                     {
                         StyleableToast.makeText(view.getContext(), "Sorry You should pass the Intermediate Level First"

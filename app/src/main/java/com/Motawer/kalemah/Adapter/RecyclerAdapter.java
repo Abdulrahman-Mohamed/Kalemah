@@ -6,12 +6,15 @@ import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.R;
@@ -31,43 +34,55 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
     final String WORD_FAVORIT = "MY_FAV_WORDS";
     ArrayList<Word> wordArrayList = new ArrayList<>();
     View view;
-    TextToSpeech textToSpeech ;
-
-
-
-
-
-
+    TextToSpeech textToSpeech;
+    int lastPosition = -1;
+Context context;
+    Animation animation;
 
     @NonNull
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+       context=parent.getContext();
+
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.words_item, parent, false);
-
-
-
-
-
         return new WordViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final WordViewHolder holder, int position) {
         //viewModel = new ViewModelProvider( this).get(WordsViewModel.class);
+        if (holder.getAdapterPosition()>lastPosition) {
+       animation=AnimationUtils.loadAnimation(context, R.anim.slide_in_row);
+       holder.cardView.startAnimation(animation);
+
+
         final Word currentword = wordList.get(position);
         loadData(view, holder, currentword);
 
 
-
         holder.words.setText(currentword.getWord());
         holder.meaning.setText(currentword.getMeaning());
+            if (currentword.getLevel() == -1) {
+                holder.level.setText("A");
+                holder.level.setBackgroundResource(R.drawable.level_round_a);
+            } else if (currentword.getLevel() == -2) {
+                holder.level.setText("B");
+                holder.level.setBackgroundResource(R.drawable.level_round_b);
+
+            } else if (currentword.getLevel() == -3) {
+                holder.level.setText("C");
+                holder.level.setBackgroundResource(R.drawable.level_round_c);
+            } else if (currentword.getLevel() > 0) {
+                holder.level.setText(String.valueOf(currentword.getLevel()));
+                holder.level.setBackgroundResource(R.drawable.level_round_c);
+            }
+            lastPosition=holder.getAdapterPosition();
+
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int i;
-                final String KEY = "FAVORIT_WORDS";
-                final String WORD_FAVORIT = "MY_FAV_WORDS";
                 SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(WORD_FAVORIT, null);
@@ -96,13 +111,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
             }
         });
 
-        textToSpeech =new TextToSpeech(view.getContext(), new TextToSpeech.OnInitListener() {
+        textToSpeech = new TextToSpeech(view.getContext(), new TextToSpeech.OnInitListener() {
             @Override
-            public void onInit(int status)
-            {
-                if (status ==TextToSpeech.SUCCESS)
-                {
-                    int lang = textToSpeech.setLanguage(Locale.GERMANY);
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int lang = textToSpeech.setLanguage(Locale.UK);
                 }
 
             }
@@ -110,36 +123,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         holder.speaker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s= holder.words.getText().toString();
-                int speech = textToSpeech.speak(s,TextToSpeech.QUEUE_FLUSH,null);
+                String s = holder.words.getText().toString();
+                int speech = textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
 
 
-
-
-
-        if (currentword.getLevel() == -1) {
-            holder.level.setText("A");
-            holder.level.setBackgroundResource(R.drawable.level_round_a);
-        } else if (currentword.getLevel() == -2) {
-            holder.level.setText("B");
-            holder.level.setBackgroundResource(R.drawable.level_round_b);
-
-        } else if (currentword.getLevel() == -3) {
-            holder.level.setText("C");
-            holder.level.setBackgroundResource(R.drawable.level_round_c);
-        } else if (currentword.getLevel() > 0) {
-            holder.level.setText(String.valueOf(currentword.getLevel()));
-            holder.level.setBackgroundResource(R.drawable.level_round_c);
-        }
-    }
+    }}
 
     private void SaveFavorit(View view, Word currentword) {
         SharedPreferences sharedPref = view.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-       // wordArrayList = new ArrayList<>();
+        // wordArrayList = new ArrayList<>();
         wordArrayList.add(currentword);
         Gson gson = new Gson();
         String json = gson.toJson(wordArrayList);
@@ -283,8 +279,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         private TextView level;
         private TextView meaning;
         private ImageButton favorite;
+        private CardView cardView;
         //
-        private  ImageButton speaker;
+        private ImageButton speaker;
 
 
         public WordViewHolder(@NonNull View itemView) {
@@ -293,7 +290,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
             level = itemView.findViewById(R.id.word_level);
             meaning = itemView.findViewById(R.id.meaning_text);
             favorite = itemView.findViewById(R.id.favorite_Button);
-            speaker= itemView.findViewById(R.id.speaker);
+            speaker = itemView.findViewById(R.id.speaker);
+            cardView = itemView.findViewById(R.id.card_container);
 
         }
     }

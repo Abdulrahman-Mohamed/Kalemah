@@ -6,7 +6,8 @@
             >
             <corners android:radius="8dp"/>
             <size android:height="12dp" />
-            <solid android:color="#fff" />
+            <solid android:color="#DBF8EF" />
+
         </shape>
     </item>
     <item android:id="@android:id/progress"

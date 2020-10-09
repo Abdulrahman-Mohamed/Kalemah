@@ -23,7 +23,7 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment
 {
     AddWord_DialogEdit.AddWordSheetEditeListner sheetListner;
     AddWord_DialogEdit.refreshrecycler refresh;
-    View view;
+  //  View view;
     EditText word;
     EditText meaning;
     NumberPicker numberPicker;
@@ -46,11 +46,8 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment
         alertDialog =  new MaterialAlertDialogBuilder(getActivity(),R.style.MyRounded_MaterialComponents_MaterialAlertDialog)  // for fragment you can use getActivity() instead of this
                 .setView(R.layout.word_dialog) // custom layout is here
                 .show();
-
-
         Initiate();
         spinner();
-
         return  alertDialog;
     }
 
@@ -71,16 +68,13 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 if (pickerVals[picker.getValue()].equals("A"))
                 {
-
                     Level="-1";
                     rate=5;
                 }else if (pickerVals[picker.getValue()].equals("B"))
-
                 {
                     Level="-2";
                     rate=3;
                 }else if (pickerVals[picker.getValue()].equals("C"))
-
                 {
                     Level="-3";
                     rate=1;

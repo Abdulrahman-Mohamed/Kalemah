@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,16 +46,23 @@ public class exams_frag extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycler_exam_items);
         linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         recyclerView.setHasFixedSize(true);
-        ExamsItems examsItems = new ExamsItems(R.drawable.ic_exam1, R.drawable.ic_feather, "Exercise");
-        ExamsItems examsItems2 = new ExamsItems(R.drawable.ic_item_model, R.drawable.ic_feather, "Words");
+        ExamsItems examsItems = new ExamsItems(R.drawable.ic_general
+                , R.drawable.ic_feather, "GRE");
+        ExamsItems examsItems2 = new ExamsItems(R.drawable.ic_quizz
+                , R.drawable.ic_feather, "Quiz");
+        ExamsItems examsItems3 = new ExamsItems(R.drawable.ic_games
+                , R.drawable.ic_feather, "HangMan");
 
         itemsList.add(examsItems);
         itemsList.add(examsItems2);
+        itemsList.add(examsItems3);
+
 
         exams_adapter = new Exams_Adapter(itemsList);
         recyclerView.setAdapter(exams_adapter);
+
 //        exams_adapter.setOnItemClickListener(new Exams_Adapter.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(int position) {

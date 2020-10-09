@@ -34,8 +34,10 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.Motawer.kalemah.Adapter.RecyclerAdapter;
+import com.Motawer.kalemah.Adapter.examFragmentAdapter;
 import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.R;
@@ -48,6 +50,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -97,6 +101,8 @@ public class profile_frag extends Fragment {
     final String USERLevels="USER_Levels0";
     boolean connected = false;
     Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager2 viewPager2;
     List<Boolean> levelList = new ArrayList<>();
     List<Integer> levelPoint = new ArrayList<>();
     ArrayList<Word> wordArrayList=new ArrayList<>();
@@ -169,13 +175,9 @@ public class profile_frag extends Fragment {
         Context context = getActivity();
 
         ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            connected = true;
-        }
-        else
-            connected = false;
+        //we are connected to a network
+        connected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
 
@@ -312,7 +314,9 @@ public class profile_frag extends Fragment {
         circleImageView = view.findViewById(R.id.circleImageView);
         textName = view.findViewById(R.id.textName);
         textEmail = view.findViewById(R.id.textEmail);
-        recyclerView=view.findViewById(R.id.prefered_Words);
+      //  recyclerView=view.findViewById(R.id.prefered_Words);
+        tabLayout= view.findViewById(R.id.chart_tabLayout);
+        viewPager2=view.findViewById(R.id.charts_viewPager);
         wordsCount = view.findViewById(R.id.words_Count);
         levels = view.findViewById(R.id.levels_count);
         points = view.findViewById(R.id.points);
@@ -324,7 +328,31 @@ public class profile_frag extends Fragment {
         storageReference = getInstance().getReference();
         userID = user.getUid();
         toolbar = view.findViewById(R.id.setting_toolbar);
-InitializeRecycler();
+        InitializeViewPagerWIthToolbar();
+//InitializeRecycler();
+    }
+
+    private void InitializeViewPagerWIthToolbar()
+    {
+        examFragmentAdapter adapter=new examFragmentAdapter(getActivity());
+        viewPager2.setAdapter(adapter);
+        new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch (position)
+                {
+                    case 0:
+                        tab.setText("Tests");
+                        break;
+                    case 1:
+                        tab.setText("Words");
+                        break;
+//                    case 2:
+//                        tab.setText("S/F Rate");
+//                        break;
+                }
+            }
+        }).attach();
     }
 
     private void InitializeRecycler()

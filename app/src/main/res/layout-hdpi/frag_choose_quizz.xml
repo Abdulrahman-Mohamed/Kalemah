@@ -9,7 +9,7 @@
     <Button
         android:id="@+id/button5"
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
 
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
@@ -26,7 +26,7 @@
     <Button
         android:id="@+id/button4"
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="6dp"
@@ -42,7 +42,7 @@
     <Button
         android:id="@+id/button3"
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="6dp"
@@ -58,7 +58,7 @@
     <Button
         android:id="@+id/button2"
         android:layout_width="250dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
 
         android:layout_marginStart="6dp"
         android:layout_marginTop="12dp"
@@ -76,24 +76,28 @@
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:background="#FFC107"
         android:elevation="16dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="@+id/guideline9"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toTopOf="@id/guideline">
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:layout_constraintVertical_bias="0.111">
 
     </View>
 
     <TextView
         android:id="@+id/quistion_phrase"
         android:layout_width="0dp"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="25dp"
+        android:layout_marginTop="7dp"
         android:elevation="16dp"
         android:text="What does this word mean?"
         android:gravity="center_horizontal"
@@ -111,7 +115,7 @@
     <TextView
         android:id="@+id/quistion_word"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:elevation="16dp"

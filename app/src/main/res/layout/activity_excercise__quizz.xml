@@ -13,7 +13,7 @@
       android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:textSize="24sp"
-      android:textColor="#36C398"
+      android:textColor="#000"
       android:textStyle="bold"
       android:text="Biginners Words"
       app:layout_constraintStart_toStartOf="parent"
