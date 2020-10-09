@@ -50,7 +50,6 @@ import com.facebook.appevents.AppEventsLogger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
 public class SignIn_Activity extends AppCompatActivity
 {
     EditText emailEditText,passwordEditText;
@@ -74,9 +73,10 @@ public class SignIn_Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.Motawer.kalemah.Auth",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
+                    "com.Motawer.kalemah.Auth", PackageManager.GET_SIGNATURES);
+            
+            for (Signature signature : info.signatures)
+            {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
@@ -139,7 +139,8 @@ public class SignIn_Activity extends AppCompatActivity
     {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+                {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
@@ -174,6 +175,7 @@ public class SignIn_Activity extends AppCompatActivity
 
             Intent intent =new Intent(SignIn_Activity.this,MainActivity.class);
             startActivity(intent);
+
         }else 
         {
             Toast.makeText(this, "please sign in to continue", Toast.LENGTH_SHORT).show();
@@ -334,7 +336,7 @@ public class SignIn_Activity extends AppCompatActivity
                             Toast.makeText(SignIn_Activity.this, "Login Failed...", Toast.LENGTH_SHORT).show();
                         }
 
-                        // ...
+
                     }
                 }).addOnFailureListener(new OnFailureListener()
         {

@@ -1,84 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.Motawer.kalemah">
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.Motawer.kalemah">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <application
-        android:name=".kalemah"
-        android:allowBackup="false"
-        android:icon="@drawable/ic_logo_concept_1_copy"
-        android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_logo_concept_1_copy"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Categories_Activity"
-            ></activity>
-        <activity
-            android:name=".My_Words_Quizz"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Quizz_activity"
-            android:parentActivityName=".Excercise_Levels"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Excercise_Levels"
-            android:screenOrientation="portrait" />
+    <application android:allowBackup="false" android:icon="@drawable/ic_logo_concept_1_copy" android:label="@string/app_name" android:name=".kalemah" android:roundIcon="@drawable/ic_logo_concept_1_copy" android:supportsRtl="true" android:theme="@style/AppTheme">
+        <activity android:name=".Categories_Activity"/>
 
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".Auth.SignIn_Activity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing">
+        <activity android:name=".My_Words_Quizz" android:screenOrientation="portrait"/>
+        <activity android:name=".Quizz_activity" android:parentActivityName=".Excercise_Levels" android:screenOrientation="portrait"/>
+        <activity android:name=".Excercise_Levels" android:screenOrientation="portrait"/>
+
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustNothing"/>
+
+        <activity android:name=".Auth.SignIn_Activity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustNothing">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Auth.ForgetPassword_Activity"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".Auth.SignUp_Activity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"></activity>
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+        <activity android:name=".Auth.ForgetPassword_Activity" android:windowSoftInputMode="adjustNothing"/>
 
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
+        <activity android:name=".Auth.SignUp_Activity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustNothing">
+        </activity>
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:theme="@style/Base.Theme.AppCompat"/>
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        <activity android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" android:name="com.facebook.FacebookActivity"/>
+
+        <activity android:exported="true" android:name="com.facebook.CustomTabActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
             </intent-filter>
         </activity>
 
         <service android:name=".Notifactions.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
     </application>
 
-</manifest>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/></manifest>

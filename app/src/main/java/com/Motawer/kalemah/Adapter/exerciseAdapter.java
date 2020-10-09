@@ -73,10 +73,13 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
 //
         if (itemExam.getCurrentCat() == 1)
             holder.colorIndecator.setBackgroundResource(R.drawable.level_round_a);
+
         if (itemExam.getCurrentCat() == 2)
             holder.colorIndecator.setBackgroundResource(R.drawable.level_round_b);
+
         if (itemExam.getCurrentCat() == 3)
             holder.colorIndecator.setBackgroundResource(R.drawable.level_round_c);
+
         for (int i = 0; i < itemExam.getIntegers().size(); i++) {
             if (itemExam.getIntegers().size() > 1) {
                 p = itemExam.getPoints().get(itemExam.getIntegers().get(i)) + p;
