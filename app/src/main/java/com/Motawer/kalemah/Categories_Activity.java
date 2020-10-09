@@ -1,5 +1,6 @@
 package com.Motawer.kalemah;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,14 +45,17 @@ public class Categories_Activity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        categories_adapter=new Categories_Adapter(list);
+        Context context=Categories_Activity.this;
+        categories_adapter=new Categories_Adapter( context,list);
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
                 return true;
             }
         });
         recyclerView.setAdapter(categories_adapter);
+
 
 
 

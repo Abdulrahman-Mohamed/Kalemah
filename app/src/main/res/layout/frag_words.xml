@@ -43,7 +43,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="4dp"
                         android:background="#FFC107"
                         android:inputType="text"
                         app:searchIcon="@drawable/ic_search_black_24dp" />
@@ -53,6 +53,8 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/search_view"
                         android:layout_marginLeft="20dp"
+                        android:gravity="center"
+                        android:layout_marginTop="6dp"
                         android:layout_marginBottom="5dp"
                         android:orientation="vertical">
 
@@ -97,7 +99,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
-            android:nestedScrollingEnabled="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:reverseLayout="true"
             tools:listitem="@layout/words_item" />

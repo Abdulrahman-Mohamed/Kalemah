@@ -44,7 +44,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="jobs"
-                    android:textColor="#36C398"
+                    android:textColor="#fff"
                     android:textIsSelectable="true"
                     android:textScaleX="0.8"
                     android:textSize="18sp"
@@ -58,7 +58,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="Level "
-                    android:textColor="#36C398"
+                    android:textColor="#fff"
                     android:textIsSelectable="true"
                     android:textScaleX="0.8"
                     android:textSize="18sp"
@@ -73,7 +73,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:text="Words"
-                    android:textColor="#36C398"
+                    android:textColor="#fff"
                     android:textIsSelectable="true"
                     android:textScaleX="0.8"
                     android:textSize="18sp"
@@ -179,7 +179,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="10dp"
-                android:progress="20"
+                android:progress="60"
                 android:progressDrawable="@drawable/progress_indecator_categories" />
 
             <ImageButton

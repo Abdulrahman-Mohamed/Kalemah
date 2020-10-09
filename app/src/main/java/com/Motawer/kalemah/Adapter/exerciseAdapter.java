@@ -1,6 +1,9 @@
 package com.Motawer.kalemah.Adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +31,16 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
 //    int itemExam.getFinalPoints();
 //    ArrayList<Integer> integers = new ArrayList<>();
     ArrayList<Word> currentList = new ArrayList<>();
+    Context myContext;
     int level;
     //    ArrayList<Integer> size=new ArrayList<>();
     List<Integer> thispoints = new ArrayList<>();
-//    String title;
+    //    String title;
     View view;
 
-    public exerciseAdapter(ArrayList<ItemExam> itemExams) {
+    public exerciseAdapter(Context context, ArrayList<ItemExam> itemExams) {
         this.itemExams = itemExams;
+        this.myContext = context;
     }
 
     @NonNull
@@ -68,30 +73,40 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
         } else {
             holder.progressBar.setProgress(0);
         }
-        currentPoints(itemExam.getPoints(),itemExam.getIntegers());
+        currentPoints(itemExam.getPoints(), itemExam.getIntegers());
         starshandler(holder);
 //
-        if (itemExam.getCurrentCat() == 1)
+        if (itemExam.getCurrentCat() == 1) {
             holder.colorIndecator.setBackgroundResource(R.drawable.level_round_a);
-
-        if (itemExam.getCurrentCat() == 2)
+            holder.cardView.setBackgroundResource(R.drawable.card_view);
+        }
+        if (itemExam.getCurrentCat() == 2) {
             holder.colorIndecator.setBackgroundResource(R.drawable.level_round_b);
-
-        if (itemExam.getCurrentCat() == 3)
+            holder.cardView.setBackgroundResource(R.drawable.card_view2);
+        }
+        if (itemExam.getCurrentCat() == 3) {
             holder.colorIndecator.setBackgroundResource(R.drawable.level_round_c);
+            holder.cardView.setBackgroundResource(R.drawable.card_view3);
+        }
+        if (itemExam.getIntegers().size() > 1) {
+            holder.progressBar.setMax(itemExam.getIntegers().size() * 60);
+            Log.d("progress max", String.valueOf(itemExam.getIntegers().size() * 60));
+        } else {
+            holder.progressBar.setMax(60);
+        }
 
         for (int i = 0; i < itemExam.getIntegers().size(); i++) {
             if (itemExam.getIntegers().size() > 1) {
+
                 p = itemExam.getPoints().get(itemExam.getIntegers().get(i)) + p;
-                holder.progressBar.setMax(itemExam.getIntegers().size() * 60);
+
 
                 holder.progressBar.setProgress(p);
             } else {
                 p = itemExam.getPoints().get(itemExam.getIntegers().get(i));
-                holder.progressBar.setMax(60);
+
                 holder.progressBar.setProgress(p);
             }
-
         }
 
 //
@@ -101,10 +116,9 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
                 if (itemExam.getIntegers().size() == 1) {
                     if (itemExam.getPoints().get(itemExam.getIntegers().get(0) - 1) < 30) {
                         return;
-                    }else
-                        {
-                            level=itemExam.getIntegers().get(0)+1;
-                        }
+                    } else {
+                        level = itemExam.getIntegers().get(0) + 1;
+                    }
                 }
                 Intent intent = new Intent(v.getContext(), Quizz_activity.class);
                 if (itemExam.getIntegers().size() > 1) {
@@ -118,6 +132,9 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
 
                 intent.putExtra("Level", level);
                 v.getContext().startActivity(intent);
+                ((Activity) myContext).finish();
+
+
             }
 
         });
@@ -125,65 +142,54 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
 
     }
 
-    private void starshandler(ItemsViewHolder holder)
-    {
+    private void starshandler(ItemsViewHolder holder) {
 
-        if (thispoints.size()>1)
-        {
-            int allpoints=0;
-            for (int i=0;i<thispoints.size();i++)
-                allpoints+=thispoints.get(i);
-            if (allpoints>=((thispoints.size()*60)/3) &&allpoints<((thispoints.size()*60)/2))
-            {
+        if (thispoints.size() > 1) {
+            int allpoints = 0;
+            for (int i = 0; i < thispoints.size(); i++)
+                allpoints += thispoints.get(i);
+            if (allpoints >= ((thispoints.size() * 60) / 3) && allpoints < ((thispoints.size() * 60) / 2)) {
                 holder.star1.setImageResource(R.drawable.ic_star);
             }
-            if (allpoints>=(thispoints.size()*60)/2 &&allpoints<(thispoints.size()*60))
-            {
+            if (allpoints >= (thispoints.size() * 60) / 2 && allpoints < (thispoints.size() * 60)) {
                 holder.star1.setImageResource(R.drawable.ic_star);
                 holder.star3.setImageResource(R.drawable.ic_star);
             }
-            if (allpoints==(thispoints.size()*60))
-        {
-            holder.star1.setImageResource(R.drawable.ic_star);
-            holder.star3.setImageResource(R.drawable.ic_star);
-            holder.star2.setImageResource(R.drawable.ic_star);
-        }
-        }else
-            {
-                int allpoints=thispoints.get(0);
-
-                if (allpoints>=60/3 &&allpoints<40)
-                {
-                    holder.star1.setImageResource(R.drawable.ic_star);
-                }
-                if (allpoints>=40 &&allpoints<60)
-                {
-                    holder.star1.setImageResource(R.drawable.ic_star);
-                    holder.star3.setImageResource(R.drawable.ic_star);
-                }
-                if (allpoints==60)
-                {holder.star1.setImageResource(R.drawable.ic_star);
-                    holder.star3.setImageResource(R.drawable.ic_star);
-                    holder.star2.setImageResource(R.drawable.ic_star);
-                }
+            if (allpoints == (thispoints.size() * 60)) {
+                holder.star1.setImageResource(R.drawable.ic_star);
+                holder.star3.setImageResource(R.drawable.ic_star);
+                holder.star2.setImageResource(R.drawable.ic_star);
             }
+        } else {
+            int allpoints = thispoints.get(0);
+
+            if (allpoints >= 60 / 3 && allpoints < 40) {
+                holder.star1.setImageResource(R.drawable.ic_star);
+            }
+            if (allpoints >= 40 && allpoints < 60) {
+                holder.star1.setImageResource(R.drawable.ic_star);
+                holder.star3.setImageResource(R.drawable.ic_star);
+            }
+            if (allpoints == 60) {
+                holder.star1.setImageResource(R.drawable.ic_star);
+                holder.star3.setImageResource(R.drawable.ic_star);
+                holder.star2.setImageResource(R.drawable.ic_star);
+            }
+        }
     }
 
-    private void currentPoints(List<Integer> points, ArrayList<Integer> integers)
-    {
-        if (integers.size()>1)
-        {
-            thispoints=new ArrayList<>();
-            for (int ip=0;ip<integers.size();ip++)
-            {
+    private void currentPoints(List<Integer> points, ArrayList<Integer> integers) {
+        if (integers.size() > 1) {
+            thispoints = new ArrayList<>();
+            for (int ip = 0; ip < integers.size(); ip++) {
                 thispoints.add(points.get(integers.get(ip)));
             }
 
-        } else
-            {    thispoints=new ArrayList<>();
+        } else {
+            thispoints = new ArrayList<>();
 
-                thispoints.add(points.get(integers.get(0)));
-            }
+            thispoints.add(points.get(integers.get(0)));
+        }
     }
 
     private void splitwords(ArrayList<Word> wordArrayList, ItemExam itemExam) {
@@ -195,7 +201,7 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
                     for (int counter = itemExam.getIntegers().get(p1) * 50; counter < itemExam.getSize()
                             .get(itemExam.getIntegers().get(p1)); counter++) {
                         currentList.add(wordArrayList.get(counter));
-                        level=itemExam.getIntegers().get(p1)+1;
+                        level = itemExam.getIntegers().get(p1) + 1;
                     }
                     System.out.println(currentList.size());
                 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#EDF3F3"
 
     android:orientation="vertical">
@@ -32,7 +31,7 @@
                     android:background="@drawable/tool_round"
                     android:elevation="4dp"
                     android:paddingRight="5dp"
-                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+                    >
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -103,33 +102,32 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_gravity="start"
-                    android:orientation="horizontal"
-                    >
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="85dp"
                         android:layout_height="70dp"
                         android:layout_marginEnd="10dp"
                         android:clickable="true"
+                        android:focusable="true"
                         app:cardBackgroundColor="#FECE2E"
                         app:cardCornerRadius="10dp"
-                        app:cardElevation="1dp"
-                        android:focusable="true">
+                        app:cardElevation="1dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical"
                             android:clickable="true"
-                            android:focusable="true">
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/word"/>
+                                android:src="@drawable/word" />
 
                             <TextView
                                 android:id="@+id/words_Count"
@@ -172,7 +170,7 @@
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/checklist"/>
+                                android:src="@drawable/checklist" />
 
                             <TextView
                                 android:id="@+id/levels_count"
@@ -211,10 +209,11 @@
                             android:orientation="vertical"
 
                             >
+
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/examm"/>
+                                android:src="@drawable/examm" />
 
                             <TextView
                                 android:id="@+id/points"
@@ -245,38 +244,83 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="40dp"
-            >
+            android:background="#EDF3F3"
+            android:layout_marginBottom="40dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#EDF3F3">
 
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="0dp"
-                    android:text="Prefered Words"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/text"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignParentStart="true"-->
+                <!--                    android:layout_alignParentTop="true"-->
+                <!--                    android:layout_marginStart="6dp"-->
+                <!--                    android:layout_marginTop="0dp"-->
+                <!--                    android:text="Prefered Words"-->
+                <!--                    android:textColor="#000"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    />-->
+
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:backgroundTint="#EDF3F3"
                     android:layout_below="@+id/text">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/prefered_Words"
-                        android:background="#EDF3F3"
-                        android:nestedScrollingEnabled="true"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/chart_tabLayout"
+                            android:layout_width="290dp"
+                            android:layout_gravity="center_horizontal"
+                            android:elevation="16dp"
+                            app:tabIndicator="@drawable/tab_indicator"
+                            android:paddingBottom="6dp"
+                            app:tabIndicatorColor="#36C398"
+                            app:tabIndicatorGravity="bottom"
+                            app:tabIndicatorFullWidth="false"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/choice_botton"
+                            app:tabRippleColor="@color/White">
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tests" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="word" />
+
+<!--                            <com.google.android.material.tabs.TabItem-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="S/F Rate" />-->
+
+
+                        </com.google.android.material.tabs.TabLayout>
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/charts_viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="40dp" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
             </RelativeLayout>

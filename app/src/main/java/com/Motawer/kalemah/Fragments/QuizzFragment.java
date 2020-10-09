@@ -78,17 +78,12 @@ public class QuizzFragment extends Fragment {
     }
 
     boolean check(String choise) {
-        if (choise.equals(meaning)) {
-
-            return true;
-
-        }
-        return false;
+        return choise.equals(meaning);
 
     }
 
     private void buttons() {
-        final Handler handler = new Handler();
+
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,28 +92,18 @@ public class QuizzFragment extends Fragment {
                 if (result) {
                     button1.setBackgroundResource(R.drawable.right_choise_button);
             //        right.start();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                        //    setRate();
+                    while (true){
+                        sendTrue();
 
-                            someEventListener.sendRate(1);
-                            someEventListener.sendcounter(1);
-
-                        }
-                    }, 800);
+                    break;}
                 } else {
+                    while (true){
+                        button1.setBackgroundResource(R.drawable.wrong_choice_botton);
+
+                        sendFalse();
+                    break;}
 //                    wrong.start();
-                    button1.setBackgroundResource(R.drawable.wrong_choice_botton);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                            someEventListener.sendRate(0);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+
                 }
             }
         });
@@ -131,27 +116,17 @@ public class QuizzFragment extends Fragment {
                  //   right.start();
 //
                     button2.setBackgroundResource(R.drawable.right_choise_button);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                          //  setRate();
-                            someEventListener.sendRate(1);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+                    while (true){
+                        sendTrue();
+
+                        break;}
                 } else {
 //
                     button2.setBackgroundResource(R.drawable.wrong_choice_botton);
                   //  wrong.start();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                            someEventListener.sendRate(0);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+                    while (true){
+                        sendFalse();
+                        break;}
                 }
             }
         });
@@ -163,26 +138,16 @@ public class QuizzFragment extends Fragment {
                 if (result) {
                 //    right.start();
                     button3.setBackgroundResource(R.drawable.right_choise_button);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                          //  setRate();
-                            someEventListener.sendRate(1);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+                    while (true){
+                        sendTrue();
+
+                        break;}
                 } else {
                //     wrong.start();
                     button3.setBackgroundResource(R.drawable.wrong_choice_botton);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                            someEventListener.sendRate(0);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+                    while (true){
+                        sendFalse();
+                        break;}
                 }
             }
         });
@@ -194,29 +159,49 @@ public class QuizzFragment extends Fragment {
                 if (result) {
                  //   right.start();
                     button4.setBackgroundResource(R.drawable.right_choise_button);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                       //     setRate();
-                            someEventListener.sendRate(1);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+                    while (true){
+                        sendTrue();
+
+                        break;}
                 } else {
                   //  wrong.start();
                     button4.setBackgroundResource(R.drawable.wrong_choice_botton);
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 5s = 5000ms
-                            someEventListener.sendRate(0);
-                            someEventListener.sendcounter(1);
-                        }
-                    }, 800);
+                    while (true){
+                        sendFalse();
+                        break;}
                 }
             }
         });
+    }
+
+    private void sendFalse()
+    {
+        final Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                someEventListener.sendRate(0);
+                someEventListener.sendcounter(1);
+            }
+        }, 900);
+    }
+
+    private void sendTrue() {
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                //    setRate();
+
+                someEventListener.sendRate(1);
+                someEventListener.sendcounter(1);
+
+            }
+        }, 900);
     }
 
 //    private void setRate() {

@@ -49,8 +49,7 @@ import java.util.List;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class words_frag extends Fragment
-{
+public class words_frag extends Fragment {
     private WordsViewModel viewModel;
     GetID getID;
     View view;
@@ -62,22 +61,23 @@ public class words_frag extends Fragment
     Toolbar toolbar;
     //  int undo = 0;
     private int id;
-    int y=1;
+    int y = 1;
     SearchView searchView;
     TextView count;
     LinearLayout linearLayout;
     FloatingActionButton floatingActionButton;
     int size;
-    int firstVisibleInListview;
+    //  int firstVisibleInListview;
 
     ArrayList<Word> wordArrayList = new ArrayList<>();
-    private FloatingActionButton FAB;
+    // private FloatingActionButton FAB;
     //  MeowBottomNavigation btv;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_words, container, false);
+        InitializUI();
 
         return view;
 
@@ -87,22 +87,16 @@ public class words_frag extends Fragment
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        InitializUI();
         recyclerInit();
         onScroll();
-        //setViewModel();
         search();
-        speaker();
-        //  addWord();
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
     }
 
-    private void speaker()
-    {
-    }
+
 
 
     private void swipeDeleteAndEdit() {
@@ -140,8 +134,6 @@ public class words_frag extends Fragment
                     //StyleableToast.makeText(requireContext(), "Word deleted", Toast.LENGTH_LONG, R.style.mytoast).show();
 
                     case ItemTouchHelper.RIGHT:
-
-
                         getID.getidfrompos(id);
                         AddWord_DialogEdit addWord_dialogEdit = new AddWord_DialogEdit();
                         addWord_dialogEdit.show(getActivity().getSupportFragmentManager(), "WordDialog");
@@ -187,40 +179,20 @@ public class words_frag extends Fragment
         }).attachToRecyclerView(recyclerView);
     }
 
-//    private void addWord() {
-//
-//        FAB.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                BottomSheet bottomSheet = new BottomSheet();
-//                bottomSheet.show(getActivity().getSupportFragmentManager(),
-//                        "BottomSheetdialog");
-//
-//            }
-//        });
-    //  }
-
-
-
-
-
 
 
 
     private void search() {
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-        {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 recyclerAdapter.notifyDataSetChanged();
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 recyclerAdapter.getFilter().filter(newText);
                 return true;
             }
@@ -261,17 +233,7 @@ public class words_frag extends Fragment
                 return true;
 
             case R.id.all_User_levels:
-                viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-                    @Override
-                    public void onChanged(List<Word> words) {
-                        // recyclerAdapter.clear();
-                        int size = words.size();
-                        count.setText(String.valueOf(size));
-                        recyclerAdapter.setWordList(words);
-                        recyclerAdapter.notifyDataSetChanged();
-
-                    }
-                });
+                loadData();
                 return true;
 
             case R.id.Level_C:
@@ -308,6 +270,25 @@ public class words_frag extends Fragment
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void loadData() {
+        final String KEY = "FAVORIT_WORDS";
+        final String WORD_FAVORIT = "MY_FAV_WORDS";
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(WORD_FAVORIT, null);
+        Type type = new TypeToken<ArrayList<Word>>() {
+        }.getType();
+        wordArrayList = gson.fromJson(json, type);
+        if (wordArrayList != null)
+            recyclerAdapter.setWordList(wordArrayList);
+        count.setText(String.valueOf(wordArrayList.size()));
+
+
+        if (wordArrayList == null) {
+            wordArrayList = new ArrayList<>();
+        }
     }
 
     private void snackbar(final int pos, final Word word) {
@@ -347,7 +328,6 @@ public class words_frag extends Fragment
         coordinatorLayout = view.findViewById(R.id.coordinator);
         toolbar = view.findViewById(R.id.words_toolbar);
         searchView = view.findViewById(R.id.search_view);
-
         count = view.findViewById(R.id.count_text);
 
     }
@@ -356,6 +336,10 @@ public class words_frag extends Fragment
         linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
+        //recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setItemViewCacheSize(wordArrayList.size());
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerAdapter = new RecyclerAdapter();
         setViewModel();
         recyclerView.setAdapter(recyclerAdapter);
@@ -369,42 +353,13 @@ public class words_frag extends Fragment
         floatingActionButton = getActivity().findViewById(R.id.words_fab);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean state = false;
+
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-//                if (recyclerView.SCROLL_STATE_DRAGGING == newState) {
-//                    linearLayout.setVisibility(View.GONE);
+                System.out.println(newState + " state");
 //
-////                    YoYo.with(Techniques.SlideInDown)
-////                            .duration(400)
-////                            .onEnd(new YoYo.AnimatorCallback() {
-////                                @Override
-////                                public void call(Animator animator) {
-////                                    linearLayout.setVisibility(View.GONE);
-////
-////                                }
-////                            }).playOn(linearLayout);
-//                } else if (recyclerView.SCROLL_STATE_IDLE == newState) {
-//                    int currentFirstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-//
-//                    // linearLayout.setVisibility(View.VISIBLE);
-//                    if (y <= 0) {
-//                        linearLayout.setVisibility(View.VISIBLE);
-//                    } else {
-//                        y = 0;
-//                        linearLayout.setVisibility(View.GONE);
-//                    }
-////                    YoYo.with(Techniques.SlideOutUp)
-////                            .duration(600)
-////                            .onEnd(new YoYo.AnimatorCallback() {
-////                                @Override
-////                                public void call(Animator animator) {
-////                                    linearLayout.setVisibility(View.VISIBLE);
-////
-////                                }
-////                            }).playOn(linearLayout);
-//
-//                }
             }
 
             @Override
@@ -413,22 +368,13 @@ public class words_frag extends Fragment
 
                 linearLayout.setVisibility(View.VISIBLE);
                 floatingActionButton.setVisibility(View.VISIBLE);
-
-
-//                int currentFirstVisible = linearLayoutManager.findFirstVisibleItemPosition();
-//
-//                if(currentFirstVisible > firstVisibleInListview){
-//                   linearLayout.setVisibility(View.GONE);}
-//                else{
-//                    linearLayout.setVisibility(View.VISIBLE);}
-//
-//
-//                firstVisibleInListview = currentFirstVisible;
-                if (dy > 0) {
-                  y=0;
-//                         floatingActionButton.setVisibility(View.GONE);
-//                       linearLayout.setVisibility(View.GONE);
-
+                System.out.println(dy);
+                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisible = layoutManager.findLastVisibleItemPosition();
+                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+                System.out.println(endHasBeenReached);
+                if (totalItemCount > 0 && endHasBeenReached && !state) {
                     YoYo.with(Techniques.SlideOutDown)
                             .duration(400)
                             .onEnd(new YoYo.AnimatorCallback() {
@@ -450,50 +396,21 @@ public class words_frag extends Fragment
                                 }
                             })
                             .playOn(floatingActionButton);
-
-
-                }else {
-//                             floatingActionButton.setVisibility(View.VISIBLE);
-//                     linearLayout.setVisibility(View.VISIBLE);
-
-                    if (y == 0){
-                        YoYo.with(Techniques.SlideInUp)
-                                .duration(400)
-                                .playOn(linearLayout);
+                    state = true;
+                }
+                if (!endHasBeenReached && state) {
+                    YoYo.with(Techniques.SlideInUp)
+                            .duration(400)
+                            .playOn(linearLayout);
                     linearLayout.setVisibility(View.VISIBLE);
 
                     YoYo.with(Techniques.SlideInUp)
                             .duration(400)
                             .playOn(floatingActionButton);
                     floatingActionButton.setVisibility(View.VISIBLE);
-                    y=1;
-                    }
-
+                    y = 1;
+                    state=false;
                 }
-
-//                if (dy > 0) {
-//                    YoYo.with(Techniques.SlideInDown)
-//                            .duration(400)
-//                            .onEnd(new YoYo.AnimatorCallback() {
-//                                @Override
-//                                public void call(Animator animator) {
-//                                    linearLayout.setVisibility(View.GONE);
-//
-//                                }
-//                            }).playOn(linearLayout);
-//
-//
-//                } else {
-//                    YoYo.with(Techniques.SlideOutUp)
-//                            .duration(600)
-//                            .onEnd(new YoYo.AnimatorCallback() {
-//                                @Override
-//                                public void call(Animator animator) {
-//                                    linearLayout.setVisibility(View.VISIBLE);
-//
-//                                }
-//                            }).playOn(linearLayout); // Scrolling down
-//                }
             }
 
 

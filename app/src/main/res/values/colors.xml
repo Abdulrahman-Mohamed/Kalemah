@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#FFD16E</color>
     <color name="White">#ffff</color>
+    <color name="line1">#FFC822</color>
+    <color name="line2">#0776A8</color>
+    <color name="line3">#5D3F91</color>
+
     <color name="circle">#FFD16E</color>
     <color name="delete">#DA002C</color>
 

@@ -15,7 +15,7 @@
                 android:title="All_Levels" />
             <item
                 android:id="@+id/all_User_levels"
-                android:title="My Words" />
+                android:title="Favourite Words" />
             <item
                 android:id="@+id/Level_C"
                 android:title="C Level" />

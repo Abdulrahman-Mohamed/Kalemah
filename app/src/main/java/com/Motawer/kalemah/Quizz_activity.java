@@ -1,9 +1,8 @@
 package com.Motawer.kalemah;
 
 import android.app.Dialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,9 +16,11 @@ import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.Motawer.kalemah.Fragments.QuizzFragment;
@@ -31,11 +32,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -45,15 +46,22 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     Toolbar toolbar;
     TextView quistionsNumberTextView;
     ArrayList<Word> wordsList = new ArrayList<>();
+    ArrayList<Word> completeWordsList = new ArrayList<>();
+    List<Word> altirnative = new ArrayList<>();
+    int day_statics = 0;
+    int totalDay_statics ;
+
+
+
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference myRef = firebaseDatabase.getReference();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    ArrayList<Word> Cword = new ArrayList<>();
+    //ArrayList<Word> Cword = new ArrayList<>();
     String wordQuistion, meaning;
     List<String> meaningList = new ArrayList<>();
-    Word word;
-    final String KEY = "MY_APP_SHARED_PREFRENCES";
-    final String WORSLIST = "MY_APP_WORDS_LIST";
+   // Word word;
+    //final String KEY = "MY_APP_SHARED_PREFRENCES";
+  //  final String WORSLIST = "MY_APP_WORDS_LIST";
     WordsViewModel viewModel;
 
     int index;
@@ -79,6 +87,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         initViews();
         actionbar();
         getLevelListOfWords();
+
         if (Reciver == 0) {
             fragentStart();
         }
@@ -88,7 +97,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-        this.getSupportActionBar().setHomeButtonEnabled(true);
+        // this.getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -96,13 +105,65 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(Quizz_activity.this, Categories_Activity.class);
+                alert();
 
-                startActivity(intent);
-                finish();
-                break;
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void alert() {
+        AlertDialog.Builder builder
+                = new AlertDialog
+                .Builder(Quizz_activity.this);
+        builder.setMessage("Are u sure you want to exit?\n\nYour progress won't be saved!");
+        builder.setTitle("Alert Message !");
+        builder.setCancelable(false);
+        builder
+                .setPositiveButton(
+                        "Yes",
+                        new DialogInterface
+                                .OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                Intent intent = new Intent(Quizz_activity.this, Categories_Activity.class);
+                                startActivity(intent);
+                                finish();
+                                // When the user click yes button
+                                // then app will close
+                            }
+                        });
+
+        // Set the Negative button with No name
+        // OnClickListener method is use
+        // of DialogInterface interface.
+        builder
+                .setNegativeButton(
+                        "No",
+                        new DialogInterface
+                                .OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+
+                                // If user click no
+                                // then dialog box is canceled.
+                                dialog.cancel();
+                            }
+                        });
+        // Create the Alert dialog
+        AlertDialog alertDialog = builder.create();
+
+        // Show the Alert Dialog box
+        alertDialog.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //  super.onBackPressed();
     }
 
     private void fragentStart() {
@@ -112,7 +173,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         wordsList.remove(index);
         QuizzFragment QuizzFragment = new QuizzFragment();
         transaction.replace(R.id.frameLayout, QuizzFragment);
-      //  transaction.addToBackStack(null);
+        //  transaction.addToBackStack(null);
         Bundle bundle = new Bundle();
         bundle.putString("word", wordQuistion);
         bundle.putInt("Level", level);
@@ -122,24 +183,30 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     }
 
     private List<String> generatMeanings() {
-        getLevelListOfWords();
+        //getLevelListOfWords();
         List<String> stringList = new ArrayList<>();
-        List<Word> altirnative = new ArrayList<>(wordsList);
+        altirnative = new ArrayList<>(wordsList);
+
+        Log.i("alt list size" + 187, String.valueOf(altirnative.size()));
         Random random = new Random();
         //if (wordsList!=null) {
         int i2, i3, i4;
         String m1, m2, m3, m4;
         m1 = altirnative.get(index).getMeaning();
+        Log.i("True_Meaning" + 187, String.valueOf(m1));
         meaning = m1;
         altirnative.remove(index);
+        Log.i("alt list size" + 195, String.valueOf(altirnative.size()));
         i2 = random.nextInt(altirnative.size());
         m2 = altirnative.get(i2).getMeaning();
         altirnative.remove(i2);
 //
+        Log.i("alt list size" + 200, String.valueOf(altirnative.size()));
         i3 = random.nextInt(altirnative.size());
         m3 = altirnative.get(i3).getMeaning();
         altirnative.remove(i3);
 //
+        Log.i("alt list size" + 205, String.valueOf(altirnative.size()));
         i4 = random.nextInt(altirnative.size());
         m4 = altirnative.get(i4).getMeaning();
         altirnative.remove(i4);
@@ -162,7 +229,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         //GenerateRevisionWords();
         if (USER_POINTS >= 40) {
             wordsList = new ArrayList<>();
-            GenerateRevisionWords();
+            // GenerateRevisionWords();
             int random = new Random().nextInt(20);
             index = random;
             String word = wordsList.get(index).getWord();
@@ -172,57 +239,61 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         int random = new Random().nextInt(wordsList.size());
         index = random;
         String word = wordsList.get(index).getWord();
-
+        Log.i("word" + 187, String.valueOf(word));
         return word;
     }
 
     private void getLevelListOfWords() {
-        getPoints();
-        if (USER_POINTS >= 40) {
-            GenerateRevisionWords();
-        } else {
-            wordsList = (ArrayList<Word>) getIntent().getSerializableExtra("WordsList");
+        //  getPoints();
+//        if (USER_POINTS >= 40) {
+//            GenerateRevisionWords();
+//        } else {
+        completeWordsList = (ArrayList<Word>) getIntent().getSerializableExtra("WordsList");
+        wordsList = new ArrayList<>(completeWordsList);
 
-        }
+        Log.i("complete list size" + 249, String.valueOf(completeWordsList.size()));
+
+
+        //     }
     }
 
-    private void GenerateRevisionWords() {
+//    private void GenerateRevisionWords() {
+//
+//        loadData();
+//        ArrayList<Word> List = new ArrayList<>();
+//        List = (ArrayList<Word>) getIntent().getSerializableExtra("WordsList");
+//        wordsList = new ArrayList<>();
+//        if (Cword.size() >= 20) {
+//            wordsList = new ArrayList<>(Cword);
+//        } else if (Cword.size() < 20) {
+//            for (int i = 0; i < Cword.size(); i++) {
+//                wordsList.add(Cword.get(i));
+//                Log.e("hey", Cword.get(Cword.size() - 1).getWord());
+//                Log.e("hoo", String.valueOf(Cword.size()));
+//            }
+//            for (int i = 0; wordsList.size() <= 20; i++) {
+//                wordsList.add(List.get(i));
+//            }
+//            Log.e("hoo", String.valueOf(wordsList.size()));
+//
+//        }
+//
+//
+//    }
 
-        loadData();
-        ArrayList<Word> List = new ArrayList<>();
-        List = (ArrayList<Word>) getIntent().getSerializableExtra("WordsList");
-        wordsList = new ArrayList<>();
-        if (Cword.size() >= 20) {
-            wordsList = new ArrayList<>(Cword);
-        } else if (Cword.size() < 20) {
-            for (int i = 0; i < Cword.size(); i++) {
-                wordsList.add(Cword.get(i));
-                Log.e("hey", Cword.get(Cword.size() - 1).getWord());
-                Log.e("hoo", String.valueOf(Cword.size()));
-            }
-            for (int i = 0; wordsList.size() <= 20; i++) {
-                wordsList.add(List.get(i));
-            }
-            Log.e("hoo", String.valueOf(wordsList.size()));
-
-        }
-
-
-    }
-
-    private void loadData() {
-
-        SharedPreferences sharedPreferences = getSharedPreferences(KEY, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(WORSLIST, null);
-        Type type = new TypeToken<ArrayList<Word>>() {
-        }.getType();
-        Cword = gson.fromJson(json, type);
-
-        if (Cword == null) {
-            Cword = new ArrayList<>();
-        }
-    }
+//    private void loadData() {
+//
+//        SharedPreferences sharedPreferences = getSharedPreferences(KEY, Context.MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String json = sharedPreferences.getString(WORSLIST, null);
+//        Type type = new TypeToken<ArrayList<Word>>() {
+//        }.getType();
+//        Cword = gson.fromJson(json, type);
+//
+//        if (Cword == null) {
+//            Cword = new ArrayList<>();
+//        }
+//    }
 
     private void getPoints() {
         myRef.child("UserPoints")
@@ -258,28 +329,54 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         if (rate == 1) {
             successRate = ++successRate;
         } else if (rate == 0) {
-            SaveWord();
+            // SaveWord();
+
             insertWord();
         }
     }
 
-    private void SaveWord() {
-        word = new Word(wordQuistion, meaning, -3);
-        Cword.add(word);
-        SharedPreferences sharedPref = getSharedPreferences(KEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(Cword);
-        editor.putString(WORSLIST, json);
-        editor.apply();
+    private boolean setViewModel(String wordQuistion, String meaning) {
+        final boolean[] statue = {false};
+        viewModel = new ViewModelProvider(this).get(WordsViewModel.class);
+        viewModel.getAllWords().observe(this, new Observer<List<Word>>() {
+            @Override
+            public void onChanged(List<Word> words) {
+                for (int i = 0; i < words.size(); i++) {
+                    // see if the word or meaning is allready in our data base //could be updated
+                    if (words.get(i).getWord().equals(wordQuistion) || words.get(i).getMeaning().equals(meaning)) {
+                        statue[0] = true;
+                        break;
+                    }
+                }
+            }
+        });
+        return statue[0];
+
+
     }
+
+//    private void SaveWord() {
+//        word = new Word(wordQuistion, meaning, -3);
+//        Cword.add(word);
+//        SharedPreferences sharedPref = getSharedPreferences(KEY, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(Cword);
+//        editor.putString(WORSLIST, json);
+//        editor.apply();
+//    }
 
 
     private void insertWord() {
-        Word word = new Word(wordQuistion, meaning, -3,5);
+        boolean repeated = setViewModel(wordQuistion, meaning);
+        if (!repeated) {
+            Word word = new Word(wordQuistion, meaning, -3, 5);
+            Log.i("new word added", wordQuistion);
 
-
-        viewModel.insetr(word);
+            viewModel.insetr(word);
+        } else {
+            Log.i("repeated word", wordQuistion);
+        }
     }
 
     @Override
@@ -296,11 +393,14 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
             dialog();
         }
         progressBar.setProgress(progress);
+
+
         fragentStart();
     }
 
     private void dialog() {
         Dialog dialog = new Dialog(this);
+        saveSharedStatistics();
         if (successRate >= 10) {
             SuccessDialog(dialog);
         } else {
@@ -316,21 +416,27 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
         Rate_Text.setText(String.valueOf(successRate));
         Retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(v.getContext(), Quizz_activity.class);
-                intent.putExtra("WordsList", wordsList);
+                dialog.dismiss();
+                intent.putExtra("WordsList", completeWordsList);
                 startActivity(intent);
+                finish();
             }
         });
         GoAHEAD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Excercise_Levels.class);
-
+                Intent intent = new Intent(v.getContext(), Categories_Activity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -343,18 +449,83 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
         Rate_Text.setText(String.valueOf(successRate));
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 savePoints();
-                Intent intent = new Intent(v.getContext(), Excercise_Levels.class);
-
+                dialog.dismiss();
+                Intent intent = new Intent(v.getContext(), Categories_Activity.class);
                 startActivity(intent);
                 finish();
             }
         });
+    }
+
+    private void saveSharedStatistics() {
+
+
+        int year;
+        int month;
+        int day;
+//        String mKey="MONTH";
+//        String dKey="DAY";
+        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        Date date = new Date();
+        String date1 = String.valueOf(dateFormat.format(date));
+        String[] words = date1.split("/");//splits the string based on whitespace
+        year = Integer.parseInt(words[0]);
+        month = Integer.parseInt(words[1]);
+        day = Integer.parseInt(words[2]);
+        myRef.child("Users")
+                .child(firebaseAuth.getCurrentUser()
+                        .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year))
+                .child(String.valueOf(month)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                        day_statics = snapshot.child(String.valueOf(day)).getValue(Integer.class);
+                        totalDay_statics = day_statics + 1;
+                        myRef.child("Users")
+                                .child(firebaseAuth.getCurrentUser()
+                                        .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(totalDay_statics);
+
+
+
+                } else {
+                    for (int day = 1; day <= 30; day++) {
+                        myRef.child("Users")
+                                .child(firebaseAuth.getCurrentUser()
+                                        .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(0);
+                    }
+                    myRef.child("Users")
+                            .child(firebaseAuth.getCurrentUser()
+                                    .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(1);
+
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        Log.i("Date", String.valueOf("month " + month + " day " + day));
+//        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putInt(mKey,month);
+//        editor.putInt(dKey,day);
+//        editor.put
+//        editor.apply();
+
+
     }
 
     private void savePoints() {
@@ -366,8 +537,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                 int points;
                 int total;
                 if (dataSnapshot.exists())
-                    if (dataSnapshot.child(String.valueOf(level)).getValue(Integer.class) != null)
-                    {
+                    if (dataSnapshot.child(String.valueOf(level)).getValue(Integer.class) != null) {
                         points = dataSnapshot.child(String.valueOf(level)).getValue(Integer.class);
 
                         if (points >= 20 && points < 40) {
@@ -395,7 +565,6 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                                 .child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level)).setValue(successRate);
                     }
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

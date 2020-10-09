@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
     FirebaseAuth firebaseAuth;
     int place_word;
     int place_exam;
-    String Key = "profileIMage", Tag = "myImage";
+    // String Key = "profileIMage", Tag = "myImage";
     String photo;
     DatabaseReference databaseReference;
 
@@ -89,14 +89,12 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frag_container, new words_frag()) .addToBackStack(null).commit();
+                .replace(R.id.frag_container, new words_frag()).addToBackStack(null).commit();
 
         WordsFloatingActionButton.setImageResource(R.drawable.ic_plus_wese5_new);
         place_word = 1;
 //        if (photo.equals("") || photo == null)
-            getimage();
-
-
+        getimage();
         ExamsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,36 +129,19 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                             }).playOn(ExamsButton);
 
                     ProfileImageView.setBorderWidth(0);
-//                YoYo.with(Techniques.RotateIn)
-//                        .duration(700)
-//                        .playOn(ExamsButton);
-
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frag_container, new exams_frag(), "exam").addToBackStack(null).commit();
-                      //getSupportFragmentManager().beginTransaction().detach(new words_frag()).detach(new profile_frag()).commit();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frag_container, new exams_frag(), "exam").addToBackStack(null).commit();
 
                 }
             }
         });
-
         WordsFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (place_exam == 1) {
-                    place_exam = 0;
-                    YoYo.with(Techniques.FadeOut)
-                            .duration(400)
-                            .onEnd(new YoYo.AnimatorCallback() {
-                                @Override
-                                public void call(Animator animator) {
-                                    ExamsButton.setImageResource(R.drawable.ic_a_mark_gray);
-                                    YoYo.with(Techniques.BounceInUp)
-                                            .duration(500).playOn(ExamsButton);
-                                }
-                            }).playOn(ExamsButton);
-                }
 
                 if (place_word == 0) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frag_container, new words_frag(), "word").addToBackStack(null).commit();
 
                     place_word = 1;
                     ProfileImageView.setBorderWidth(0);
@@ -176,17 +157,24 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                             })
                             .playOn(WordsFloatingActionButton);
 
-
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.frag_container, new words_frag(), "word").addToBackStack(null).commit();
-                        //getSupportFragmentManager().beginTransaction().detach(new words_frag()).detach(new profile_frag()).commit();
-
-
-
-
                 } else if (place_word == 1) {
                     openDialog();
                 }
+                if (place_exam == 1) {
+                    place_exam = 0;
+                    YoYo.with(Techniques.FadeOut)
+                            .duration(400)
+                            .onEnd(new YoYo.AnimatorCallback() {
+                                @Override
+                                public void call(Animator animator) {
+                                    ExamsButton.setImageResource(R.drawable.ic_a_mark_gray);
+                                    YoYo.with(Techniques.BounceInUp)
+                                            .duration(500).playOn(ExamsButton);
+                                }
+                            }).playOn(ExamsButton);
+                }
+
+
             }
         });
         ProfileImageView.setOnClickListener(new View.OnClickListener() {
@@ -223,23 +211,18 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                 place_word = 0;
                 ProfileImageView.setBorderWidth(5);
 
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.frag_container, new profile_frag(), "profile").addToBackStack(null).commit();
-                    //getSupportFragmentManager().beginTransaction().detach(new words_frag()).detach(new profile_frag()).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frag_container, new profile_frag(), "profile").addToBackStack(null).commit();
+                //getSupportFragmentManager().beginTransaction().detach(new words_frag()).detach(new profile_frag()).commit();
 
 
             }
         });
-
         viewModel = new
-
                 ViewModelProvider(this).
-
                 get(WordsViewModel.class);
 
-
     }
-
 
 
     private void loadImageFromStorage(String path) {
@@ -247,8 +230,9 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         try {
             File f = new File(path, "profile.jpg");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            if (b != null){
-                ProfileImageView.setImageBitmap(b);}
+            if (b != null) {
+                ProfileImageView.setImageBitmap(b);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -269,28 +253,27 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     private void getimage() {
 
-        databaseReference.child("User").addListenerForSingleValueEvent(new ValueEventListener()
-        {
+        databaseReference.child("User").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
 
                     UserModel userModel = dataSnapshot.child(firebaseAuth.getUid()).getValue(UserModel.class);
-                    if (dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class)!=null)
-                    if (userModel.getImage() != null || !dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class).equals("")) {
-                        photo = dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class);
+                    if (dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class) != null)
+                        if (userModel.getImage() != null || !dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class).equals("")) {
+                            photo = dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class);
 //                        Picasso.get()
 //                                .load(photo)
 //                                .into(ProfileImageView);
-                        savePhoto();
-                    } else {
-                        googleAcountPhoto();
-                    }
+                            savePhoto();
+                        } else {
+                            googleAcountPhoto();
+                        }
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError)
-            {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
@@ -385,10 +368,10 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         Word word = new Word(Word, meaning, Integer.parseInt(level.trim()), rate);
         word.setID(wordIdentefire);
         viewModel.update(word);
+
     }
 
-    class BackThreadImage extends AsyncTask<String,Void,Void> {
-
+    class BackThreadImage extends AsyncTask<String, Void, Void> {
 
 //            SharedPreferences sharedPref = getSharedPreferences(Key, Context.MODE_PRIVATE);
 //            Editor editor = sharedPref.edit();
@@ -405,6 +388,7 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
             return null;
         }
     }
+
     public Bitmap loadBitmap(String url) {
         Bitmap bm = null;
         InputStream is = null;

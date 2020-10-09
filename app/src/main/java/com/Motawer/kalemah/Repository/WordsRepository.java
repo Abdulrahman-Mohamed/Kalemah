@@ -39,7 +39,7 @@ public class WordsRepository {
     int size;
 
     public WordsRepository(Application application) {
-        WordsDataBase wordsDataBase = (WordsDataBase) WordsDataBase.getInstance(application);
+        WordsDataBase wordsDataBase = WordsDataBase.getInstance(application);
         wordsDao = wordsDataBase.wordsDao();
         allWords = wordsDao.getAllWords();
         allUserWords = wordsDao.getAllUserWords();

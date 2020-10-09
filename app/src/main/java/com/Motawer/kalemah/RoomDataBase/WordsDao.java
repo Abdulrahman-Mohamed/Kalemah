@@ -10,7 +10,8 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface WordsDao  {
+public interface WordsDao
+{
 
     @Insert
     void insert(Word word);
@@ -20,7 +21,6 @@ public interface WordsDao  {
 
     @Update
     void update(Word word);
-
 
     @Delete
     void delete(Word word);
