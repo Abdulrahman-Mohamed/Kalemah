@@ -105,7 +105,7 @@ public class Exams_Adapter extends RecyclerView.Adapter<Exams_Adapter.Exams_View
                                 Intent intent = new Intent(v.getContext(), HangMan_Game_Activity.class);
                                 v.getContext().startActivity(intent);
 
-
+//
 
 
                 }

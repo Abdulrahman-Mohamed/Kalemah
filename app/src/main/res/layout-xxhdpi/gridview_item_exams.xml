@@ -3,34 +3,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="190dp"
-    android:layout_height="245dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:elevation="6dp"
 
     >
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="34dp"
-        app:cardElevation="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="35dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="34dp"
+        app:cardElevation="4dp"
         app:cardPreventCornerOverlap="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:elevation="5dp"
 
             >
 
@@ -38,22 +41,17 @@
                 android:id="@+id/image_card"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/ic_exam1" />
+                app:srcCompat="@drawable/ic_general" />
 
             <TextView
                 android:id="@+id/textview_title"
                 android:layout_width="match_parent"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:autoSizeMaxTextSize="24sp"
-                android:autoSizeMinTextSize="15sp"
-                android:autoSizeTextType="uniform"
-                android:breakStrategy="simple"
-                android:maxLines="1"
-                android:layout_centerInParent="true"
                 android:layout_alignBottom="@+id/image_card"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="HangMan"
                 android:textColor="#FFFFFF"
                 android:textIsSelectable="true"

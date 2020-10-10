@@ -374,7 +374,7 @@ public class words_frag extends Fragment {
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
                 boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
                 System.out.println(endHasBeenReached);
-                if (totalItemCount > 0 && endHasBeenReached && !state) {
+                if (totalItemCount > 8 && endHasBeenReached && !state) {
                     YoYo.with(Techniques.SlideOutDown)
                             .duration(400)
                             .onEnd(new YoYo.AnimatorCallback() {
