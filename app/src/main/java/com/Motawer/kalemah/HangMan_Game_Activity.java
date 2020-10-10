@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.Adapter.onLetterButtonclicked;
@@ -254,6 +255,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     ImageButton hint;
     Toolbar toolbar;
     int score = 8;
+    ArrayList<String> trueWords=new ArrayList<>();
     boolean hintState = false;
     ImageView hangMan;
     ArrayList<String> dashes = new ArrayList<>();
@@ -301,20 +303,38 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
             @Override
             public void onClick(View v) {
                 if (!hintState) {
-                    List<Character> sizeList = getChars();
+                    ArrayList<Character> sizeList =(ArrayList<Character>) getChars();
+                    ArrayList<Character> alt = new ArrayList<>(sizeList);
+                    ArrayList<Integer> idx = new ArrayList<>();
 
-                    Random random = new Random();
-                    int r = random.nextInt(sizeList.size());
-                    hinted = sizeList.get(r);
-                    System.out.println("random " + hinted);
-                    for (int w = 0; w < sizeList.size(); w++) {
-                        if (hinted == sizeList.get(w)) {
-                            dashes.set(w, String.valueOf(hinted));
-                            System.out.println("dd " + hinted);
+                    for (int i = 0; i <trueWords.size() ; i++) {
+                        char c=trueWords.get(i).charAt(0);
+                        for (int j = 0; j <alt.size() ; j++) {
+                            if (alt.get(j)==c)
+                                idx.add(j);
+
 
                         }
                     }
-                    hintState = true;
+                    for (int i = 0; i < idx.size(); i++) {
+                        alt.remove(idx.get(i));
+
+                    }
+
+                    Random random = new Random();
+                    int r = random.nextInt(alt.size());
+                    hinted = alt.get(r);
+
+                        System.out.println("random " + hinted);
+                        for (int w = 0; w < sizeList.size(); w++) {
+                            if (hinted == sizeList.get(w)) {
+                                dashes.set(w, String.valueOf(hinted));
+                                System.out.println("dd " + hinted);
+
+                            }
+                        }
+                        hintState = true;
+
                     adapter1.setHighligtedItemPosition(String.valueOf(hinted));
                     adapter1.notifyDataSetChanged();
                     adapter2.setHighligtedItemPosition(String.valueOf(hinted));
@@ -335,19 +355,21 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         z.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<Character> sizeList =(ArrayList<Character>) getChars();
                 String charachter = z.getText().toString();
                 boolean isIn = false;
-                for (int w = 0; w < dashes.size(); w++) {
-                    if (dashes.get(w).equals(charachter)) {
+                for (int w = 0; w < sizeList.size(); w++) {
+                    if (sizeList.get(w)==charachter.charAt(0)) {
                         dashes.set(w, charachter);
                         isIn = true;
                     }
                 }
                 if (isIn) {
+                    trueWords.add(charachter);
                     settleScore(0);
                     z.setBackgroundResource(R.drawable.right_choise_button);
                     z.setEnabled(false);
-                } else {
+                } else if(!isIn) {
                     z.setBackgroundResource(R.drawable.wrong_choice_botton);
                     z.setEnabled(false);
                     settleScore(-1);
@@ -402,6 +424,8 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         line3 = findViewById(R.id.recycler_botton_line3);
         line4 = findViewById(R.id.recycler_botton_line4);
         line5 = findViewById(R.id.recycler_botton_line5);
+        LinearSnapHelper snapHelper=new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(line1);
         recyclerAdapter();
 
     }
@@ -583,6 +607,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
 
         for (int i = 0; i < list.size(); i++) {
             if (s == list.get(i)) {
+                trueWords.add(letter);
                 dashes.set(i, letter);
                 System.out.println("dashes " + dashes);
 
