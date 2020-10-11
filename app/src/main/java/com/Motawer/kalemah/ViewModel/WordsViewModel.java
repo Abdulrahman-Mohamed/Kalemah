@@ -52,7 +52,7 @@ public class WordsViewModel extends AndroidViewModel {
 
     private void saveData() {
         final String KEY = "Words_Shared";
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
         String[] words = date1.split("/");//splits the string based on whitespace
@@ -70,7 +70,7 @@ public class WordsViewModel extends AndroidViewModel {
 
     private void loadData() {
         final String KEY = "Words_Shared";
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
         String[] words = date1.split("/");//splits the string based on whitespace
@@ -122,7 +122,7 @@ public class WordsViewModel extends AndroidViewModel {
             return bWords;
         } else if (level == -3) {
             return cWords;
-        }
+        }else
         return null;
     }
 }

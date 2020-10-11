@@ -55,6 +55,7 @@ Context context;
         if (holder.getAdapterPosition()>lastPosition) {
        animation=AnimationUtils.loadAnimation(context, R.anim.slide_in_row);
        holder.cardView.startAnimation(animation);
+        }
 
 
         final Word currentword = wordList.get(position);
@@ -130,7 +131,7 @@ Context context;
 
 
 
-    }}
+    }
 
     private void SaveFavorit(View view, Word currentword) {
         SharedPreferences sharedPref = view.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);

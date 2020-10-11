@@ -59,6 +59,8 @@ public class words_frag extends Fragment {
     CoordinatorLayout coordinatorLayout;
     Snackbar snackbar;
     Toolbar toolbar;
+    boolean state=false;
+
     //  int undo = 0;
     private int id;
     int y = 1;
@@ -98,7 +100,23 @@ public class words_frag extends Fragment {
 
 
 
+/*
 
+this method use on swipe to make options to the user to have easy swip tp delete or swipe to edit
+
+it has two dirictions
+
+first one is left
+and that is for delete when the user swipe to left the background turn into red
+and then the delete icon appear
+it delete the word from the view model then notify the recycler adapter that the word in this postition
+was deleted and finally it delete the word from the shared prefrences to delete it from the favourite list
+
+second one is right
+and this one to edit same as previous it turn the back ground volor into blue and then
+show the edit icon when it swipe it trigger the dialog of editting
+
+*/
     private void swipeDeleteAndEdit() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
                 , ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -119,7 +137,7 @@ public class words_frag extends Fragment {
                         // viewModel.deleteAllWords();
                         if (wordArrayList.size() == 0) {
                             recyclerAdapter.notifyDataSetChanged();
-                            recyclerAdapter.notifyAll();
+
                         }
                         viewModel.delete(recyclerAdapter.getWordAt(pos));
                         //recyclerAdapter.removeAt(pos,requireContext());
@@ -180,7 +198,10 @@ public class words_frag extends Fragment {
     }
 
 
-
+/*
+this methode trigger the search filters on the recycler adapter so the text written on the search view
+will be shown in the recycler
+ */
 
     private void search() {
 
@@ -207,14 +228,23 @@ public class words_frag extends Fragment {
             }
         });
     }
-
+/*
+attach menu item to the activity
+ */
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.toolbar_menu, menu);
 
 
     }
-
+/*
+use the menu item elements to filter words as
+all words
+favourite
+c
+a
+b
+ */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -228,49 +258,67 @@ public class words_frag extends Fragment {
                         count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
                         recyclerAdapter.notifyDataSetChanged();
+                        state=true;
                     }
                 });
+//                if (state)
                 return true;
 
-            case R.id.all_User_levels:
+            case R.id.Favourite:
                 loadData();
+                if (state)
                 return true;
 
             case R.id.Level_C:
-                viewModel.getlevelWords(-3).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                viewModel.getlevelWords(-3).observe( getViewLifecycleOwner(),new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
                         int size = words.size();
                         count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
+                        recyclerAdapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(recyclerAdapter);
+                        state=true;
+
                     }
                 });
+              //  if (state)
                 return true;
             case R.id.Level_B:
-                viewModel.getlevelWords(-2).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                viewModel.getlevelWords(-2).observe( getViewLifecycleOwner(),new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
                         int size = words.size();
                         count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
+                        recyclerAdapter.notifyDataSetChanged();
+                        state=true;
                     }
                 });
+              //  if (state)
                 return true;
             case R.id.Level_A:
-                viewModel.getlevelWords(-1).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                viewModel.getlevelWords(-1).observe( getViewLifecycleOwner(),new Observer<List<Word>>() {
                     @Override
                     public void onChanged(List<Word> words) {
                         int size = words.size();
                         count.setText(String.valueOf(size));
                         recyclerAdapter.setWordList(words);
+                        recyclerAdapter.notifyDataSetChanged();
+                        state=true;
+
                     }
                 });
+             //   if (state)
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+               return false;
         }
 
     }
+    /*
+    load data from shared prefrences to set it on the favourite list
+     */
 
     private void loadData() {
         final String KEY = "FAVORIT_WORDS";
@@ -283,14 +331,21 @@ public class words_frag extends Fragment {
         wordArrayList = gson.fromJson(json, type);
         if (wordArrayList != null)
             recyclerAdapter.setWordList(wordArrayList);
+        recyclerAdapter.notifyDataSetChanged();
+
         count.setText(String.valueOf(wordArrayList.size()));
+        state=true;
 
 
         if (wordArrayList == null) {
             wordArrayList = new ArrayList<>();
         }
     }
+/*
+show the snackbar of unndoing
 
+// to do
+ */
     private void snackbar(final int pos, final Word word) {
         snackbar = Snackbar.make(coordinatorLayout, "item deleted",
                 BaseTransientBottomBar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
@@ -346,7 +401,10 @@ public class words_frag extends Fragment {
         swipeDeleteAndEdit();
 
     }
-
+/*
+on scroll
+to make the bottom nav menu interact with the recycler scroll to enhance the user ecperince
+ */
     private void onScroll() {
 
         linearLayout = getActivity().findViewById(R.id.bottom_Nav_Bar);
@@ -368,13 +426,13 @@ public class words_frag extends Fragment {
 
                 linearLayout.setVisibility(View.VISIBLE);
                 floatingActionButton.setVisibility(View.VISIBLE);
-                System.out.println(dy);
+                //System.out.println(dy);
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
-                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+                boolean endHasBeenReached = lastVisible + 1 >= totalItemCount;
                 System.out.println(endHasBeenReached);
-                if (totalItemCount > 8 && endHasBeenReached && !state) {
+                if (totalItemCount > 10 && endHasBeenReached && !state) {
                     YoYo.with(Techniques.SlideOutDown)
                             .duration(400)
                             .onEnd(new YoYo.AnimatorCallback() {
@@ -417,7 +475,9 @@ public class words_frag extends Fragment {
         });
     }
 
-
+/*
+the view model this fetch all the user words
+ */
     private void setViewModel() {
         viewModel = new ViewModelProvider((ViewModelStoreOwner) requireContext()).get(WordsViewModel.class);
         viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
@@ -426,6 +486,7 @@ public class words_frag extends Fragment {
                 if (!words.isEmpty()) {
                     wordArrayList = new ArrayList<>(words);
                     recyclerAdapter.setWordList(words);
+                    recyclerAdapter.notifyDataSetChanged();
                     size = words.size();
                     count.setText(String.valueOf(size));
                 } else {
@@ -436,11 +497,15 @@ public class words_frag extends Fragment {
         });
 
     }
-
+/*
+get id of the word to use it later in editing
+ */
     public interface GetID {
         void getidfrompos(int id);
     }
-
+/*
+necessary to attach other views and interface into this fragment
+ */
     //ViewModel Necessary
     @Override
     public void onAttach(@NonNull Context context) {
