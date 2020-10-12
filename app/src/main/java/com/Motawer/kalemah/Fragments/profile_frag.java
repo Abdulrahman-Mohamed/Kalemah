@@ -334,7 +334,7 @@ public class profile_frag extends Fragment {
 
     private void InitializeViewPagerWIthToolbar()
     {
-        examFragmentAdapter adapter=new examFragmentAdapter(getActivity());
+        examFragmentAdapter adapter=new examFragmentAdapter(requireActivity());
         viewPager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

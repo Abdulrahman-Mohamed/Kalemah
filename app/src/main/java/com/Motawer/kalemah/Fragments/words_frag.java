@@ -136,18 +136,19 @@ public class words_frag extends Fragment {
                     case ItemTouchHelper.RIGHT:
                         getID.getidfrompos(id);
                         AddWord_DialogEdit addWord_dialogEdit = new AddWord_DialogEdit();
-                        addWord_dialogEdit.show(getActivity().getSupportFragmentManager(), "WordDialog");
+                        addWord_dialogEdit.show(requireActivity().getSupportFragmentManager(), "WordDialog");
 
                 }
                 //  recyclerAdapter.notifyDataSetChanged();
 
             }
 
+
             private ArrayList<Word> loadData() {
                 ArrayList<Word> wordArrayList;
                 final String KEY = "FAVORIT_WORDS";
                 final String WORD_FAVORIT = "MY_FAV_WORDS";
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(WORD_FAVORIT, null);
                 Type type = new TypeToken<ArrayList<Word>>() {
@@ -358,7 +359,7 @@ public class words_frag extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                System.out.println(newState + " state");
+                System.out.println(newState + " state" );
 //
             }
 
@@ -372,9 +373,9 @@ public class words_frag extends Fragment {
                 LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
-                boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
+                boolean endHasBeenReached = lastVisible + 1 >= totalItemCount;
                 System.out.println(endHasBeenReached);
-                if (totalItemCount > 8 && endHasBeenReached && !state) {
+                if (totalItemCount > 10 && endHasBeenReached && !state) {
                     YoYo.with(Techniques.SlideOutDown)
                             .duration(400)
                             .onEnd(new YoYo.AnimatorCallback() {
@@ -426,6 +427,7 @@ public class words_frag extends Fragment {
                 if (!words.isEmpty()) {
                     wordArrayList = new ArrayList<>(words);
                     recyclerAdapter.setWordList(words);
+                    recyclerAdapter.notifyDataSetChanged();
                     size = words.size();
                     count.setText(String.valueOf(size));
                 } else {
