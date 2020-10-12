@@ -122,7 +122,7 @@ public class WordsViewModel extends AndroidViewModel {
             return bWords;
         } else if (level == -3) {
             return cWords;
-        }
+        }else
         return null;
     }
 }

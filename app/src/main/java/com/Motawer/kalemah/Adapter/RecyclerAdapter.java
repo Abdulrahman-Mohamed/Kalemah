@@ -55,6 +55,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
         if (holder.getAdapterPosition()>lastPosition) {
        animation=AnimationUtils.loadAnimation(context, R.anim.slide_in_row);
        holder.cardView.startAnimation(animation);
+        }
 
         final Word currentword = wordList.get(position);
         loadData(view, holder, currentword);
@@ -129,7 +130,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
 
 
 
-    }}
+    }
 
     private void SaveFavorit(View view, Word currentword) {
         SharedPreferences sharedPref = view.getContext().getSharedPreferences(KEY, Context.MODE_PRIVATE);

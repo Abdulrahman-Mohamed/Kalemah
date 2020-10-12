@@ -4,32 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     >
-    <item
-        android:id="@+id/levels"
-        android:icon="@drawable/ic_menu_item"
-        android:title="Levels"
-        app:showAsAction="ifRoom">
-        <menu>
-            <item
-                android:id="@+id/all_levels"
-                android:title="All_Levels" />
-            <item
-                android:id="@+id/all_User_levels"
-                android:title="Favourite Words" />
-            <item
-                android:id="@+id/Level_C"
-                android:title="C Level" />
-            <item
-                android:id="@+id/Level_B"
-                android:title="B Level" />
-            <item
-                android:id="@+id/Level_A"
-                android:title="A Level" />
+  <item
+      android:id="@+id/levels"
+      android:icon="@drawable/ic_menu_item"
+      android:title="Levels"
+      app:showAsAction="ifRoom">
+    <menu>
+      <item
+          android:id="@+id/all_levels"
+          android:title="All_Levels" />
+      <item
+          android:id="@+id/Favourite"
+          android:title="Favourite Words" />
+      <item
+          android:id="@+id/Level_C"
+          android:title="C Level" />
+      <item
+          android:id="@+id/Level_B"
+          android:title="B Level" />
+      <item
+          android:id="@+id/Level_A"
+          android:title="A Level" />
 
 
-        </menu>
+    </menu>
 
-    </item>
+  </item>
 
 
 </menu>
