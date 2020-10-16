@@ -1,5 +1,6 @@
 package com.Motawer.kalemah.Fragments.chartsFragments;
 
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -109,6 +110,7 @@ public class Tests_Charts_frag extends Fragment {
                     if (GREStats.size()!=0)
                     {
                         for (int i = 0; i < 30; i++) {
+                            if (i<GREStats.size())
                             entries.add(new Entry(i + 1, GREStats.get(i)));
                         }
                     }
@@ -143,7 +145,8 @@ public class Tests_Charts_frag extends Fragment {
                     entries1 = new ArrayList<>();
                     if (LocalStats.size()!=0)
                     for (int i = 0; i < 30; i++) {
-                        entries1.add(new Entry(i + 1, LocalStats.get(i)));
+                        if (i<LocalStats.size())
+                            entries1.add(new Entry(i + 1, LocalStats.get(i)));
                     }
                     System.out.println(entries1.size());
                     LineInitialize();
@@ -171,12 +174,12 @@ public class Tests_Charts_frag extends Fragment {
         if (entries!=null)
         if (entries.size()!=0 ){
          LineDataSet lineDataSet1 = new LineDataSet(entries, "GRE");
-            lineDataSet1.setLineWidth(2);
-            lineDataSet1.setColor(R.color.line1);
+            lineDataSet1.setLineWidth(4);
+            lineDataSet1.setColor(Color.CYAN);
             lineDataSet1.setFillColor(R.color.line3);
             lineDataSet1.setDrawCircles(false);
             lineDataSet1.setDrawValues(false);
-            lineDataSet1.setDrawFilled(true);
+            //lineDataSet1.setDrawFilled(true);
             lineDataSet1.setFormLineWidth(1f);
             lineDataSet1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             lineDataSet1.setCubicIntensity(0.2f);
@@ -187,11 +190,12 @@ public class Tests_Charts_frag extends Fragment {
         if (entries1.size()!=0){
          lineDataSet2 = new LineDataSet(entries1, "Local");
             lineDataSet2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            lineDataSet2.setColor(Color.BLUE);
+
             lineDataSet2.setCubicIntensity(0.2f);
             lineDataSet2.setLineWidth(2);
             lineDataSet2.setDrawValues(false);
             lineDataSet2.setDrawCircles(false);
-            lineDataSet2.setColor(R.color.line2);
             lineDataSets.add(lineDataSet2);}
 
 
@@ -211,7 +215,8 @@ if(lineDataSets.size()!=0){
         lineChart.getAxisRight().setDrawLabels(true);
         lineChart.getAxisRight().setDrawAxisLine(false);
        // lineChart.setVisibleXRange(5,30);
-        lineChart.setVisibleYRange(0,6, YAxis.AxisDependency.LEFT);
+        lineChart.setVisibleYRange(5,15, YAxis.AxisDependency.LEFT);
+        lineChart.setVisibleXRange(0,30);
         lineChart.getDescription().setEnabled(false);
         lineChart.invalidate();
     }
