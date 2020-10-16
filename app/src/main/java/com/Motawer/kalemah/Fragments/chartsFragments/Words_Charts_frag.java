@@ -87,7 +87,7 @@ public class Words_Charts_frag extends Fragment {
 
     private void loadData() {
         final String KEY = "Words_Shared";
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
         String[] words = date1.split("/");//splits the string based on whitespace

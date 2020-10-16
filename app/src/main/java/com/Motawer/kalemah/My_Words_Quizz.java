@@ -793,13 +793,16 @@ public class My_Words_Quizz extends AppCompatActivity implements QuizzFragment.o
         int day;
 //        String mKey="MONTH";
 //        String dKey="DAY";
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
-        String[] words = date1.split("/");//splits the string based on whitespace
+        String[] words = date1.split("/");
+        //splits the string based on whitespace
         year = Integer.parseInt(words[0]);
         month = Integer.parseInt(words[1]);
         day = Integer.parseInt(words[2]);
+        System.out.println("c date "+year+month+day);
+
         myRef.child("Users")
                 .child(firebaseAuth.getCurrentUser()
                         .getUid()).child("stat").child("Local_Test").child(String.valueOf(year)).child(String.valueOf(month)).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -810,7 +813,7 @@ public class My_Words_Quizz extends AppCompatActivity implements QuizzFragment.o
                     totalDay_statics = day_statics + 1;
                     myRef.child("Users")
                             .child(firebaseAuth.getCurrentUser()
-                                    .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(totalDay_statics);
+                                    .getUid()).child("stat").child("Local_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(totalDay_statics);
 
 
 
@@ -818,11 +821,11 @@ public class My_Words_Quizz extends AppCompatActivity implements QuizzFragment.o
                     for (int day = 1; day <= 30; day++) {
                         myRef.child("Users")
                                 .child(firebaseAuth.getCurrentUser()
-                                        .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(0);
+                                        .getUid()).child("stat").child("Local_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(0);
                     }
                     myRef.child("Users")
                             .child(firebaseAuth.getCurrentUser()
-                                    .getUid()).child("stat").child("GRE_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(1);
+                                    .getUid()).child("stat").child("Local_Test").child(String.valueOf(year)).child(String.valueOf(month)).child(String.valueOf(day)).setValue(1);
 
 
                 }

@@ -89,7 +89,7 @@ public class Tests_Charts_frag extends Fragment {
     }
 
     private void getStat() {
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
         String[] words = date1.split("/");//splits the string based on whitespace
@@ -168,6 +168,7 @@ public class Tests_Charts_frag extends Fragment {
     private void LineInitialize() {
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
         LineDataSet lineDataSet2;
+        if (entries!=null)
         if (entries.size()!=0 ){
          LineDataSet lineDataSet1 = new LineDataSet(entries, "GRE");
             lineDataSet1.setLineWidth(2);

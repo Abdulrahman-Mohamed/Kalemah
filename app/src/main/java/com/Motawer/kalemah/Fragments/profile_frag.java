@@ -79,7 +79,8 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
-public class profile_frag extends Fragment {
+public class profile_frag extends Fragment
+{
     private WordsViewModel viewModel;
     View view;
     RecyclerView recyclerView;
@@ -124,7 +125,6 @@ public class profile_frag extends Fragment {
         if (!connected)
         LoadShared();
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
-
 
         initGoogle();
         initButtons();
