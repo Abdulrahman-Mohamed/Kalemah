@@ -154,18 +154,19 @@ show the edit icon when it swipe it trigger the dialog of editting
                     case ItemTouchHelper.RIGHT:
                         getID.getidfrompos(id);
                         AddWord_DialogEdit addWord_dialogEdit = new AddWord_DialogEdit();
-                        addWord_dialogEdit.show(getActivity().getSupportFragmentManager(), "WordDialog");
+                        addWord_dialogEdit.show(requireActivity().getSupportFragmentManager(), "WordDialog");
 
                 }
                 //  recyclerAdapter.notifyDataSetChanged();
 
             }
 
+
             private ArrayList<Word> loadData() {
                 ArrayList<Word> wordArrayList;
                 final String KEY = "FAVORIT_WORDS";
                 final String WORD_FAVORIT = "MY_FAV_WORDS";
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
                 Gson gson = new Gson();
                 String json = sharedPreferences.getString(WORD_FAVORIT, null);
                 Type type = new TypeToken<ArrayList<Word>>() {
@@ -416,7 +417,7 @@ to make the bottom nav menu interact with the recycler scroll to enhance the use
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                System.out.println(newState + " state");
+                System.out.println(newState + " state" );
 //
             }
 

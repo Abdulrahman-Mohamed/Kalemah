@@ -796,10 +796,13 @@ public class My_Words_Quizz extends AppCompatActivity implements QuizzFragment.o
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
-        String[] words = date1.split("/");//splits the string based on whitespace
+        String[] words = date1.split("/");
+        //splits the string based on whitespace
         year = Integer.parseInt(words[0]);
         month = Integer.parseInt(words[1]);
         day = Integer.parseInt(words[2]);
+        System.out.println("c date "+year+month+day);
+
         myRef.child("Users")
                 .child(firebaseAuth.getCurrentUser()
                         .getUid()).child("stat").child("Local_Test").child(String.valueOf(year)).child(String.valueOf(month)).addListenerForSingleValueEvent(new ValueEventListener() {

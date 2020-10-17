@@ -36,7 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.WordVi
     View view;
     TextToSpeech textToSpeech;
     int lastPosition = -1;
-Context context;
+    Context context;
     Animation animation;
 
     @NonNull
@@ -57,10 +57,8 @@ Context context;
        holder.cardView.startAnimation(animation);
         }
 
-
         final Word currentword = wordList.get(position);
         loadData(view, holder, currentword);
-
 
         holder.words.setText(currentword.getWord());
         holder.meaning.setText(currentword.getMeaning());
@@ -121,6 +119,7 @@ Context context;
 
             }
         });
+
         holder.speaker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

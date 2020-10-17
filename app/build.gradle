@@ -120,5 +120,7 @@ dependencies {
 
 
 
+   // implementation 'com.huawei.hms:hwid:4.0.1.300'
 }
 
+//apply plugin: 'com.huawei.agconnect'

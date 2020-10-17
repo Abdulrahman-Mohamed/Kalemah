@@ -156,6 +156,18 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_hauwei_icon"
+                        android:layout_marginRight="30dp"
+                        android:background="@null"
+
+
+                        />
+
+
+
                     <!--<Button
 
                         android:layout_width="match_parent"
@@ -173,7 +185,7 @@
                         android:id="@+id/sign_in_google"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="50dp"
+                        android:layout_marginRight="30dp"
                         android:background="@null"
                         android:clickable="true"
                         android:elevation="4dp"

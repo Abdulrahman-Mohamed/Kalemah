@@ -392,7 +392,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                 progress = progress + 5;
             }
         }
-        if (Reciver == 20) {
+        if (Reciver == 1) {
             dialog();
         }
         progressBar.setProgress(progress);
