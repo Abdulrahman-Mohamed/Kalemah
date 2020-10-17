@@ -217,7 +217,7 @@ if(lineDataSets.size()!=0){
         lineChart.getAxisRight().setDrawLabels(true);
         lineChart.getAxisRight().setDrawAxisLine(false);
        // lineChart.setVisibleXRange(5,30);
-        lineChart.setVisibleYRange(5,15, YAxis.AxisDependency.LEFT);
+        lineChart.setVisibleYRange(0,15, YAxis.AxisDependency.LEFT);
         lineChart.setVisibleXRange(0,30);
         lineChart.getDescription().setEnabled(false);
         lineChart.invalidate();

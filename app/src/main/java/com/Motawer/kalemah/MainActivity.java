@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         WordsFloatingActionButton.setImageResource(R.drawable.ic_plus_wese5_new);
         place_word = 1;
 //        if (photo.equals("") || photo == null)
-        getimage();
         ExamsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,16 +225,20 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
 
     private void loadImageFromStorage(String path) {
-
+        Bitmap b = null;
         try {
             File f = new File(path, "profile.jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            if (b != null) {
-                ProfileImageView.setImageBitmap(b);
-            }
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (b != null)
+        {
+            ProfileImageView.setImageBitmap(b);
+        }else
+        getimage();
 
     }
 
@@ -262,10 +265,17 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                     if (dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class) != null)
                         if (userModel.getImage() != null || !dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class).equals("")) {
                             photo = dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class);
-//                        Picasso.get()
-//                                .load(photo)
-//                                .into(ProfileImageView);
-                            savePhoto();
+                            if (photo!=null) {
+                                Picasso.get()
+                                        .load(photo)
+                                        .into(ProfileImageView);
+                                savePhoto();
+                            }else
+                            {
+                                Picasso.get()
+                                        .load(R.drawable.ic_person_black_24dp)
+                                        .into(ProfileImageView);
+                            }
                         } else {
                             googleAcountPhoto();
                         }
@@ -306,11 +316,19 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
             Uri personPhoto = acct.getPhotoUrl();
-            Picasso.get()
-                    .load(String.valueOf(personPhoto))
-                    .resize(50, 50)
-                    .centerCrop()
-                    .into(ProfileImageView);
+            if (personPhoto!=null) {
+                Picasso.get()
+                        .load(String.valueOf(personPhoto))
+                        .resize(50, 50)
+                        .centerCrop()
+                        .into(ProfileImageView);
+            }
+            else
+                {
+                    Picasso.get()
+                            .load(R.drawable.ic_person_black_24dp)
+                            .into(ProfileImageView);
+                }
         }
     }
 
@@ -372,13 +390,6 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
     }
 
     class BackThreadImage extends AsyncTask<String, Void, Void> {
-
-//            SharedPreferences sharedPref = getSharedPreferences(Key, Context.MODE_PRIVATE);
-//            Editor editor = sharedPref.edit();
-//            if (photo != null || !photo.equals("")) {
-//                editor.putString(Tag, photo);
-//                Log.e("Photo", photo);
-//                editor.apply();
 
 
         @Override

@@ -392,7 +392,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                 progress = progress + 5;
             }
         }
-        if (Reciver == 1) {
+        if (Reciver == 20) {
             dialog();
         }
         progressBar.setProgress(progress);
@@ -446,6 +446,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
 
     private void SuccessDialog(Dialog dialog) {
         dialog.setContentView(R.layout.success_dialog);
+
         savePoints();
         TextView Rate_Text = dialog.findViewById(R.id.points);
         Button button = dialog.findViewById(R.id.succeed_btn);
