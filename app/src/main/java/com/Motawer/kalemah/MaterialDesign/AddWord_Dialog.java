@@ -34,7 +34,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment
     AlertDialog alertDialog;
     AddWord_Dialog.BottomSheetListner sheetListner;
     private String[] pickerVals;
-    
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState)
@@ -67,24 +67,24 @@ public class AddWord_Dialog extends AppCompatDialogFragment
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 if (pickerVals[picker.getValue()].equals("A"))
-              {
+                {
 
                     Level="-1";
-                  rate=5;
+                    rate=5;
 
-               }else if (pickerVals[picker.getValue()].equals("B"))
+                }else if (pickerVals[picker.getValue()].equals("B"))
 
                 {
-                   Level="-2";
-                  rate=3;
+                    Level="-2";
+                    rate=3;
                 }else if (pickerVals[picker.getValue()].equals("C"))
 
                 {
                     Level="-3";
-                   rate=1;
-              }
+                    rate=1;
+                }
 
-           }
+            }
         });
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireActivity(),
 //                R.array.level_array, R.layout.spinner_item);
@@ -126,7 +126,7 @@ public class AddWord_Dialog extends AppCompatDialogFragment
         word = alertDialog.findViewById(R.id.word_edit);
         meaning = alertDialog.findViewById(R.id.meaning_edit);
         numberPicker=alertDialog.findViewById(R.id.number_picker);
-       // spinner = alertDialog.findViewById(R.id.spinner);
+        // spinner = alertDialog.findViewById(R.id.spinner);
         button = alertDialog.findViewById(R.id.save_word);
         button.setOnClickListener(new View.OnClickListener()
         {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.Motawer.kalemah">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,10 +12,12 @@
         android:name=".kalemah"
         android:allowBackup="false"
         android:icon="@drawable/ic_logo_concept_1_copy"
+
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@drawable/ic_logo_concept_1_copy"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
+        tools:replace="android:supportsRtl"
         android:theme="@style/AppTheme">
         <activity android:name=".HangMan_Game_Activity"></activity>
         <activity android:name=".Categories_Activity" />

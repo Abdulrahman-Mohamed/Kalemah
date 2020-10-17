@@ -68,7 +68,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
     int Reciver = 0;
     int successRate = 0;
     int progress = 0;
-    int level;
+    int level,points_limit;
     int USER_POINTS;
     //boolean hasAword = true;
 
@@ -84,6 +84,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
 
             }
         };
+        points_limit=getIntent().getIntExtra("points_limit",0);
         initViews();
         actionbar();
         getLevelListOfWords();
@@ -249,6 +250,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
 //            GenerateRevisionWords();
 //        } else {
         completeWordsList = (ArrayList<Word>) getIntent().getSerializableExtra("WordsList");
+        if (completeWordsList!=null)
         wordsList = new ArrayList<>(completeWordsList);
 
         Log.i("complete list size" + 249, String.valueOf(completeWordsList.size()));
@@ -322,6 +324,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         progressBar.setProgress(progress);
         quistionsNumberTextView = findViewById(R.id.counter_quistions);
         level = getIntent().getIntExtra("Level", 0);
+        System.out.println("level quizz: "+level);
     }
 
     @Override
@@ -473,7 +476,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         int day;
 //        String mKey="MONTH";
 //        String dKey="DAY";
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
         String[] words = date1.split("/");//splits the string based on whitespace
@@ -540,30 +543,53 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                     if (dataSnapshot.child(String.valueOf(level)).getValue(Integer.class) != null) {
                         points = dataSnapshot.child(String.valueOf(level)).getValue(Integer.class);
 
-                        if (points >= 20 && points < 40) {
+                        if (points >= 10 && points < 40) {
                             total = successRate + points;
                             myRef.child("UserPoints")
                                     .child(firebaseAuth.getCurrentUser().getUid())
                                     .child(String.valueOf(level)).setValue(total);
-                            return;
-                        }
-                        if (points >= 40 && points < 60) {
+                            return ;
+                        }else if (points >= 40 && points < 60) {
                             total = successRate + points;
-                            if (total > 60) {
+                            if (points_limit != 2) {
+                                if (total > 60) {
+                                    myRef.child("UserPoints")
+                                            .child(firebaseAuth.getCurrentUser().getUid())
+                                            .child(String.valueOf(level)).setValue(60);
+                                    return;
+                                }
+                            } else{
+                                if (total>60)
                                 myRef.child("UserPoints")
                                         .child(firebaseAuth.getCurrentUser().getUid())
                                         .child(String.valueOf(level)).setValue(60);
-                                return;
-                            }
-                            myRef.child("UserPoints")
-                                    .child(firebaseAuth.getCurrentUser().getUid())
-                                    .child(String.valueOf(level)).setValue(total);
-                            return;
-                        }
+                                myRef.child("UserLevels").child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level+1)).setValue(true);
+
+
+                                return;}
+                        }else if (points==0){
+
+//                        }else if (points >= 60 && points < 120) {
+//                            total = successRate + points;
+//
+//
+//                                if (total > 120) {
+//                                    myRef.child("UserPoints")
+//                                            .child(firebaseAuth.getCurrentUser().getUid())
+//                                            .child(String.valueOf(level)).setValue(120);
+//                                    return;
+//                                }else {
+//
+//                            myRef.child("UserPoints")
+//                                    .child(firebaseAuth.getCurrentUser().getUid())
+//                                    .child(String.valueOf(level)).setValue(total);
+//                            return;}
+//                        }else
 
                         myRef.child("UserPoints")
                                 .child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level)).setValue(successRate);
-                    }
+                    }}
+
             }
 
             @Override

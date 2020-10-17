@@ -380,7 +380,7 @@ show the snackbar of unndoing
         // FAB = view.findViewById(R.id.add_note);
         recyclerView = view.findViewById(R.id.recycler_words);
         // btv = getActivity().findViewById(R.id.botnav);
-        coordinatorLayout = view.findViewById(R.id.coordinator);
+        coordinatorLayout = getActivity().findViewById(R.id.coordinator);
         toolbar = view.findViewById(R.id.words_toolbar);
         searchView = view.findViewById(R.id.search_view);
         count = view.findViewById(R.id.count_text);

@@ -68,6 +68,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.5"
             app:lottie_autoPlay="true"
+            app:lottie_renderMode="hardware"
             app:lottie_fileName="attention.json"
             app:lottie_loop="true" />
 

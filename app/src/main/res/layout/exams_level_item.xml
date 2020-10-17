@@ -38,7 +38,7 @@
                 <TextView
                     android:id="@+id/level_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_marginStart="5dp"
                     android:gravity="start"
@@ -52,7 +52,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_marginStart="5dp"
                     android:gravity="start"
@@ -67,7 +67,7 @@
                 <TextView
                     android:id="@+id/level_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="bottom"
                     android:layout_marginStart="5dp"
                     android:gravity="start"
@@ -84,7 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="5dp"
-                android:layout_weight="1"
+                android:layout_weight="0.3"
                 android:gravity="end"
                 android:orientation="horizontal">
 

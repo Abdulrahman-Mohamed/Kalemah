@@ -251,41 +251,83 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="30dp"
-
-            >
+            android:background="#EDF3F3"
+            android:layout_marginBottom="40dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#EDF3F3">
 
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginTop="0dp"
-                    android:text="Prefered Words"
-                    android:textColor="#000"
-                    android:textSize="18sp"
-                    />
+                <!--                <TextView-->
+                <!--                    android:id="@+id/text"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_alignParentStart="true"-->
+                <!--                    android:layout_alignParentTop="true"-->
+                <!--                    android:layout_marginStart="6dp"-->
+                <!--                    android:layout_marginTop="0dp"-->
+                <!--                    android:text="Prefered Words"-->
+                <!--                    android:textColor="#000"-->
+                <!--                    android:textSize="18sp"-->
+                <!--                    />-->
+
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:backgroundTint="#EDF3F3"
                     android:layout_below="@+id/text">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/prefered_Words"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#EDF3F3"
-                        android:nestedScrollingEnabled="true"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                        android:orientation="vertical">
 
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/chart_tabLayout"
+                            android:layout_width="290dp"
+                            android:layout_gravity="center_horizontal"
+                            android:elevation="16dp"
+                            app:tabIndicator="@drawable/tab_indicator"
+                            android:paddingBottom="6dp"
+                            app:tabIndicatorColor="#36C398"
+                            app:tabIndicatorGravity="bottom"
+                            app:tabIndicatorFullWidth="false"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:background="@drawable/choice_botton"
+                            app:tabRippleColor="@color/White">
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tests" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="word" />
+
+                            <!--                            <com.google.android.material.tabs.TabItem-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:text="S/F Rate" />-->
+
+
+                        </com.google.android.material.tabs.TabLayout>
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/charts_viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginBottom="40dp" />
+                    </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
             </RelativeLayout>

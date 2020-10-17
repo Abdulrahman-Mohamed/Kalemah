@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -20,6 +21,7 @@ import com.Motawer.kalemah.Models.ItemExam;
 import com.Motawer.kalemah.Quizz_activity;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,9 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
         if (itemExam.getWordArrayList().size() <= 60)
             holder.numOfLevels.setText("1");
         if (itemExam.getLevelList().size() > itemExam.getIntegers().get(0)) {
-            for (int i = 0; i < itemExam.getLevelList().size(); i++) {
+            for (int i = 0; i < itemExam.getIntegers().size(); i++)
+            {
+                if (itemExam.getLevelList().size()>i)
                 if (itemExam.getLevelList().get(itemExam.getIntegers().get(i))) {
                     l += 1;
                     holder.currentLevel.setText(String.valueOf(l));
@@ -99,42 +103,47 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
             if (itemExam.getIntegers().size() > 1) {
 
                 p = itemExam.getPoints().get(itemExam.getIntegers().get(i)) + p;
-
-
                 holder.progressBar.setProgress(p);
-            } else {
+            }
+            else
+                {
                 p = itemExam.getPoints().get(itemExam.getIntegers().get(i));
-
                 holder.progressBar.setProgress(p);
             }
         }
 
 //
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (itemExam.getIntegers().size() == 1) {
-                    if (itemExam.getPoints().get(itemExam.getIntegers().get(0) - 1) < 30) {
+            public void onClick(View v)
+            {
+                if (itemExam.getIntegers().size() == 1)
+                {
+                    if (itemExam.getPoints().get(itemExam.getIntegers().get(0) - 1) < 30)
+                    {
+                        StyleableToast.makeText(view.getContext(), "Sorry You should  At Least earn 30 point from the Previous Level first!"
+                                , Toast.LENGTH_LONG, R.style.toast_help).show();
                         return;
                     } else {
                         level = itemExam.getIntegers().get(0) + 1;
                     }
                 }
                 Intent intent = new Intent(v.getContext(), Quizz_activity.class);
-                if (itemExam.getIntegers().size() > 1) {
+                if (itemExam.getIntegers().size() > 1)
+                {
                     splitwords(itemExam.getWordArrayList(), itemExam);
                     if (currentList.size() != 0)
                         intent.putExtra("WordsList", currentList);
-
-                } else {
+                    intent.putExtra("points_limit", 2);
+                }
+                else
+                    {
                     intent.putExtra("WordsList", itemExam.getWordArrayList());
                 }
-
                 intent.putExtra("Level", level);
                 v.getContext().startActivity(intent);
                 ((Activity) myContext).finish();
-
-
             }
 
         });
@@ -142,7 +151,8 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
 
     }
 
-    private void starshandler(ItemsViewHolder holder) {
+    private void starshandler(ItemsViewHolder holder)
+    {
 
         if (thispoints.size() > 1) {
             int allpoints = 0;
@@ -196,15 +206,20 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
         currentList = new ArrayList<>();
 
         for (int p1 = 0; p1 < itemExam.getIntegers().size(); p1++)
+        {
             if (itemExam.getLevelList().size() > itemExam.getIntegers().get(p1))
+            {
+                currentList=new ArrayList<>();
+
                 if (itemExam.getLevelList().get(itemExam.getIntegers().get(p1)) != null) {
                     for (int counter = itemExam.getIntegers().get(p1) * 50; counter < itemExam.getSize()
                             .get(itemExam.getIntegers().get(p1)); counter++) {
                         currentList.add(wordArrayList.get(counter));
                         level = itemExam.getIntegers().get(p1) + 1;
-                    }
+                    }}
+           // System.out.println("level: "+level);
                     System.out.println(currentList.size());
-                }
+                }}
     }
 
     @Override
@@ -237,4 +252,3 @@ public class exerciseAdapter extends RecyclerView.Adapter<exerciseAdapter.ItemsV
         }
     }
 }
-

@@ -87,7 +87,7 @@ public class Words_Charts_frag extends Fragment {
 
     private void loadData() {
         final String KEY = "Words_Shared";
-        DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         String date1 = String.valueOf(dateFormat.format(date));
         String[] words = date1.split("/");//splits the string based on whitespace
@@ -145,7 +145,8 @@ public class Words_Charts_frag extends Fragment {
             yAxisRight.setEnabled(false);
             barChart.setVisibleYRange(0,30, YAxis.AxisDependency.LEFT);
             barChart.getDescription().setEnabled(false);
-            barChart.animateY(1000);
+            barChart.animateY(1500);
+            barChart.animateX(1500);
 //            barChart.getAxisLeft().setValueFormatter(new ValueFormatter() {
 //                @Override
 //                public String getFormattedValue(float value) {

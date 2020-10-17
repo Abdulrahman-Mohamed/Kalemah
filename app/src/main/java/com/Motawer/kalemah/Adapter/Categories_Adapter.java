@@ -95,7 +95,7 @@ public class Categories_Adapter extends RecyclerView.Adapter<Categories_ViewHold
                 holder.categories_color.setBackgroundResource(R.drawable.level_round_a);
                 holder.card.setBackgroundResource(R.drawable.card_view);
 
-               // holder.cardimage.setImageResource(R.drawable.checklist);
+                // holder.cardimage.setImageResource(R.drawable.checklist);
 
 
 
@@ -123,7 +123,7 @@ public class Categories_Adapter extends RecyclerView.Adapter<Categories_ViewHold
                     {
                         Intent intent = new Intent( ((Activity)context), Excercise_Levels.class);
                         intent.putExtra("level", 2);
-                       // v.getContext().startActivity(intent);
+                        // v.getContext().startActivity(intent);
                         ((Activity)context).startActivity(intent);
                         ((Activity)context).finish();
 
