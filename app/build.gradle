@@ -52,7 +52,11 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.1@aar'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
     implementation 'com.android.support:multidex:1.0.3'
-   // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    implementation 'com.google.firebase:firebase-common:19.3.1'
+    implementation 'com.google.firebase:firebase-auth-interop:19.0.0'
+
+
+    // debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     //debugImplementation 'com.amitshekhar.android:debug-db-encrypt:1.0.6'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

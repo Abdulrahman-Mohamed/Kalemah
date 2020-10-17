@@ -288,7 +288,7 @@
                             android:id="@+id/chart_tabLayout"
                             android:layout_width="290dp"
                             android:layout_gravity="center_horizontal"
-                            android:elevation="6dp"
+                            android:elevation="16dp"
                             app:tabIndicator="@drawable/tab_indicator"
                             android:paddingBottom="6dp"
                             app:tabIndicatorColor="#36C398"
@@ -333,6 +333,7 @@
             </RelativeLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

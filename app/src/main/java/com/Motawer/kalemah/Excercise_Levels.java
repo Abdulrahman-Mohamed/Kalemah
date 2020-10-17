@@ -38,7 +38,7 @@ public class Excercise_Levels extends AppCompatActivity {
     ArrayList<Integer> size=new ArrayList<>();
     int categories_level;
     int finalPoints;
-ArrayList<ItemExam> itemExams=new ArrayList<>();
+    ArrayList<ItemExam> itemExams=new ArrayList<>();
 
 
     @Override
@@ -60,7 +60,7 @@ ArrayList<ItemExam> itemExams=new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(Excercise_Levels.this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-       // exerciseAdapter examItemsAdapter = new exerciseAdapter(modelList, categories_level);
+        // exerciseAdapter examItemsAdapter = new exerciseAdapter(modelList, categories_level);
         Context context=Excercise_Levels.this;
         exerciseAdapter exerciseAdapter=new exerciseAdapter(context,itemExams);
         recyclerView.setAdapter(exerciseAdapter);
@@ -98,28 +98,28 @@ ArrayList<ItemExam> itemExams=new ArrayList<>();
                                     }
                                 }
                                 if (size.size()!=0)
-                                if (integers.size() > 1) {
-                                    int p=0;
-                                    for (int j=0;j<integers.size();j++)
-                                        while (p<size.get(integers.get(j))) {
-                                            wordsList.add(wordArrayList.get(p));
-                                            p+=1;
-                                        }System.out.println(wordsList.size());
-                                    ItemExam itemExam=new ItemExam(wordsList,levelList,categories_level,finalPoints,integers,size,points,titleList.get(integers.get(0)));
-                                    setList(itemExam);
+                                    if (integers.size() > 1) {
+                                        int p=0;
+                                        for (int j=0;j<integers.size();j++)
+                                            while (p<size.get(integers.get(j))) {
+                                                wordsList.add(wordArrayList.get(p));
+                                                p+=1;
+                                            }System.out.println(wordsList.size());
+                                        ItemExam itemExam=new ItemExam(wordsList,levelList,categories_level,finalPoints,integers,size,points,titleList.get(integers.get(0)));
+                                        setList(itemExam);
 
 
-                                } else if (integers.size() == 0 && !titleList.get(pointer).equals(previous)) {
-                                    integers.add(pointer);
-                                    wordsList=new ArrayList<>();
-                                    for (int i=(pointer*50);i<size.get(pointer);i++)
-                                        wordsList.add(wordArrayList.get(i));
-                                    ItemExam itemExam=new ItemExam(wordsList,levelList,categories_level,finalPoints,integers,size,points,titleList.get(integers.get(0)));
-                                    setList(itemExam);
+                                    } else if (integers.size() == 0 && !titleList.get(pointer).equals(previous)) {
+                                        integers.add(pointer);
+                                        wordsList=new ArrayList<>();
+                                        for (int i=(pointer*50);i<size.get(pointer);i++)
+                                            wordsList.add(wordArrayList.get(i));
+                                        ItemExam itemExam=new ItemExam(wordsList,levelList,categories_level,finalPoints,integers,size,points,titleList.get(integers.get(0)));
+                                        setList(itemExam);
 
 
 
-                                }
+                                    }
                                 integers = new ArrayList<>();
                                 pointer++;
                             }
@@ -162,199 +162,115 @@ ArrayList<ItemExam> itemExams=new ArrayList<>();
             }
         });
     }
-private void setList(ItemExam itemExam)
-{
+    private void setList(ItemExam itemExam)
+    {
 
-    itemExams.add(itemExam);
-}
+        itemExams.add(itemExam);
+    }
 
 
 
- class BackThread extends Thread
-{
+    class BackThread extends Thread
+    {
 
-    @Override
-    public void run() {
-     
-        int limit = 0;
-        if (categories_level == 1)
-            limit = 5;
-        if (categories_level == 2)
-            limit = 10;
-        if (categories_level == 3)
-            limit = 16;
-        for (int i = limit - 5; i < limit; i++) {
+        @Override
+        public void run() {
 
-            myRef.child("WordsEng").child(String.valueOf(i + 1))
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
+            int limit = 0;
+            if (categories_level == 1)
+                limit = 5;
+            if (categories_level == 2)
+                limit = 10;
+            if (categories_level == 3)
+                limit = 16;
+            for (int i = limit - 5; i < limit; i++) {
 
-                               getWords(dataSnapshot);
+                myRef.child("WordsEng").child(String.valueOf(i + 1))
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+
+                                    getWords(dataSnapshot);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            System.out.println("canceld");
-                        }
-                    });
-            //      System.out.println("index " + (i+1) );
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                System.out.println("canceld");
+                            }
+                        });
+                //      System.out.println("index " + (i+1) );
 
-        }
-        // System.out.println("big list" + wordArrayList.size() );
+            }
+            // System.out.println("big list" + wordArrayList.size() );
 
-        myRef.child("UserPoints")
-                .child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                 getUserPoints(dataSnapshot);
-                    //  System.out.println("Points " + finalPoints );
+            myRef.child("UserPoints")
+                    .child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        getUserPoints(dataSnapshot);
+                        //  System.out.println("Points " + finalPoints );
 
+
+                    }
 
                 }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
 
-            }
-        });
+            if (uid != null)
+                myRef.child("UserLevels").child(uid)
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                                        levelList.add(snapshot.getValue(Boolean.class));
 
-        if (uid != null)
-            myRef.child("UserLevels").child(uid)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                                    levelList.add(snapshot.getValue(Boolean.class));
+                                } else {
+                                    myRef.child("UserLevels").child(uid).child("1").setValue(true);
+                                }
+                                LevelsHandeler();
 
-                            } else {
-                                myRef.child("UserLevels").child(uid).child("1").setValue(true);
                             }
-                            LevelsHandeler();
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
 
-                        }
-
-                    });
+                        });
 
 
-//    private void Listo(ArrayList<Integer> integers) {
-//
-//
-//        for (int i = 0; i < integers.size(); i++) {
-//            myRef.child("WordsEng").child(String.valueOf((integers.get(i))+1))
-//                    .addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            if (dataSnapshot.exists()) {
-//                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                                    Word word = snapshot.getValue(Word.class);
-//                                    wordArrayList.add(word);
-//                                }
-//                                System.out.println("List Size " + wordArrayList.size());
-//                                size.add(wordArrayList.size());
-//
-//
-//                            }
-//                        }
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//            System.out.println("index " + (integers.get(i)+1) );
-//
-//        }
-//        System.out.println("big list" + wordArrayList.size() );
-//
-//        myRef.child("UserPoints")
-//                .child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()) {
-//                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-//                        points.add(dataSnapshot1.getValue(Integer.class));
-//                    }
-//                    for (int i=0;i<points.size();i++)
-//                    {
-//                        if (points.get(i)!=0)
-//                        {
-//                            finalPoints=  points.get(i)+points.get(i+1);
-//                        }
-//                        else {
-//                            break;
-//                        }
-//                    }
-//                    System.out.println("Points " + finalPoints );
-//
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//        if (uid != null)
-//            myRef.child("UserLevels").child(uid)
-//                    .addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            if (dataSnapshot.exists()) {
-//                                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-//                                    levelList.add(snapshot.getValue(Boolean.class));
-//
-//                            } else {
-//                                myRef.child("UserLevels").child(uid).child("1").setValue(true);
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//
-//    }
-    }
-
-    private void getUserPoints(DataSnapshot dataSnapshot)
-    {
-        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-            points.add(dataSnapshot1.getValue(Integer.class));
         }
-        for (int i = 0; i < points.size(); i++) {
-            if (points.get(i) != 0) {
-                finalPoints = points.get(i) + points.get(i + 1);
-            } else {
-                break;
+
+        private void getUserPoints(DataSnapshot dataSnapshot)
+        {
+            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                points.add(dataSnapshot1.getValue(Integer.class));
+            }
+            for (int i = 0; i < points.size(); i++) {
+                if (points.get(i) != 0) {
+                    finalPoints = points.get(i) + points.get(i + 1);
+                } else {
+                    break;
+                }
             }
         }
-    }
 
-    private void getWords(DataSnapshot dataSnapshot) {
-        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-            Word word = snapshot.getValue(Word.class);
-            wordArrayList.add(word);
+        private void getWords(DataSnapshot dataSnapshot) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Word word = snapshot.getValue(Word.class);
+                wordArrayList.add(word);
+            }
+            // pointer++;
+            System.out.println("List Size " + wordArrayList.size());
+            size.add(wordArrayList.size());
         }
-        // pointer++;
-        System.out.println("List Size " + wordArrayList.size());
-        size.add(wordArrayList.size());
-    }
-}}
-
-
+    }}

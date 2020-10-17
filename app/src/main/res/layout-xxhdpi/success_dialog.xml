@@ -32,10 +32,10 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view"
             android:layout_width="wrap_content"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-
+app:lottie_renderMode="hardware"
             app:lottie_autoPlay="true"
             app:lottie_fileName="success.json"
             app:lottie_loop="true" />

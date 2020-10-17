@@ -41,8 +41,9 @@ public class Tests_Charts_frag extends Fragment {
     int year;
     int month;
     int day;
-    ArrayList<Entry> entries;
-    ArrayList<Entry> entries1;
+    ArrayList<Entry> entries=new ArrayList<>();
+    ;
+    ArrayList<Entry> entries1=new ArrayList<>();
 
     ArrayList<Integer> GREStats = new ArrayList<>();
     ArrayList<Integer> LocalStats = new ArrayList<>();
@@ -187,7 +188,8 @@ public class Tests_Charts_frag extends Fragment {
             lineDataSet1.setFormSize(15.f);
             lineDataSets.add(lineDataSet1);
         }
-        if (entries1.size()!=0){
+        if (entries1!=null)
+            if (entries1.size()!=0){
          lineDataSet2 = new LineDataSet(entries1, "Local");
             lineDataSet2.setMode(LineDataSet.Mode.CUBIC_BEZIER);
             lineDataSet2.setColor(Color.BLUE);

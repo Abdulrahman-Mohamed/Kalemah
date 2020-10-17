@@ -23,7 +23,7 @@ public class AddWord_DialogEdit extends AppCompatDialogFragment
 {
     AddWord_DialogEdit.AddWordSheetEditeListner sheetListner;
     AddWord_DialogEdit.refreshrecycler refresh;
-  //  View view;
+    //  View view;
     EditText word;
     EditText meaning;
     NumberPicker numberPicker;

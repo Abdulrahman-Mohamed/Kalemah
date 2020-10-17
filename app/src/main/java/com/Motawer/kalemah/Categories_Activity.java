@@ -31,6 +31,7 @@ public class Categories_Activity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference myRef = firebaseDatabase.getReference();
     List<Boolean> levelList = new ArrayList<>();
+    ArrayList<Integer> points=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,20 @@ public class Categories_Activity extends AppCompatActivity {
         FireBase();
         setPoints();
     }
+
+//    private void setLevels()
+//    {
+//        for (int i = 1; i <points.size() ; i++) {
+//            if (points.get(i-1)>60*i)
+//            {
+//                String level=String.valueOf(i+1);
+//                myRef.child("UserLevels").child(uid).child(level).setValue(true);
+//
+//
+//            }
+//        }
+//
+//    }
 
     private void InitializeRecycler() {
         recyclerView = findViewById(R.id.Recycler_Categories);
@@ -97,7 +112,7 @@ public class Categories_Activity extends AppCompatActivity {
                             } else {
                                 myRef.child("UserLevels").child(uid).child("1").setValue(true);
                                 levelList.add(0, true);
-                              //  Log.e("hi", "iam here but no snap " );
+                                //  Log.e("hi", "iam here but no snap " );
 
                             }
                             if (levelList.size() <= 5) {
@@ -115,6 +130,8 @@ public class Categories_Activity extends AppCompatActivity {
                                 list.add(new CategoriesItems("Intermediate Words", "5", "5"));
                                 list.add(new CategoriesItems("Advanced Words", "5", String.valueOf(levelList.size())));
                             }
+                            //setLevels();
+
                             InitializeRecycler();
 
                         }
@@ -124,6 +141,24 @@ public class Categories_Activity extends AppCompatActivity {
 
                         }
                     });
+        myRef.child("UserPoints")
+                .child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists())
+                    for (int i = 0; i <snapshot.getChildrenCount() ; i++) {
+                        points.add(snapshot.child(String.valueOf(i+1)).getValue(Integer.class));
+
+                    }
+               // setLevels();
+
+                    }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 }
