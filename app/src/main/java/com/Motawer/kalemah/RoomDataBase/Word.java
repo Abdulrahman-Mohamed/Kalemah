@@ -1,5 +1,6 @@
 package com.Motawer.kalemah.RoomDataBase;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -10,13 +11,20 @@ public class Word implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int ID;
+    @ColumnInfo(name = "word")
     private String word;
+    @ColumnInfo(name = "meaning")
+
     private String meaning;
+    @ColumnInfo(name = "level")
+
     private int level;
+    @ColumnInfo(name = "Rate")
+
     private int Rate;
 
-    public Word()
-    { }
+    public Word() {
+    }
 
     public Word(String word, String meaning, int level, int rate) {
         this.word = word;

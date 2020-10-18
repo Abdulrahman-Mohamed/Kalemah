@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,12 +25,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -74,8 +71,6 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
@@ -131,7 +126,6 @@ public class profile_frag extends Fragment
         getWordsCount();
         BackThread backThread=new BackThread();
         backThread.start();
-        swipeDeleteAndEdit();
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
@@ -139,10 +133,12 @@ public class profile_frag extends Fragment
 
     private void loadImageFromStorage(String s) {
         try {
-            File f = new File(s, "profile.jpg");
+            String uid = firebaseAuth.getUid();
+            File f = new File(s, uid + ".jpg");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            if (b != null){
-                circleImageView.setImageBitmap(b);}
+            if (b != null) {
+                circleImageView.setImageBitmap(b);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -160,14 +156,7 @@ public class profile_frag extends Fragment
 
             }
         });
-//        viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-//            @Override
-//            public void onChanged(List<Word> words) {
-//                for (int i = 0; i < words.size(); i++)
-//                    WordsCounter++;
-//                setViews();
-//            }
-//        });
+
     }
 
     private void checkInternet()
@@ -355,52 +344,9 @@ public class profile_frag extends Fragment
         }).attach();
     }
 
-    private void InitializeRecycler()
-    {
-        linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerAdapter = new RecyclerAdapter();
-        recyclerView.setAdapter(recyclerAdapter);
-        loadData();
-    }
-    private void swipeDeleteAndEdit() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
-                , ItemTouchHelper.LEFT ) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                int pos = viewHolder.getAdapterPosition();
-            //    Word word=recyclerAdapter.getWordAt(pos);
-//
-                switch (direction) {
-                    case ItemTouchHelper.LEFT:
-//
-                        recyclerAdapter.removeAt(pos,requireContext());
 
 
-                        break;
 
-                }
-            }
-
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.delete))
-                        .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
-                        .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
-                        .create()
-                        .decorate();
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        }).attachToRecyclerView(recyclerView);
-    }
     private void setViewModel() {
         viewModel = new ViewModelProvider((ViewModelStoreOwner) requireContext()).get(WordsViewModel.class);
 
@@ -468,6 +414,7 @@ public class profile_frag extends Fragment
         int id = item.getItemId();
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
+            viewModel.deleteAllWords();
             Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), SignIn_Activity.class));
         }

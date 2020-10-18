@@ -333,8 +333,8 @@ b
         if (wordArrayList != null)
             recyclerAdapter.setWordList(wordArrayList);
         recyclerAdapter.notifyDataSetChanged();
-
-        count.setText(String.valueOf(wordArrayList.size()));
+if (wordArrayList != null)
+    count.setText(String.valueOf(wordArrayList.size()));
         state=true;
 
 
@@ -428,7 +428,7 @@ to make the bottom nav menu interact with the recycler scroll to enhance the use
                 linearLayout.setVisibility(View.VISIBLE);
                 floatingActionButton.setVisibility(View.VISIBLE);
                 //System.out.println(dy);
-                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int totalItemCount = layoutManager.getItemCount();
                 int lastVisible = layoutManager.findLastVisibleItemPosition();
                 boolean endHasBeenReached = lastVisible + 1 >= totalItemCount;
@@ -490,7 +490,9 @@ the view model this fetch all the user words
                     recyclerAdapter.notifyDataSetChanged();
                     size = words.size();
                     count.setText(String.valueOf(size));
-                } else {
+                }
+
+                if (words.isEmpty()) {
                     viewModel.setFireBaseWords();
                 }
             }

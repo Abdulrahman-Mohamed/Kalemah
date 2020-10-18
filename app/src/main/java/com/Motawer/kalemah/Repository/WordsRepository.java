@@ -19,18 +19,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class WordsRepository {
-    private WordsDao wordsDao;
-    private LiveData<List<Word>> allWords;
-    private MutableLiveData<List<Word>> fireWords;
+    private final WordsDao wordsDao;
+    private final LiveData<List<Word>> allWords;
+    private final MutableLiveData<List<Word>> fireWords;
     private LiveData<List<Word>> fireLevelsWords;
-    private LiveData<List<Word>> allUserWords;
-    private LiveData<List<Word>> AWords;
-    private LiveData<List<Word>> BWords;
-    private LiveData<List<Word>> CWords;
+    private final LiveData<List<Word>> allUserWords;
+    private final LiveData<List<Word>> AWords;
+    private final LiveData<List<Word>> BWords;
+    private final LiveData<List<Word>> CWords;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Users");
@@ -104,19 +106,28 @@ public class WordsRepository {
     public void getFireData() {
 //       final ArrayList<Word> FireList;
 //       FireList=new ArrayList<>();
-        myRef.child(Uid).child("UserWords").addValueEventListener(new ValueEventListener() {
+        myRef.child(Uid).child("UserWords").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                allWords = wordsDao.getAllWords();
-                if (allWords.getValue() != null)
-                    if (dataSnapshot.exists())
-                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                            Word word = dataSnapshot1.getValue(Word.class);
-                            insert2(word);
-                            // FireList.add(word);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Word> fireword = new ArrayList<>();
+                //       allWords = wordsDao.getAllWords();
+                //if (allWords.getValue() != null)
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Word word = dataSnapshot1.getValue(Word.class);
+                        fireword.add(word);
 
-                        }
+                        // FireList.add(word);
+
+                    }
+                    Set<Word> set = new LinkedHashSet<>();
+                    set.addAll(fireword);
+                    fireword.clear();
+                    fireword.addAll(set);
+                    for (int i = 0; i < fireword.size(); i++) {
+                        insert2(fireword.get(i));
+                    }
+                }
             }
 
             @Override
@@ -130,6 +141,17 @@ public class WordsRepository {
     public void deleteAll() {
         new deleteAllAsync(wordsDao).execute();
     }
+
+    /*
+      todo
+      this fun is to delete all user words form firebase and roomdatabase
+       */
+    public void deleteAllLocalGlobal() {
+        new deleteAllAsync(wordsDao).execute();
+        myRef.child(Uid).child("UserWords").removeValue();
+
+    }
+
 
     public LiveData<List<Word>> getAllWords() {
         return allWords;
@@ -160,7 +182,7 @@ public class WordsRepository {
 
 
     public static class InsertAsync extends AsyncTask<Word, Void, Void> {
-        private WordsDao wordsDao;
+        private final WordsDao wordsDao;
 
         public InsertAsync(WordsDao wordsDao) {
             this.wordsDao = wordsDao;
@@ -195,7 +217,7 @@ public class WordsRepository {
 
 
     public static class updateAsync extends AsyncTask<Word, Void, Void> {
-        private WordsDao wordsDao;
+        private final WordsDao wordsDao;
 
         public updateAsync(WordsDao wordsDao) {
             this.wordsDao = wordsDao;
@@ -226,7 +248,7 @@ public class WordsRepository {
 //    }
 
     public static class deleteAsync extends AsyncTask<Word, Void, Void> {
-        private WordsDao wordsDao;
+        private final WordsDao wordsDao;
 
         public deleteAsync(WordsDao wordsDao) {
             this.wordsDao = wordsDao;
@@ -242,7 +264,7 @@ public class WordsRepository {
     }
 
     public static class deleteAllAsync extends AsyncTask<Void, Void, Void> {
-        private WordsDao wordsDao;
+        private final WordsDao wordsDao;
 
         public deleteAllAsync(WordsDao wordsDao) {
             this.wordsDao = wordsDao;
