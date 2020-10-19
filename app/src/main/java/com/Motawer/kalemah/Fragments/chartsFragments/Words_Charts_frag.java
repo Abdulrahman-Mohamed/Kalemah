@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,6 +37,8 @@ public class Words_Charts_frag extends Fragment {
 
 
     BarChart barChart;
+    FirebaseAuth firebaseAuth;
+
 
     View view;
     ArrayList<BarGraphModel> barGraphModels = new ArrayList<>();
@@ -81,19 +84,21 @@ public class Words_Charts_frag extends Fragment {
         barChart.getAxisRight().setDrawGridLines(false);
         barChart.getAxisRight().setDrawLabels(true);
         barChart.getAxisRight().setDrawAxisLine(false);
+        firebaseAuth = FirebaseAuth.getInstance();
+
         loadData();
 
     }
 
     private void loadData() {
-        final String KEY = "Words_Shared";
+        String uid = firebaseAuth.getUid();
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        String date1 = String.valueOf(dateFormat.format(date));
+        String date1 = dateFormat.format(date);
         String[] words = date1.split("/");//splits the string based on whitespace
         int year = Integer.parseInt(words[0]);
 //        int month = Integer.parseInt(words[1]);
-        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences(KEY, view.getContext().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = view.getContext().getSharedPreferences(uid, view.getContext().MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(String.valueOf(year), null);
         Type type = new TypeToken<ArrayList<BarGraphModel>>() {
@@ -171,7 +176,7 @@ public class Words_Charts_frag extends Fragment {
 }
 
 class MyXAxisValueFormater extends ValueFormatter {
-    private String[] mValues;
+    private final String[] mValues;
 
     public MyXAxisValueFormater(String[] mValues) {
         this.mValues = mValues;

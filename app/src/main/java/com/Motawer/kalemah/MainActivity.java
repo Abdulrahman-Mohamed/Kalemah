@@ -226,8 +226,10 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     private void loadImageFromStorage(String path) {
         Bitmap b = null;
+        String uid = firebaseAuth.getUid();
+
         try {
-            File f = new File(path, "profile.jpg");
+            File f = new File(path, uid + ".jpg");
             b = BitmapFactory.decodeStream(new FileInputStream(f));
 
 
@@ -262,23 +264,21 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                 if (dataSnapshot.exists()) {
 
                     UserModel userModel = dataSnapshot.child(firebaseAuth.getUid()).getValue(UserModel.class);
-                    if (dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class) != null)
+                    if (dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class) != null) {
                         if (userModel.getImage() != null || !dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class).equals("")) {
                             photo = dataSnapshot.child(firebaseAuth.getUid()).child("photo").getValue(String.class);
-                            if (photo!=null) {
+                            if (photo != null) {
                                 Picasso.get()
                                         .load(photo)
                                         .into(ProfileImageView);
-                                savePhoto();
-                            }else
-                            {
-                                Picasso.get()
-                                        .load(R.drawable.ic_person_black_24dp)
-                                        .into(ProfileImageView);
+                                savePhoto(photo);
                             }
                         } else {
                             googleAcountPhoto();
                         }
+                    } else
+                        googleAcountPhoto();
+
                 }
             }
 
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         });
     }
 
-    private void savePhoto() {
+    private void savePhoto(String photo) {
 
         BackThreadImage backThreadImage = new BackThreadImage();
         backThreadImage.execute(photo);
@@ -315,20 +315,19 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
     public void googleAcountPhoto() {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
-            Uri personPhoto = acct.getPhotoUrl();
-            if (personPhoto!=null) {
+            Uri photo = acct.getPhotoUrl();
+            if (photo != null) {
                 Picasso.get()
-                        .load(String.valueOf(personPhoto))
+                        .load(String.valueOf(photo))
                         .resize(50, 50)
                         .centerCrop()
                         .into(ProfileImageView);
+                savePhoto(String.valueOf(photo));
+            } else {
+                Picasso.get()
+                        .load(R.drawable.ic_person_black_24dp)
+                        .into(ProfileImageView);
             }
-            else
-                {
-                    Picasso.get()
-                            .load(R.drawable.ic_person_black_24dp)
-                            .into(ProfileImageView);
-                }
         }
     }
 
@@ -437,7 +436,8 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath = new File(directory, "profile.jpg");
+        String uid = firebaseAuth.getUid();
+        File mypath = new File(directory, uid + ".jpg");
 
         FileOutputStream fos = null;
         try {

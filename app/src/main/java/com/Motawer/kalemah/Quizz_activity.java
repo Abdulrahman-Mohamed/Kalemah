@@ -479,7 +479,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
 //        String dKey="DAY";
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        String date1 = String.valueOf(dateFormat.format(date));
+        String date1 = dateFormat.format(date);
         String[] words = date1.split("/");//splits the string based on whitespace
         year = Integer.parseInt(words[0]);
         month = Integer.parseInt(words[1]);
@@ -521,7 +521,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         });
 
 
-        Log.i("Date", String.valueOf("month " + month + " day " + day));
+        Log.i("Date", "month " + month + " day " + day);
 //        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = sharedPref.edit();
 //        editor.putInt(mKey,month);
@@ -549,25 +549,36 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
                             myRef.child("UserPoints")
                                     .child(firebaseAuth.getCurrentUser().getUid())
                                     .child(String.valueOf(level)).setValue(total);
-                            return ;
+                            Log.e("level current552", "level: " + level + " points: " + total);
+
+                            return;
                         }else if (points >= 40 && points < 60) {
                             total = successRate + points;
                             if (points_limit != 2) {
-                                if (total > 60) {
+                                if (total >= 60) {
                                     myRef.child("UserPoints")
                                             .child(firebaseAuth.getCurrentUser().getUid())
                                             .child(String.valueOf(level)).setValue(60);
+                                    Log.e("level current560", "level: " + level + " points: " + 60);
                                     return;
                                 }
-                            } else{
-                                if (total>60)
+                            } else if (total >= 60) {
+
                                 myRef.child("UserPoints")
                                         .child(firebaseAuth.getCurrentUser().getUid())
                                         .child(String.valueOf(level)).setValue(60);
-                                myRef.child("UserLevels").child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level+1)).setValue(true);
+                                Log.e("level current568", "level: " + level + " points: " + 60);
+
+                                myRef.child("UserLevels").child(firebaseAuth.getCurrentUser().getUid()).child(String.valueOf(level + 1)).setValue(true);
 
 
-                                return;}
+                                return;
+                            } else if (total < 60) {
+
+                                myRef.child("UserPoints")
+                                        .child(firebaseAuth.getCurrentUser().getUid())
+                                        .child(String.valueOf(level)).setValue(total);
+                            }
                         }else if (points==0){
 
 //                        }else if (points >= 60 && points < 120) {

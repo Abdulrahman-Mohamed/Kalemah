@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import com.Motawer.kalemah.Models.BarGraphModel;
 import com.Motawer.kalemah.Repository.WordsRepository;
 import com.Motawer.kalemah.RoomDataBase.Word;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,6 +31,8 @@ public class WordsViewModel extends AndroidViewModel {
     LiveData<List<Word>> bWords;
     LiveData<List<Word>> cWords;
     ArrayList<BarGraphModel> barGraphModels;
+    FirebaseAuth firebaseAuth;
+
 
     public WordsViewModel(@NonNull Application application) {
         super(application);
@@ -41,6 +44,7 @@ public class WordsViewModel extends AndroidViewModel {
         aWords = wordsRepository.getAWords();
         bWords = wordsRepository.getBWords();
         cWords = wordsRepository.getCWords();
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -51,16 +55,16 @@ public class WordsViewModel extends AndroidViewModel {
     }
 
     private void saveData() {
-        final String KEY = "Words_Shared";
+        String uid = firebaseAuth.getUid();
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        String date1 = String.valueOf(dateFormat.format(date));
+        String date1 = dateFormat.format(date);
         String[] words = date1.split("/");//splits the string based on whitespace
         int year = Integer.parseInt(words[0]);
         int month = Integer.parseInt(words[1]);
         BarGraphModel graphModel = new BarGraphModel(month);
         barGraphModels.add(graphModel);
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(KEY, getApplication().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(uid, getApplication().MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(barGraphModels);
@@ -69,14 +73,14 @@ public class WordsViewModel extends AndroidViewModel {
     }
 
     private void loadData() {
-        final String KEY = "Words_Shared";
+        String uid = firebaseAuth.getUid();
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
-        String date1 = String.valueOf(dateFormat.format(date));
+        String date1 = dateFormat.format(date);
         String[] words = date1.split("/");//splits the string based on whitespace
         int year = Integer.parseInt(words[0]);
         int month = Integer.parseInt(words[1]);
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(KEY, getApplication().MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences(uid, getApplication().MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(String.valueOf(year), null);
         Type type = new TypeToken<ArrayList<BarGraphModel>>() {
@@ -99,8 +103,13 @@ public class WordsViewModel extends AndroidViewModel {
         wordsRepository.delete(word);
     }
 
+
     public void deleteAllWords() {
         wordsRepository.deleteAll();
+    }
+
+    public void deleteAllWordsLocalGlobal() {
+        wordsRepository.deleteAllLocalGlobal();
     }
 
     public LiveData<List<Word>> getAllWords() {

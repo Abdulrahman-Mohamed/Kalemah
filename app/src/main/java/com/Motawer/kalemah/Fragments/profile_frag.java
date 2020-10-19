@@ -43,7 +43,6 @@ import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -122,7 +121,6 @@ public class profile_frag extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-
         checkInternet();
         if (!connected)
         LoadShared();
@@ -137,11 +135,9 @@ public class profile_frag extends Fragment
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
-
     }
 
-    private void loadImageFromStorage(String s)
-    {
+    private void loadImageFromStorage(String s) {
         try {
             File f = new File(s, "profile.jpg");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
@@ -199,14 +195,13 @@ public class profile_frag extends Fragment
 
           }
        int pointsshared=sharedPreferences.getInt(USERPoints,0);
-       int levelsshared=sharedPreferences.getInt(USERLevels, 0);
+        int levelsshared=sharedPreferences.getInt(USERLevels, 0);
         levels.setText(String.valueOf(levelsshared));
         points.setText(String.valueOf(pointsshared));
     }
 
 
-    private void loadData()
-    {
+    private void loadData() {
         final String KEY="FAVORIT_WORDS";
         final String WORD_FAVORIT="MY_FAV_WORDS";
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
@@ -226,8 +221,7 @@ public class profile_frag extends Fragment
         wordsCount.setText(String.valueOf(WordsCounter));
     }
 
-    private void initButtons()
-    {
+    private void initButtons() {
 
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -435,8 +429,7 @@ public class profile_frag extends Fragment
         }
     }
 
-    private void uploadImage(Uri picture)
-    {
+    private void uploadImage(Uri picture) {
         UploadTask uploadTask;
         storageReference = FirebaseStorage.getInstance().getReference().child("images/" + picture.getLastPathSegment());
         uploadTask = storageReference.putFile(picture);
@@ -475,13 +468,10 @@ public class profile_frag extends Fragment
         int id = item.getItemId();
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
-            LoginManager.getInstance().logOut();
-            Toast.makeText(getActivity(), "Logout successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), SignIn_Activity.class));
-
         }
         return super.onOptionsItemSelected(item);
-
     }
     class BackThread extends Thread
     {
