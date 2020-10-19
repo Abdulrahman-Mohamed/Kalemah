@@ -1,7 +1,5 @@
 package com.Motawer.kalemah.Auth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -18,19 +16,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,11 +46,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class SignIn_Activity extends AppCompatActivity
 {
@@ -87,13 +87,10 @@ public class SignIn_Activity extends AppCompatActivity
         catch (NoSuchAlgorithmException e) {
         }
 
-
-
         setContentView(R.layout.activity_sign_in_);
         // init facebook sdk
-        FacebookSdk.sdkInitialize(SignIn_Activity.this);
-        initFacebook();
-
+          FacebookSdk.sdkInitialize(getApplicationContext());
+          initFacebook();
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -111,33 +108,50 @@ public class SignIn_Activity extends AppCompatActivity
         }
     }
 
-    private void initFacebook()
+       private void initFacebook()
     {
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "public_profile");
+
+
+        loginButton.setPermissions(Arrays.asList("user_gender , user_friends"));
+
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>()
         {
             @Override
             public void onSuccess(LoginResult loginResult)
             {
-                handleFacebookAccessToken(loginResult.getAccessToken());
+              //Log.d("kalemah", "login successful");
+              handleFacebookAccessToken(loginResult.getAccessToken());
             }
             @Override
             public void onCancel()
             {
+                Log.d("kalemah", "login cancel");
             }
             @Override
             public void onError(FacebookException error)
             {
+                Log.d("kalemah", "login error");
             }
         });
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentuser =firebaseAuth.getCurrentUser();
+        if (currentuser != null){
+        updateUI(currentuser);
+        }
+    }
+
     private void handleFacebookAccessToken(AccessToken token)
+
     {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
                 {
@@ -157,6 +171,7 @@ public class SignIn_Activity extends AppCompatActivity
                             reference.child(uid).setValue(userModel);
                             reference.child(uid).child("photo").setValue(String.valueOf(image));
                             updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignIn_Activity.this, "Authentication failed.",
@@ -167,21 +182,19 @@ public class SignIn_Activity extends AppCompatActivity
                 });
     }
 
-    private void updateUI(FirebaseUser user)
-    {
-        if ( user != null)
+       private void updateUI (FirebaseUser user)
         {
-            Toast.makeText(this, "Facebook sign in successful..", Toast.LENGTH_SHORT).show();
+            if (user != null) {
+                Toast.makeText(this, "Facebook sign in successful..", Toast.LENGTH_SHORT).show();
 
-            Intent intent =new Intent(SignIn_Activity.this,MainActivity.class);
-            startActivity(intent);
+                Intent intent = new Intent(SignIn_Activity.this, MainActivity.class);
+                startActivity(intent);
 
-        }else 
-        {
-            Toast.makeText(this, "please sign in to continue", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "please sign in to continue", Toast.LENGTH_SHORT).show();
+            }
+
         }
-
-    }
 
     private void initButtons()
     {
@@ -283,75 +296,105 @@ public class SignIn_Activity extends AppCompatActivity
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+       mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                // ...
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct)
-    {
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful())
-                        {
-                            // Sign in success, update UI with the signed-in user's information
-                         //   FirebaseUser user = firebaseAuth.getCurrentUser();
-                            if (task.getResult().getAdditionalUserInfo().isNewUser())
-                            {
-                                String uid =task.getResult().getUser().getUid();
-                                gUsername=task.getResult().getUser().getDisplayName();
-                                gEmail=task.getResult().getUser().getEmail();
-                                image =task.getResult().getUser().getPhotoUrl();
-
-                                UserModel userModel=new UserModel(gUsername,gEmail);
-                                reference.child(uid).setValue(userModel);
-                                reference.child(uid).child("photo").setValue(String.valueOf(image));
-
-                            }
-                            Toast.makeText(SignIn_Activity.this, "Sign in with gmail successful..", Toast.LENGTH_SHORT).show();
-
-                            startActivity(new Intent(SignIn_Activity.this,MainActivity.class));
-                            finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(SignIn_Activity.this, "Login Failed...", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                    }
-                }).addOnFailureListener(new OnFailureListener()
-        {
+       /* GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SignIn_Activity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                Log.d("kalemah", object.toString());
             }
-        });
-    }
+            });*/
 
-    public void onClickFacebookButton(View view)
-    {
-        if (view == fb) {
-            loginButton.performClick();
+       /*Bundle bundle = new Bundle();
+         bundle.putString("fields","gender,name,email,id,public_picture,first_name,last_name");
+         graphRequest.setParameters(bundle);
+         graphRequest.executeAsync();*/
+
+            // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if(requestCode ==RC_SIGN_IN)
+
+            {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                try {
+                    // Google Sign In was successful, authenticate with Firebase
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    firebaseAuthWithGoogle(account);
+                } catch (ApiException e) {
+                    // Google Sign In failed, update UI appropriately
+                    Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // ...
+                }
+            }
+
         }
-    }
 
-}
+
+      /*  AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if (currentAccessToken == null) {
+                    LoginManager.getInstance().logOut();
+                }
+            }
+        };
+
+        @Override
+        protected void onDestroy () {
+            super.onDestroy();
+            accessTokenTracker.stopTracking();
+        }   */
+
+        private void firebaseAuthWithGoogle (GoogleSignInAccount acct)
+        {
+
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+            firebaseAuth.signInWithCredential(credential)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                //   FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                                if (task.getResult().getAdditionalUserInfo().isNewUser())
+                                {
+                                    String uid = task.getResult().getUser().getUid();
+                                    gUsername = task.getResult().getUser().getDisplayName();
+                                    gEmail = task.getResult().getUser().getEmail();
+                                    image = task.getResult().getUser().getPhotoUrl();
+
+                                    UserModel userModel = new UserModel(gUsername, gEmail);
+                                    reference.child(uid).setValue(userModel);
+                                    reference.child(uid).child("photo").setValue(String.valueOf(image));
+
+                                }
+                                Toast.makeText(SignIn_Activity.this, "Sign in with gmail successful..", Toast.LENGTH_SHORT).show();
+
+                                startActivity(new Intent(SignIn_Activity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(SignIn_Activity.this, "Login Failed...", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(SignIn_Activity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        public void onClickFacebookButton (View view)
+        {
+            if (view == fb) {
+                loginButton.performClick();
+            }
+        }
+
+    }
