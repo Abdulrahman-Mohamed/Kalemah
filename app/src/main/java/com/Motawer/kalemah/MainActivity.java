@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.Fragments.exams_frag;
@@ -359,12 +360,13 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     @Override
     public void onRecyclerRefresh() {
-
-        words_frag fragment = (words_frag) getSupportFragmentManager().getFragments().get(0);
-        getSupportFragmentManager().beginTransaction()
-                .detach(fragment)
-                .attach(fragment)
-                .commit();
+        RecyclerAdapter recyclerAdapter=new RecyclerAdapter();
+        recyclerAdapter.notifyDataSetChanged();
+//        words_frag fragment = (words_frag) getSupportFragmentManager().getFragments().get(0);
+//        getSupportFragmentManager().beginTransaction()
+//                .detach(fragment)
+//                .attach(fragment)
+//                .commit();
     }
 
     @Override

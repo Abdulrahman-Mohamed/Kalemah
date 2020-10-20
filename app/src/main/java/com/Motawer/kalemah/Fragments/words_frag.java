@@ -155,6 +155,7 @@ show the edit icon when it swipe it trigger the dialog of editting
                         getID.getidfrompos(id);
                         AddWord_DialogEdit addWord_dialogEdit = new AddWord_DialogEdit();
                         addWord_dialogEdit.show(requireActivity().getSupportFragmentManager(), "WordDialog");
+                        recyclerAdapter.notifyItemChanged(pos);
 
                 }
                 //  recyclerAdapter.notifyDataSetChanged();

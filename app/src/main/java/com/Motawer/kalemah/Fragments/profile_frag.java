@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,12 +25,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -43,6 +40,7 @@ import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -74,8 +72,6 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
@@ -109,6 +105,7 @@ public class profile_frag extends Fragment
     List<Integer> levelPoint = new ArrayList<>();
     ArrayList<Word> wordArrayList=new ArrayList<>();
     int WordsCounter, pointCounter = 0;
+    String photo;
 
     @Nullable
     @Override
@@ -125,28 +122,36 @@ public class profile_frag extends Fragment
         checkInternet();
         if (!connected)
         LoadShared();
+        initGoogle();
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
 
-        initGoogle();
         initButtons();
         getWordsCount();
         BackThread backThread=new BackThread();
         backThread.start();
-        swipeDeleteAndEdit();
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         setHasOptionsMenu(true);
     }
 
     private void loadImageFromStorage(String s) {
+        Bitmap b=null;
         try {
-            File f = new File(s, "profile.jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            if (b != null){
-                circleImageView.setImageBitmap(b);}
+            String uid = firebaseAuth.getUid();
+            File f = new File(s, uid + ".jpg");
+             b = BitmapFactory.decodeStream(new FileInputStream(f));
+            if (b != null) {
+                circleImageView.setImageBitmap(b);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (b != null) {
+            circleImageView.setImageBitmap(b);
+        }else
+        Picasso.get()
+                .load(photo)
+                .into(circleImageView);
     }
 
     private void getWordsCount()
@@ -155,20 +160,14 @@ public class profile_frag extends Fragment
         viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(List<Word> words) {
+                WordsCounter = 0;
                 for (int i = 0; i < words.size(); i++)
                     WordsCounter++;
                              setViews();
 
             }
         });
-//        viewModel.getAllUserWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-//            @Override
-//            public void onChanged(List<Word> words) {
-//                for (int i = 0; i < words.size(); i++)
-//                    WordsCounter++;
-//                setViews();
-//            }
-//        });
+
     }
 
     private void checkInternet()
@@ -303,10 +302,8 @@ public class profile_frag extends Fragment
             textName.setText(username);
             textEmail.setText(email);
 
-//            String photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
-//            Picasso.get()
-//                    .load(photo)
-//                    .into(circleImageView);
+             photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
+
         }
 
     }
@@ -356,52 +353,9 @@ public class profile_frag extends Fragment
         }).attach();
     }
 
-    private void InitializeRecycler()
-    {
-        linearLayoutManager = new LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerAdapter = new RecyclerAdapter();
-        recyclerView.setAdapter(recyclerAdapter);
-        loadData();
-    }
-    private void swipeDeleteAndEdit() {
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0
-                , ItemTouchHelper.LEFT ) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                int pos = viewHolder.getAdapterPosition();
-            //    Word word=recyclerAdapter.getWordAt(pos);
-//
-                switch (direction) {
-                    case ItemTouchHelper.LEFT:
-//
-                        recyclerAdapter.removeAt(pos,requireContext());
 
 
-                        break;
 
-                }
-            }
-
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-
-                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireContext(), R.color.delete))
-                        .addSwipeLeftActionIcon(R.drawable.ic_delete_black_24dp)
-                        .addSwipeRightBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark))
-                        .create()
-                        .decorate();
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        }).attachToRecyclerView(recyclerView);
-    }
     private void setViewModel() {
         viewModel = new ViewModelProvider((ViewModelStoreOwner) getActivity()).get(WordsViewModel.class);
 
@@ -471,7 +425,10 @@ public class profile_frag extends Fragment
         int id = item.getItemId();
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
-            Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
+            viewModel.deleteAllWords();
+            LoginManager.getInstance().logOut();
+
+            Toast.makeText(getActivity(), "Logout successful..", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), SignIn_Activity.class));
         }
         return super.onOptionsItemSelected(item);

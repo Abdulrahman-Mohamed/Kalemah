@@ -112,10 +112,7 @@ public class SignIn_Activity extends AppCompatActivity
     {
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
-
-
-        loginButton.setPermissions(Arrays.asList("user_gender , user_friends"));
-
+        loginButton.setReadPermissions(Arrays.asList("email" ," public_profile"));
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>()
         {
             @Override
@@ -170,6 +167,9 @@ public class SignIn_Activity extends AppCompatActivity
                             UserModel userModel=new UserModel(gUsername,gEmail);
                             reference.child(uid).setValue(userModel);
                             reference.child(uid).child("photo").setValue(String.valueOf(image));
+
+
+
                             updateUI(user);
 
                         } else {
