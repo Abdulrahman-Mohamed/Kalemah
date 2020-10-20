@@ -82,6 +82,7 @@ import static com.google.firebase.storage.FirebaseStorage.getInstance;
 public class profile_frag extends Fragment
 {
     private WordsViewModel viewModel;
+    imageChanged imageChanged;
     View view;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -402,7 +403,7 @@ public class profile_frag extends Fragment
         }).attachToRecyclerView(recyclerView);
     }
     private void setViewModel() {
-        viewModel = new ViewModelProvider((ViewModelStoreOwner) requireContext()).get(WordsViewModel.class);
+        viewModel = new ViewModelProvider((ViewModelStoreOwner) getActivity()).get(WordsViewModel.class);
 
     }
 
@@ -416,11 +417,13 @@ public class profile_frag extends Fragment
             if (resultCode == Activity.RESULT_OK) {
                 if (result != null) {
                     picture = result.getUri();
-
-                    Picasso.get()
-                            .load(picture)
-                            .into(circleImageView);
-                    uploadImage(picture);
+                    if (picture != null) {
+                        imageChanged.imageChangedHappen(String.valueOf(picture));
+                        Picasso.get()
+                                .load(picture)
+                                .into(circleImageView);
+                        uploadImage(picture);
+                    }
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
@@ -518,7 +521,21 @@ public class profile_frag extends Fragment
                 }
 
             });
-            SaveData(pointCounter,levelList.size());
+            SaveData(pointCounter, levelList.size());
         }
-    }}
+
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            imageChanged = (imageChanged) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + "must implement bottom sheet");
+        }
+    }
+}
 

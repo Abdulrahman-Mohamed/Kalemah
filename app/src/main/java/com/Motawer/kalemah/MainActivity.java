@@ -6,7 +6,6 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.Fragments.exams_frag;
+import com.Motawer.kalemah.Fragments.imageChanged;
 import com.Motawer.kalemah.Fragments.profile_frag;
 import com.Motawer.kalemah.Fragments.words_frag;
 import com.Motawer.kalemah.MaterialDesign.AddWord_Dialog;
@@ -29,8 +29,6 @@ import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,7 +52,7 @@ import java.net.URLConnection;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements AddWord_Dialog.BottomSheetListner, AddWord_DialogEdit.AddWordSheetEditeListner
-        , com.Motawer.kalemah.Fragments.words_frag.GetID, AddWord_DialogEdit.refreshrecycler {
+        , com.Motawer.kalemah.Fragments.words_frag.GetID, AddWord_DialogEdit.refreshrecycler, imageChanged {
 
     // Fragment selectedFragment = null;
     Bitmap profileBitmap;
@@ -83,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
         // bottomAppBar = findViewById(R.id.bottomAppBar);
 
-
+        viewModel = new
+                ViewModelProvider(this).
+                get(WordsViewModel.class);
         Initialize();
         // getPhoto();
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
@@ -217,9 +217,7 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
             }
         });
-        viewModel = new
-                ViewModelProvider(this).
-                get(WordsViewModel.class);
+
 
     }
 
@@ -270,18 +268,30 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                             if (photo != null) {
                                 Picasso.get()
                                         .load(photo)
+                                        .resize(50, 50)
+                                        .centerCrop()
                                         .into(ProfileImageView);
                                 savePhoto(photo);
-                            }
-                        } else {
-                            googleAcountPhoto();
+                            } else
+                                Picasso.get()
+                                        .load(R.drawable.person)
+                                        .resize(50, 50)
+                                        .centerCrop()
+                                        .into(ProfileImageView);
+//                        } else {
+//                            googleAcountPhoto();
+//                        }
+//                    } else
+//                        googleAcountPhoto();
+//
+//                }else
+//                googleAcountPhoto();
                         }
-                    } else
-                        googleAcountPhoto();
-
+                    }
                 }
             }
 
+            //
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -312,24 +322,34 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     }
 
-    public void googleAcountPhoto() {
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if (acct != null) {
-            Uri photo = acct.getPhotoUrl();
-            if (photo != null) {
-                Picasso.get()
-                        .load(String.valueOf(photo))
-                        .resize(50, 50)
-                        .centerCrop()
-                        .into(ProfileImageView);
-                savePhoto(String.valueOf(photo));
-            } else {
-                Picasso.get()
-                        .load(R.drawable.ic_person_black_24dp)
-                        .into(ProfileImageView);
-            }
-        }
-    }
+//    public void googleAcountPhoto() {
+//        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+//        if (acct != null) {
+//            Uri photo = acct.getPhotoUrl();
+//            if (photo != null) {
+//                Picasso.get()
+//                        .load(String.valueOf(photo))
+//                        .resize(50, 50)
+//                        .centerCrop()
+//                        .into(ProfileImageView);
+//                savePhoto(String.valueOf(photo));
+//            } else {
+//                Picasso.get()
+//                        .load(R.drawable.person)
+//                        .resize(50, 50)
+//                        .centerCrop()
+//                        .into(ProfileImageView);
+//            }
+//        }
+//        else
+//        {
+//            Picasso.get()
+//                    .load(R.drawable.person)
+//                    .resize(50, 50)
+//                    .centerCrop()
+//                    .into(ProfileImageView);
+//        }
+    // }
 
 
     @Override
@@ -385,6 +405,18 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         Word word = new Word(Word, meaning, Integer.parseInt(level.trim()), rate);
         word.setID(wordIdentefire);
         viewModel.update(word);
+
+    }
+
+    @Override
+    public void imageChangedHappen(String image) {
+        Picasso.get()
+                .load(image)
+                .resize(50, 50)
+                .centerCrop()
+                .into(ProfileImageView);
+        savePhoto(image);
+
 
     }
 
