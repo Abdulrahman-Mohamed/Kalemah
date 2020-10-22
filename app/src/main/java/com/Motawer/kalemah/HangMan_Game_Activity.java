@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -25,10 +26,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Motawer.kalemah.Adapter.onLetterButtonclicked;
 import com.Motawer.kalemah.Adapter.recycler_Botton_Adapter;
+import com.Motawer.kalemah.RoomDataBase.Word;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CountDownLatch;
 
 public class HangMan_Game_Activity extends AppCompatActivity implements onLetterButtonclicked {
     recycler_Botton_Adapter adapter1, adapter2, adapter3, adapter4, adapter5;
@@ -248,17 +256,19 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     int length;
     String word;
     int attembts = 9;
-    char chars[];
+    char[] chars;
     char hinted;
-    TextView textView, chances;
+    TextView textView, chances, category;
     Button z;
     ImageButton hint;
     Toolbar toolbar;
     int score = 8;
-    ArrayList<String> trueWords=new ArrayList<>();
+    ArrayList<String> trueWords = new ArrayList<>();
     boolean hintState = false;
     ImageView hangMan;
     ArrayList<String> dashes = new ArrayList<>();
+    //String w ;
+
     RecyclerView line1, line2, line3, line4, line5;
     LinearLayoutManager linearLayoutManager, linearLayoutManager2, linearLayoutManager3, linearLayoutManager4, linearLayoutManager5;
 
@@ -266,15 +276,10 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hang_man__game_);
+        Asynctask task = new Asynctask();
+        task.execute();
 
 
-        InitializeUI();
-        getWord();
-        List<Character> sizeList = getChars();
-        System.out.println("word" + sizeList);
-
-        setDashes();
-        buttonsClick();
         actionbar();
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -303,14 +308,14 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
             @Override
             public void onClick(View v) {
                 if (!hintState) {
-                    ArrayList<Character> sizeList =(ArrayList<Character>) getChars();
+                    ArrayList<Character> sizeList = (ArrayList<Character>) getChars();
                     ArrayList<Character> alt = new ArrayList<>(sizeList);
                     ArrayList<Integer> idx = new ArrayList<>();
 
-                    for (int i = 0; i <trueWords.size() ; i++) {
-                        char c=trueWords.get(i).charAt(0);
-                        for (int j = 0; j <alt.size() ; j++) {
-                            if (alt.get(j)==c)
+                    for (int i = 0; i < trueWords.size(); i++) {
+                        char c = trueWords.get(i).charAt(0);
+                        for (int j = 0; j < alt.size(); j++) {
+                            if (alt.get(j) == c)
                                 idx.add(j);
 
 
@@ -325,15 +330,15 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
                     int r = random.nextInt(alt.size());
                     hinted = alt.get(r);
 
-                        System.out.println("random " + hinted);
-                        for (int w = 0; w < sizeList.size(); w++) {
-                            if (hinted == sizeList.get(w)) {
-                                dashes.set(w, String.valueOf(hinted));
-                                System.out.println("dd " + hinted);
+                    System.out.println("random " + hinted);
+                    for (int w = 0; w < sizeList.size(); w++) {
+                        if (hinted == sizeList.get(w)) {
+                            dashes.set(w, String.valueOf(hinted));
+                            System.out.println("dd " + hinted);
 
-                            }
                         }
-                        hintState = true;
+                    }
+                    hintState = true;
 
                     adapter1.setHighligtedItemPosition(String.valueOf(hinted));
                     adapter1.notifyDataSetChanged();
@@ -355,11 +360,11 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         z.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Character> sizeList =(ArrayList<Character>) getChars();
+                ArrayList<Character> sizeList = (ArrayList<Character>) getChars();
                 String charachter = z.getText().toString();
                 boolean isIn = false;
                 for (int w = 0; w < sizeList.size(); w++) {
-                    if (sizeList.get(w)==charachter.charAt(0)) {
+                    if (sizeList.get(w) == charachter.charAt(0)) {
                         dashes.set(w, charachter);
                         isIn = true;
                     }
@@ -369,7 +374,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
                     settleScore(0);
                     z.setBackgroundResource(R.drawable.right_choise_button);
                     z.setEnabled(false);
-                } else if(!isIn) {
+                } else if (!isIn) {
                     z.setBackgroundResource(R.drawable.wrong_choice_botton);
                     z.setEnabled(false);
                     settleScore(-1);
@@ -405,7 +410,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     }
 
     private void getWord() {
-        String wordsList[] = string.split("\n");
+        String[] wordsList = string.split("\n");
         Random rand = new Random(System.currentTimeMillis());
         int random_number = rand.nextInt(wordsList.length);
         word = wordsList[random_number];
@@ -414,6 +419,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
 
     private void InitializeUI() {
         textView = findViewById(R.id.word_dashes);
+        category = findViewById(R.id.category);
         chances = findViewById(R.id.chances);
         toolbar = findViewById(R.id.toolbar);
         z = findViewById(R.id.z);
@@ -424,23 +430,22 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         line3 = findViewById(R.id.recycler_botton_line3);
         line4 = findViewById(R.id.recycler_botton_line4);
         line5 = findViewById(R.id.recycler_botton_line5);
-        LinearSnapHelper snapHelper=new LinearSnapHelper();
+        LinearSnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(line1);
         recyclerAdapter();
 
     }
 
     private void recyclerAdapter() {
-        String l1[] = {"a", "b", "c", "d", "e"};
-        String l2[] = {"f", "g", "h", "i", "j"};
-        String l3[] = {"k", "l", "m", "n", "o"};
-        String l4[] = {"p", "q", "r", "s", "t"};
-        String l5[] = {"u", "v", "w", "x", "y"};
+        String[] l1 = {"a", "b", "c", "d", "e"};
+        String[] l2 = {"f", "g", "h", "i", "j"};
+        String[] l3 = {"k", "l", "m", "n", "o"};
+        String[] l4 = {"p", "q", "r", "s", "t"};
+        String[] l5 = {"u", "v", "w", "x", "y"};
         adapter1 = new recycler_Botton_Adapter(l1, this);
         if (hintState) {
-            for (int i = 0; i <l1.length ; i++) {
-                if (l1[i]==String.valueOf(hinted))
-                {
+            for (int i = 0; i < l1.length; i++) {
+                if (l1[i] == String.valueOf(hinted)) {
                     adapter1.setHighligtedItemPosition(String.valueOf(hinted));
                     adapter1.notifyDataSetChanged();
                 }
@@ -692,6 +697,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     private void FailDialog(Dialog dialog) {
         dialog.setContentView(R.layout.fail_dialog);
         TextView Rate_Text = dialog.findViewById(R.id.points);
+        TextView Text_point = dialog.findViewById(R.id.textpoint);
         Button Retry = dialog.findViewById(R.id.retry_btn);
         Button GoAHEAD = dialog.findViewById(R.id.go_ahead);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -699,7 +705,10 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
 
-        Rate_Text.setText(String.valueOf(1));
+        Rate_Text.setText("The Correct word is:");
+        Text_point.setText(word);
+        Text_point.setTextSize(24);
+
         Retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -740,5 +749,102 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
                 finish();
             }
         });
+    }
+
+    class Asynctask extends AsyncTask<Void, Void, String> {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = firebaseDatabase.getReference();
+        ArrayList<Word> wordArrayList = new ArrayList<>();
+        String title;
+        String getword;
+        int r;
+        Random rand = new Random();
+        CountDownLatch done = new CountDownLatch(1);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            InitializeUI();
+
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            myRef.child("WordsEng").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+
+                        r = rand.nextInt((int) snapshot.getChildrenCount());
+                        for (DataSnapshot datasnapshot : snapshot.child(String.valueOf(r))
+                                .getChildren()) {
+                            wordArrayList.add(datasnapshot.getValue(Word.class));
+                        }
+                        if (wordArrayList.size() != 0) {
+                            int r1 = rand.nextInt((int) wordArrayList.size());
+                            getword = wordArrayList.get(r1).getWord().toLowerCase();
+
+
+                        }
+
+                        myRef.child("Words_Eng_Title").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    title = snapshot.child(String.valueOf(r)).getValue(String.class);
+                                    done.countDown();
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            // if (getword!=null)
+            try {
+                done.await(); //it will wait till the response is received from firebase.
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return getword;
+
+        }
+
+        @Override
+        protected void onPostExecute(String strings) {
+            super.onPostExecute(strings);
+            if (title != null)
+                category.setText(title.toUpperCase());
+            word = getword;
+            if (word != null) {
+                length = word.length();
+                //getWord();
+                List<Character> sizeList = getChars();
+                System.out.println("word" + sizeList);
+
+                setDashes();
+                buttonsClick();
+
+
+            }
+        }
+
+
     }
 }
