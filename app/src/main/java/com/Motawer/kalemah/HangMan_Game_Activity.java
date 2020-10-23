@@ -5,9 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,219 +40,219 @@ import java.util.concurrent.CountDownLatch;
 
 public class HangMan_Game_Activity extends AppCompatActivity implements onLetterButtonclicked {
     recycler_Botton_Adapter adapter1, adapter2, adapter3, adapter4, adapter5;
-    String string = "abruptly\n" +
-            "absurd\n" +
-            "abyss\n" +
-            "affix\n" +
-            "askew\n" +
-            "avenue\n" +
-            "awkward\n" +
-            "axiom\n" +
-            "azure\n" +
-            "bagpipes\n" +
-            "bandwagon\n" +
-            "banjo\n" +
-            "bayou\n" +
-            "beekeeper\n" +
-            "bikini\n" +
-            "blitz\n" +
-            "blizzard\n" +
-            "boggle\n" +
-            "bookworm\n" +
-            "boxcar\n" +
-            "boxful\n" +
-            "buckaroo\n" +
-            "buffalo\n" +
-            "buffoon\n" +
-            "buxom\n" +
-            "buzzard\n" +
-            "buzzing\n" +
-            "buzzwords\n" +
-            "caliph\n" +
-            "cobweb\n" +
-            "cockiness\n" +
-            "croquet\n" +
-            "crypt\n" +
-            "curacao\n" +
-            "cycle\n" +
-            "daiquiri\n" +
-            "dirndl\n" +
-            "disavow\n" +
-            "dizzying\n" +
-            "duplex\n" +
-            "dwarves\n" +
-            "embezzle\n" +
-            "equip\n" +
-            "espionage\n" +
-            "euouae\n" +
-            "exodus\n" +
-            "faking\n" +
-            "fishhook\n" +
-            "fixable\n" +
-            "fjord\n" +
-            "flapjack\n" +
-            "flopping\n" +
-            "fluffiness\n" +
-            "flyby\n" +
-            "foxglove\n" +
-            "frazzled\n" +
-            "frizzled\n" +
-            "fuchsia\n" +
-            "funny\n" +
-            "gabby\n" +
-            "galaxy\n" +
-            "galvanize\n" +
-            "gazebo\n" +
-            "giaour\n" +
-            "gizmo\n" +
-            "glowworm\n" +
-            "glyph\n" +
-            "gnarly\n" +
-            "gnostic\n" +
-            "gossip\n" +
-            "grogginess\n" +
-            "haiku\n" +
-            "haphazard\n" +
-            "hyphen\n" +
-            "iatrogenic\n" +
-            "icebox\n" +
-            "injury\n" +
-            "ivory\n" +
-            "ivy\n" +
-            "jackpot\n" +
-            "jaundice\n" +
-            "jawbreaker\n" +
-            "jaywalk\n" +
-            "jazziest\n" +
-            "jazzy\n" +
-            "jelly\n" +
-            "jigsaw\n" +
-            "jinx\n" +
-            "jiujitsu\n" +
-            "jockey\n" +
-            "jogging\n" +
-            "joking\n" +
-            "jovial\n" +
-            "joyful\n" +
-            "juicy\n" +
-            "jukebox\n" +
-            "jumbo\n" +
-            "kayak\n" +
-            "kazoo\n" +
-            "keyhole\n" +
-            "khaki\n" +
-            "kilobyte\n" +
-            "kiosk\n" +
-            "kitsch\n" +
-            "kiwifruit\n" +
-            "klutz\n" +
-            "knapsack\n" +
-            "larynx\n" +
-            "lengths\n" +
-            "lucky\n" +
-            "luxury\n" +
-            "lymph\n" +
-            "marquis\n" +
-            "matrix\n" +
-            "megahertz\n" +
-            "microwave\n" +
-            "mnemonic\n" +
-            "mystify\n" +
-            "naphtha\n" +
-            "nightclub\n" +
-            "nowadays\n" +
-            "numbskull\n" +
-            "nymph\n" +
-            "onyx\n" +
-            "ovary\n" +
-            "oxidize\n" +
-            "oxygen\n" +
-            "pajama\n" +
-            "peekaboo\n" +
-            "phlegm\n" +
-            "pixel\n" +
-            "pizazz\n" +
-            "pneumonia\n" +
-            "polka\n" +
-            "pshaw\n" +
-            "psyche\n" +
-            "puppy\n" +
-            "puzzling\n" +
-            "quartz\n" +
-            "queue\n" +
-            "quips\n" +
-            "quixotic\n" +
-            "quiz\n" +
-            "quizzes\n" +
-            "quorum\n" +
-            "razzmatazz\n" +
-            "rhubarb\n" +
-            "rhythm\n" +
-            "rickshaw\n" +
-            "schnapps\n" +
-            "scratch\n" +
-            "shiv\n" +
-            "snazzy\n" +
-            "sphinx\n" +
-            "spritz\n" +
-            "squawk\n" +
-            "staff\n" +
-            "strength\n" +
-            "strengths\n" +
-            "stretch\n" +
-            "stronghold\n" +
-            "stymied\n" +
-            "subway\n" +
-            "swivel\n" +
-            "syndrome\n" +
-            "thriftless\n" +
-            "thumbscrew\n" +
-            "topaz\n" +
-            "transcript\n" +
-            "transgress\n" +
-            "transplant\n" +
-            "triphthong\n" +
-            "twelfth\n" +
-            "twelfths\n" +
-            "unknown\n" +
-            "unworthy\n" +
-            "unzip\n" +
-            "uptown\n" +
-            "vaporize\n" +
-            "vixen\n" +
-            "vodka\n" +
-            "voodoo\n" +
-            "vortex\n" +
-            "voyeurism\n" +
-            "walkway\n" +
-            "waltz\n" +
-            "wave\n" +
-            "wavy\n" +
-            "waxy\n" +
-            "wellspring\n" +
-            "wheezy\n" +
-            "whiskey\n" +
-            "whizzing\n" +
-            "whomever\n" +
-            "wimpy\n" +
-            "witchcraft\n" +
-            "wizard\n" +
-            "woozy\n" +
-            "wristwatch\n" +
-            "wyvern\n" +
-            "xylophone\n" +
-            "yachtsman\n" +
-            "yippee\n" +
-            "yoked\n" +
-            "youthful\n" +
-            "yummy\n" +
-            "zephyr\n" +
-            "zigzag\n" +
-            "zigzagging\n" +
-            "zilch\n" +
-            "zipper\n" +
-            "zodiac\n" +
-            "zombie";
+    //    String string = "abruptly\n" +
+//            "absurd\n" +
+//            "abyss\n" +
+//            "affix\n" +
+//            "askew\n" +
+//            "avenue\n" +
+//            "awkward\n" +
+//            "axiom\n" +
+//            "azure\n" +
+//            "bagpipes\n" +
+//            "bandwagon\n" +
+//            "banjo\n" +
+//            "bayou\n" +
+//            "beekeeper\n" +
+//            "bikini\n" +
+//            "blitz\n" +
+//            "blizzard\n" +
+//            "boggle\n" +
+//            "bookworm\n" +
+//            "boxcar\n" +
+//            "boxful\n" +
+//            "buckaroo\n" +
+//            "buffalo\n" +
+//            "buffoon\n" +
+//            "buxom\n" +
+//            "buzzard\n" +
+//            "buzzing\n" +
+//            "buzzwords\n" +
+//            "caliph\n" +
+//            "cobweb\n" +
+//            "cockiness\n" +
+//            "croquet\n" +
+//            "crypt\n" +
+//            "curacao\n" +
+//            "cycle\n" +
+//            "daiquiri\n" +
+//            "dirndl\n" +
+//            "disavow\n" +
+//            "dizzying\n" +
+//            "duplex\n" +
+//            "dwarves\n" +
+//            "embezzle\n" +
+//            "equip\n" +
+//            "espionage\n" +
+//            "euouae\n" +
+//            "exodus\n" +
+//            "faking\n" +
+//            "fishhook\n" +
+//            "fixable\n" +
+//            "fjord\n" +
+//            "flapjack\n" +
+//            "flopping\n" +
+//            "fluffiness\n" +
+//            "flyby\n" +
+//            "foxglove\n" +
+//            "frazzled\n" +
+//            "frizzled\n" +
+//            "fuchsia\n" +
+//            "funny\n" +
+//            "gabby\n" +
+//            "galaxy\n" +
+//            "galvanize\n" +
+//            "gazebo\n" +
+//            "giaour\n" +
+//            "gizmo\n" +
+//            "glowworm\n" +
+//            "glyph\n" +
+//            "gnarly\n" +
+//            "gnostic\n" +
+//            "gossip\n" +
+//            "grogginess\n" +
+//            "haiku\n" +
+//            "haphazard\n" +
+//            "hyphen\n" +
+//            "iatrogenic\n" +
+//            "icebox\n" +
+//            "injury\n" +
+//            "ivory\n" +
+//            "ivy\n" +
+//            "jackpot\n" +
+//            "jaundice\n" +
+//            "jawbreaker\n" +
+//            "jaywalk\n" +
+//            "jazziest\n" +
+//            "jazzy\n" +
+//            "jelly\n" +
+//            "jigsaw\n" +
+//            "jinx\n" +
+//            "jiujitsu\n" +
+//            "jockey\n" +
+//            "jogging\n" +
+//            "joking\n" +
+//            "jovial\n" +
+//            "joyful\n" +
+//            "juicy\n" +
+//            "jukebox\n" +
+//            "jumbo\n" +
+//            "kayak\n" +
+//            "kazoo\n" +
+//            "keyhole\n" +
+//            "khaki\n" +
+//            "kilobyte\n" +
+//            "kiosk\n" +
+//            "kitsch\n" +
+//            "kiwifruit\n" +
+//            "klutz\n" +
+//            "knapsack\n" +
+//            "larynx\n" +
+//            "lengths\n" +
+//            "lucky\n" +
+//            "luxury\n" +
+//            "lymph\n" +
+//            "marquis\n" +
+//            "matrix\n" +
+//            "megahertz\n" +
+//            "microwave\n" +
+//            "mnemonic\n" +
+//            "mystify\n" +
+//            "naphtha\n" +
+//            "nightclub\n" +
+//            "nowadays\n" +
+//            "numbskull\n" +
+//            "nymph\n" +
+//            "onyx\n" +
+//            "ovary\n" +
+//            "oxidize\n" +
+//            "oxygen\n" +
+//            "pajama\n" +
+//            "peekaboo\n" +
+//            "phlegm\n" +
+//            "pixel\n" +
+//            "pizazz\n" +
+//            "pneumonia\n" +
+//            "polka\n" +
+//            "pshaw\n" +
+//            "psyche\n" +
+//            "puppy\n" +
+//            "puzzling\n" +
+//            "quartz\n" +
+//            "queue\n" +
+//            "quips\n" +
+//            "quixotic\n" +
+//            "quiz\n" +
+//            "quizzes\n" +
+//            "quorum\n" +
+//            "razzmatazz\n" +
+//            "rhubarb\n" +
+//            "rhythm\n" +
+//            "rickshaw\n" +
+//            "schnapps\n" +
+//            "scratch\n" +
+//            "shiv\n" +
+//            "snazzy\n" +
+//            "sphinx\n" +
+//            "spritz\n" +
+//            "squawk\n" +
+//            "staff\n" +
+//            "strength\n" +
+//            "strengths\n" +
+//            "stretch\n" +
+//            "stronghold\n" +
+//            "stymied\n" +
+//            "subway\n" +
+//            "swivel\n" +
+//            "syndrome\n" +
+//            "thriftless\n" +
+//            "thumbscrew\n" +
+//            "topaz\n" +
+//            "transcript\n" +
+//            "transgress\n" +
+//            "transplant\n" +
+//            "triphthong\n" +
+//            "twelfth\n" +
+//            "twelfths\n" +
+//            "unknown\n" +
+//            "unworthy\n" +
+//            "unzip\n" +
+//            "uptown\n" +
+//            "vaporize\n" +
+//            "vixen\n" +
+//            "vodka\n" +
+//            "voodoo\n" +
+//            "vortex\n" +
+//            "voyeurism\n" +
+//            "walkway\n" +
+//            "waltz\n" +
+//            "wave\n" +
+//            "wavy\n" +
+//            "waxy\n" +
+//            "wellspring\n" +
+//            "wheezy\n" +
+//            "whiskey\n" +
+//            "whizzing\n" +
+//            "whomever\n" +
+//            "wimpy\n" +
+//            "witchcraft\n" +
+//            "wizard\n" +
+//            "woozy\n" +
+//            "wristwatch\n" +
+//            "wyvern\n" +
+//            "xylophone\n" +
+//            "yachtsman\n" +
+//            "yippee\n" +
+//            "yoked\n" +
+//            "youthful\n" +
+//            "yummy\n" +
+//            "zephyr\n" +
+//            "zigzag\n" +
+//            "zigzagging\n" +
+//            "zilch\n" +
+//            "zipper\n" +
+//            "zodiac\n" +
+//            "zombie";
     int length;
     String word;
     int attembts = 9;
@@ -268,19 +268,90 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     ImageView hangMan;
     ArrayList<String> dashes = new ArrayList<>();
     //String w ;
+    CountDownLatch done = new CountDownLatch(1);
 
     RecyclerView line1, line2, line3, line4, line5;
     LinearLayoutManager linearLayoutManager, linearLayoutManager2, linearLayoutManager3, linearLayoutManager4, linearLayoutManager5;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = firebaseDatabase.getReference();
+    ArrayList<Word> wordArrayList = new ArrayList<>();
+    String title;
+    String getword;
+    int r;
+    Random rand = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hang_man__game_);
-        Asynctask task = new Asynctask();
-        task.execute();
+        //  Asynctask task = new Asynctask();
+        // task.execute();
+
+        myRef.child("WordsEng").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    InitializeUI();
+                    actionbar();
+                    r = rand.nextInt((int) snapshot.getChildrenCount()) + 1;
+
+                    System.out.println("random: " + r);
+                    for (DataSnapshot datasnapshot : snapshot.child(String.valueOf(r))
+                            .getChildren()) {
+                        wordArrayList.add(datasnapshot.getValue(Word.class));
+                    }
+                    if (wordArrayList.size() != 0) {
+                        int r1 = rand.nextInt(wordArrayList.size());
+                        getword = wordArrayList.get(r1).getWord().toLowerCase();
 
 
-        actionbar();
+                    }
+
+                    myRef.child("Words_Eng_Title").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                title = snapshot.child(String.valueOf(r)).getValue(String.class);
+                                // done.countDown();
+                                if (title != null)
+                                    category.setText(title.toUpperCase());
+                                word = getword;
+                                if (word != null) {
+                                    length = word.length();
+                                    //getWord();
+                                    Log.e("hang word: ", word);
+                                    List<Character> sizeList = getChars(word);
+                                    System.out.println("word" + sizeList);
+
+                                    setDashes();
+                                    buttonsClick(word);
+                                    done.countDown();
+
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            System.out.println("error" + error);
+
+                        }
+                    });
+
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.out.println("error" + error);
+
+            }
+        });
+
+
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -303,17 +374,18 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
 
     }
 
-    private void buttonsClick() {
+    private void buttonsClick(String word) {
         hint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!hintState) {
-                    ArrayList<Character> sizeList = (ArrayList<Character>) getChars();
+                    ArrayList<Character> sizeList = (ArrayList<Character>) getChars(word);
                     ArrayList<Character> alt = new ArrayList<>(sizeList);
                     ArrayList<Integer> idx = new ArrayList<>();
 
                     for (int i = 0; i < trueWords.size(); i++) {
                         char c = trueWords.get(i).charAt(0);
+
                         for (int j = 0; j < alt.size(); j++) {
                             if (alt.get(j) == c)
                                 idx.add(j);
@@ -360,7 +432,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         z.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Character> sizeList = (ArrayList<Character>) getChars();
+                ArrayList<Character> sizeList = (ArrayList<Character>) getChars(word);
                 String charachter = z.getText().toString();
                 boolean isIn = false;
                 for (int w = 0; w < sizeList.size(); w++) {
@@ -384,7 +456,7 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         });
     }
 
-    private List<Character> getChars() {
+    private List<Character> getChars(String word) {
         List<Character> list = new ArrayList<Character>();
         for (char c : word.toCharArray()) {
             list.add(c);
@@ -410,10 +482,10 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
     }
 
     private void getWord() {
-        String[] wordsList = string.split("\n");
-        Random rand = new Random(System.currentTimeMillis());
-        int random_number = rand.nextInt(wordsList.length);
-        word = wordsList[random_number];
+        // String[] wordsList = string.split("\n");
+        //Random rand = new Random(System.currentTimeMillis());
+        //int random_number = rand.nextInt(wordsList.length);
+        //word = wordsList[random_number];
         length = word.length();
     }
 
@@ -593,8 +665,14 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
 
     @Override
     public boolean onButtonClicked(String letter) {
+        if (getword != null)
+            try {
+                done.await(); //it will wait till the response is received from firebase.
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         //System.out.println("letter" + letter);
-        List<Character> list = getChars();
+        List<Character> list = getChars(word);
         if (list.contains(letter.charAt(0))) {
             setletters(letter, list);
             settleScore(0);
@@ -751,100 +829,37 @@ public class HangMan_Game_Activity extends AppCompatActivity implements onLetter
         });
     }
 
-    class Asynctask extends AsyncTask<Void, Void, String> {
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = firebaseDatabase.getReference();
-        ArrayList<Word> wordArrayList = new ArrayList<>();
-        String title;
-        String getword;
-        int r;
-        Random rand = new Random();
-        CountDownLatch done = new CountDownLatch(1);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            InitializeUI();
-
-
-        }
-
-        @Override
-        protected String doInBackground(Void... voids) {
-
-            myRef.child("WordsEng").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-
-                        r = rand.nextInt((int) snapshot.getChildrenCount());
-                        for (DataSnapshot datasnapshot : snapshot.child(String.valueOf(r))
-                                .getChildren()) {
-                            wordArrayList.add(datasnapshot.getValue(Word.class));
-                        }
-                        if (wordArrayList.size() != 0) {
-                            int r1 = rand.nextInt((int) wordArrayList.size());
-                            getword = wordArrayList.get(r1).getWord().toLowerCase();
-
-
-                        }
-
-                        myRef.child("Words_Eng_Title").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()) {
-                                    title = snapshot.child(String.valueOf(r)).getValue(String.class);
-                                    done.countDown();
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
-
-                    }
-
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-            // if (getword!=null)
-            try {
-                done.await(); //it will wait till the response is received from firebase.
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return getword;
-
-        }
-
-        @Override
-        protected void onPostExecute(String strings) {
-            super.onPostExecute(strings);
-            if (title != null)
-                category.setText(title.toUpperCase());
-            word = getword;
-            if (word != null) {
-                length = word.length();
-                //getWord();
-                List<Character> sizeList = getChars();
-                System.out.println("word" + sizeList);
-
-                setDashes();
-                buttonsClick();
-
-
-            }
-        }
-
-
-    }
+//    class Asynctask extends AsyncTask<Void, Void, String> {
+//
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//
+//
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(Void... voids) {
+//
+//
+//            // if (getword!=null)
+////            try {
+////                //done.await(); //it will wait till the response is received from firebase.
+////            } catch (InterruptedException e) {
+////                e.printStackTrace();
+////            }
+////            return getword;
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String strings) {
+//            super.onPostExecute(strings);
+//
+//        }
+//
+//
+//    }
 }
