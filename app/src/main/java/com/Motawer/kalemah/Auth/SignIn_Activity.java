@@ -27,6 +27,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -50,6 +51,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
+
 public class SignIn_Activity extends AppCompatActivity
 {
     EditText emailEditText,passwordEditText;
@@ -66,6 +69,9 @@ public class SignIn_Activity extends AppCompatActivity
     int RC_SIGN_IN=100;
     CallbackManager mCallbackManager;
     LoginButton loginButton;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,6 +97,10 @@ public class SignIn_Activity extends AppCompatActivity
         // init facebook sdk
           FacebookSdk.sdkInitialize(getApplicationContext());
           initFacebook();
+
+
+
+
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -107,6 +117,15 @@ public class SignIn_Activity extends AppCompatActivity
             finish();
         }
     }
+    public void onClickFacebookButton (View view)
+    {
+        if (view == fb) {
+            loginButton.performClick();
+        }
+
+    }
+
+
 
        private void initFacebook()
     {
@@ -143,8 +162,9 @@ public class SignIn_Activity extends AppCompatActivity
         updateUI(currentuser);
         }
     }
+   // GraphRequest graphRequest;
 
-    private void handleFacebookAccessToken(AccessToken token)
+   private void handleFacebookAccessToken(AccessToken token)
 
     {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -157,16 +177,38 @@ public class SignIn_Activity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
+
+                            Profile profile =Profile.getCurrentProfile();
+
+
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             String uid =task.getResult().getUser().getUid();
                             gUsername=task.getResult().getUser().getDisplayName();
                             gEmail=task.getResult().getUser().getEmail();
-                            image =task.getResult().getUser().getPhotoUrl();
+                            String image=profile.getProfilePictureUri(100, 100).toString();
 
                             UserModel userModel=new UserModel(gUsername,gEmail);
                             reference.child(uid).setValue(userModel);
                             reference.child(uid).child("photo").setValue(String.valueOf(image));
+
+                          /*  graphRequest =GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    try {
+                                        String email_id = object.getString("email");
+                                        String gender = object.getString("email");
+                                        String profile_name = object.getString("email");
+                                        Long fb_id =object.getLong("id");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+
+                                }
+                            });
+                            graphRequest.executeAsync();*/
 
 
 
@@ -182,8 +224,8 @@ public class SignIn_Activity extends AppCompatActivity
                 });
     }
 
-       private void updateUI (FirebaseUser user)
-        {
+  private void updateUI (FirebaseUser user)
+    {
             if (user != null) {
                 Toast.makeText(this, "Facebook sign in successful..", Toast.LENGTH_SHORT).show();
 
@@ -390,11 +432,6 @@ public class SignIn_Activity extends AppCompatActivity
             });
         }
 
-        public void onClickFacebookButton (View view)
-        {
-            if (view == fb) {
-                loginButton.performClick();
-            }
-        }
+
 
     }

@@ -156,7 +156,7 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageButton
+                 <!--   <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_hauwei_icon"
@@ -164,7 +164,7 @@
                         android:background="@null"
 
 
-                        />
+                        />-->
 
 
 
