@@ -92,16 +92,16 @@ public class QuizzFragment extends Fragment {
                 if (result) {
                     button1.setBackgroundResource(R.drawable.right_choise_button);
             //        right.start();
-                    while (true){
+
                         sendTrue();
 
-                    break;}
+
                 } else {
-                    while (true){
-                        button1.setBackgroundResource(R.drawable.wrong_choice_botton);
+
+                    button1.setBackgroundResource(R.drawable.wrong_choice_botton);
 
                         sendFalse();
-                    break;}
+
 //                    wrong.start();
 
                 }
@@ -116,17 +116,17 @@ public class QuizzFragment extends Fragment {
                  //   right.start();
 //
                     button2.setBackgroundResource(R.drawable.right_choise_button);
-                    while (true){
-                        sendTrue();
 
-                        break;}
+                    sendTrue();
+
+
                 } else {
 //
                     button2.setBackgroundResource(R.drawable.wrong_choice_botton);
                   //  wrong.start();
-                    while (true){
-                        sendFalse();
-                        break;}
+
+                    sendFalse();
+
                 }
             }
         });
@@ -138,16 +138,16 @@ public class QuizzFragment extends Fragment {
                 if (result) {
                 //    right.start();
                     button3.setBackgroundResource(R.drawable.right_choise_button);
-                    while (true){
-                        sendTrue();
 
-                        break;}
+                    sendTrue();
+
+
                 } else {
                //     wrong.start();
                     button3.setBackgroundResource(R.drawable.wrong_choice_botton);
-                    while (true){
-                        sendFalse();
-                        break;}
+
+                    sendFalse();
+
                 }
             }
         });
@@ -159,23 +159,38 @@ public class QuizzFragment extends Fragment {
                 if (result) {
                  //   right.start();
                     button4.setBackgroundResource(R.drawable.right_choise_button);
-                    while (true){
-                        sendTrue();
 
-                        break;}
+                    sendTrue();
+
                 } else {
                   //  wrong.start();
                     button4.setBackgroundResource(R.drawable.wrong_choice_botton);
-                    while (true){
                         sendFalse();
-                        break;}
                 }
             }
         });
     }
 
-    private void sendFalse()
-    {
+    private void sendFalse() {
+        String text = button1.getText().toString();
+        String text2 = button2.getText().toString();
+        String text3 = button3.getText().toString();
+
+        if (check(text)) {
+            button1.setBackgroundResource(R.drawable.right_choise_button);
+
+        } else if (check(text2)) {
+            button2.setBackgroundResource(R.drawable.right_choise_button);
+
+        } else if (check(text3)) {
+            button3.setBackgroundResource(R.drawable.right_choise_button);
+
+        } else {
+            button4.setBackgroundResource(R.drawable.right_choise_button);
+
+        }
+
+
         final Handler handler = new Handler();
 
         handler.postDelayed(new Runnable() {

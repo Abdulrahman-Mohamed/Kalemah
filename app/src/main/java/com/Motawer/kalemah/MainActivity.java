@@ -360,13 +360,15 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     @Override
     public void onRecyclerRefresh() {
-        RecyclerAdapter recyclerAdapter=new RecyclerAdapter();
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter();
         recyclerAdapter.notifyDataSetChanged();
+
 //        words_frag fragment = (words_frag) getSupportFragmentManager().getFragments().get(0);
 //        getSupportFragmentManager().beginTransaction()
 //                .detach(fragment)
 //                .attach(fragment)
 //                .commit();
+
     }
 
     @Override

@@ -29,18 +29,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.Motawer.kalemah.Adapter.RecyclerAdapter;
 import com.Motawer.kalemah.Adapter.examFragmentAdapter;
 import com.Motawer.kalemah.Auth.SignIn_Activity;
 import com.Motawer.kalemah.Auth.UserModel;
 import com.Motawer.kalemah.R;
 import com.Motawer.kalemah.RoomDataBase.Word;
 import com.Motawer.kalemah.ViewModel.WordsViewModel;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -60,8 +56,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -69,20 +63,15 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.firebase.storage.FirebaseStorage.getInstance;
 
-public class profile_frag extends Fragment
-{
+public class profile_frag extends Fragment {
     private WordsViewModel viewModel;
     imageChanged imageChanged;
     View view;
-    RecyclerView recyclerView;
-    RecyclerAdapter recyclerAdapter;
-    LinearLayoutManager linearLayoutManager;
     ImageView circleImageView;
     TextView textName, textEmail, wordsCount, points, levels;
     StorageReference storageReference;
@@ -95,15 +84,14 @@ public class profile_frag extends Fragment
     DatabaseReference databaseReference;
     String userID, username, email;
     final String KEY = "MY_USER_INFO";
-    final String USERPoints="USER_Points0";
-    final String USERLevels="USER_Levels0";
+    final String USERPoints = "USER_Points0";
+    final String USERLevels = "USER_Levels0";
     boolean connected = false;
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     List<Boolean> levelList = new ArrayList<>();
     List<Integer> levelPoint = new ArrayList<>();
-    ArrayList<Word> wordArrayList=new ArrayList<>();
     int WordsCounter, pointCounter = 0;
     String photo;
 
@@ -121,13 +109,14 @@ public class profile_frag extends Fragment
         super.onViewCreated(view, savedInstanceState);
         checkInternet();
         if (!connected)
-        LoadShared();
+            LoadShared();
+
         initGoogle();
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
 
         initButtons();
         getWordsCount();
-        BackThread backThread=new BackThread();
+        BackThread backThread = new BackThread();
         backThread.start();
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -135,27 +124,25 @@ public class profile_frag extends Fragment
     }
 
     private void loadImageFromStorage(String s) {
-        Bitmap b=null;
+        Bitmap b = null;
         try {
             String uid = firebaseAuth.getUid();
             File f = new File(s, uid + ".jpg");
-             b = BitmapFactory.decodeStream(new FileInputStream(f));
-            if (b != null) {
-                circleImageView.setImageBitmap(b);
-            }
+            b = BitmapFactory.decodeStream(new FileInputStream(f));
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         if (b != null) {
             circleImageView.setImageBitmap(b);
-        }else
-        Picasso.get()
-                .load(photo)
-                .into(circleImageView);
+        } else {
+            Picasso.get()
+                    .load(photo)
+                    .into(circleImageView);
+        }
     }
 
-    private void getWordsCount()
-    {
+    private void getWordsCount() {
         setViewModel();
         viewModel.getAllWords().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
@@ -163,59 +150,55 @@ public class profile_frag extends Fragment
                 WordsCounter = 0;
                 for (int i = 0; i < words.size(); i++)
                     WordsCounter++;
-                             setViews();
+                setViews();
 
             }
         });
 
     }
 
-    private void checkInternet()
-    {
+    private void checkInternet() {
         Context context = getActivity();
 
-        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         //we are connected to a network
         connected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
 
-    private void LoadShared()
-    {
+    private void LoadShared() {
         Context context = getActivity();
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
-      if (sharedPreferences.contains(USERPoints))
-      {
-          Log.e("sharedPrefrences","true");
-      }else
-          {
-              Log.e("sharedPrefrences","false");
+        if (sharedPreferences.contains(USERPoints)) {
+            Log.e("sharedPrefrences", "true");
+        } else {
+            Log.e("sharedPrefrences", "false");
 
-          }
-       int pointsshared=sharedPreferences.getInt(USERPoints,0);
-        int levelsshared=sharedPreferences.getInt(USERLevels, 0);
+        }
+        int pointsshared = sharedPreferences.getInt(USERPoints, 0);
+        int levelsshared = sharedPreferences.getInt(USERLevels, 0);
         levels.setText(String.valueOf(levelsshared));
         points.setText(String.valueOf(pointsshared));
     }
 
 
-    private void loadData() {
-        final String KEY="FAVORIT_WORDS";
-        final String WORD_FAVORIT="MY_FAV_WORDS";
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString(WORD_FAVORIT, null);
-        Type type = new TypeToken<ArrayList<Word>>() {}.getType();
-        wordArrayList = gson.fromJson(json, type);
-        if (wordArrayList!=null)
-        recyclerAdapter.setWordList(wordArrayList);
-
-        if (wordArrayList == null) {
-            wordArrayList = new ArrayList<>();
-        }
-    }
+//    private void loadData() {
+//        final String KEY="FAVORIT_WORDS";
+//        final String WORD_FAVORIT="MY_FAV_WORDS";
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String json = sharedPreferences.getString(WORD_FAVORIT, null);
+//        Type type = new TypeToken<ArrayList<Word>>() {}.getType();
+//        wordArrayList = gson.fromJson(json, type);
+//        if (wordArrayList!=null)
+//        recyclerAdapter.setWordList(wordArrayList);
+//
+//        if (wordArrayList == null) {
+//            wordArrayList = new ArrayList<>();
+//        }
+//    }
 
     private void setViews() {
         wordsCount.setText(String.valueOf(WordsCounter));
@@ -258,16 +241,16 @@ public class profile_frag extends Fragment
         });
 
     }
-    private void SaveData(int pointCounter,int size)
-    {
+
+    private void SaveData(int pointCounter, int size) {
         SharedPreferences sharedPref = getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-        if (levelList.size()!=0)
-            editor.putInt(USERLevels,size);
-        Log.e("sharedPrefrences2",String.valueOf(size));
-        if (pointCounter!=0)
+        if (levelList.size() != 0)
+            editor.putInt(USERLevels, size);
+        Log.e("sharedPrefrences2", String.valueOf(size));
+        if (pointCounter != 0)
             editor.putInt(USERPoints, pointCounter);
-        Log.e("sharedPrefrences1",String.valueOf(pointCounter));
+        Log.e("sharedPrefrences1", String.valueOf(pointCounter));
 
         editor.apply();
     }
@@ -282,7 +265,7 @@ public class profile_frag extends Fragment
         if (acct != null) {
             String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
-            Uri personPhoto = acct.getPhotoUrl();
+            // Uri personPhoto = acct.getPhotoUrl();
 
             textName.setText(personName);
             textEmail.setText(personEmail);
@@ -302,8 +285,10 @@ public class profile_frag extends Fragment
             textName.setText(username);
             textEmail.setText(email);
 
-             photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
-
+            photo = dataSnapshot.child(userID).child("photo").getValue(String.class);
+//            Picasso.get()
+//                    .load(photo)
+//                    .into(circleImageView);
         }
 
     }
@@ -312,9 +297,9 @@ public class profile_frag extends Fragment
         circleImageView = view.findViewById(R.id.circleImageView);
         textName = view.findViewById(R.id.textName);
         textEmail = view.findViewById(R.id.textEmail);
-      //  recyclerView=view.findViewById(R.id.prefered_Words);
-        tabLayout= view.findViewById(R.id.chart_tabLayout);
-        viewPager2=view.findViewById(R.id.charts_viewPager);
+        //  recyclerView=view.findViewById(R.id.prefered_Words);
+        tabLayout = view.findViewById(R.id.chart_tabLayout);
+        viewPager2 = view.findViewById(R.id.charts_viewPager);
         wordsCount = view.findViewById(R.id.words_Count);
         levels = view.findViewById(R.id.levels_count);
         points = view.findViewById(R.id.points);
@@ -330,15 +315,13 @@ public class profile_frag extends Fragment
 //InitializeRecycler();
     }
 
-    private void InitializeViewPagerWIthToolbar()
-    {
-        examFragmentAdapter adapter=new examFragmentAdapter(requireActivity());
+    private void InitializeViewPagerWIthToolbar() {
+        examFragmentAdapter adapter = new examFragmentAdapter(requireActivity());
         viewPager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch (position)
-                {
+                switch (position) {
                     case 0:
                         tab.setText("Tests");
                         break;
@@ -352,8 +335,6 @@ public class profile_frag extends Fragment
             }
         }).attach();
     }
-
-
 
 
     private void setViewModel() {
@@ -426,15 +407,13 @@ public class profile_frag extends Fragment
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
             viewModel.deleteAllWords();
-            LoginManager.getInstance().logOut();
-
-            Toast.makeText(getActivity(), "Logout successful..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), SignIn_Activity.class));
         }
         return super.onOptionsItemSelected(item);
     }
-    class BackThread extends Thread
-    {
+
+    class BackThread extends Thread {
         @Override
         public void run() {
 
@@ -458,10 +437,8 @@ public class profile_frag extends Fragment
                     if (dataSnapshot.exists())
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                             levelPoint.add(snapshot.getValue(Integer.class));
-                    for (int i = 0; i < levelPoint.size(); i++)
-                    {
-                        if (levelPoint.get(i) != 0)
-                        {
+                    for (int i = 0; i < levelPoint.size(); i++) {
+                        if (levelPoint.get(i) != 0) {
                             pointCounter = pointCounter + levelPoint.get(i);
                         } else if (levelPoint.get(i) == 0) {
                             points.setText(String.valueOf(pointCounter));
