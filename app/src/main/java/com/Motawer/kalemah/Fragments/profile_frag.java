@@ -407,7 +407,7 @@ public class profile_frag extends Fragment {
         if (id == R.id.log_out) {
             FirebaseAuth.getInstance().signOut();
             viewModel.deleteAllWords();
-            Toast.makeText(getActivity(), "LogOut successful..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Logout successful..", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(), SignIn_Activity.class));
         }
         return super.onOptionsItemSelected(item);

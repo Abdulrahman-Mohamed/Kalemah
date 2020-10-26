@@ -51,8 +51,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
-
 public class SignIn_Activity extends AppCompatActivity
 {
     EditText emailEditText,passwordEditText;
@@ -97,6 +95,7 @@ public class SignIn_Activity extends AppCompatActivity
         // init facebook sdk
           FacebookSdk.sdkInitialize(getApplicationContext());
           initFacebook();
+
 
 
 
@@ -154,7 +153,7 @@ public class SignIn_Activity extends AppCompatActivity
 
     }
 
-    @Override
+   @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser currentuser =firebaseAuth.getCurrentUser();
@@ -340,8 +339,8 @@ public class SignIn_Activity extends AppCompatActivity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-       mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
        /* GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
