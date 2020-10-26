@@ -158,6 +158,7 @@ public class SignIn_Activity extends AppCompatActivity
         super.onStart();
         FirebaseUser currentuser =firebaseAuth.getCurrentUser();
         if (currentuser != null){
+
         updateUI(currentuser);
         }
     }
@@ -208,15 +209,14 @@ public class SignIn_Activity extends AppCompatActivity
                                 }
                             });
                             graphRequest.executeAsync();*/
-
-
-
+                            Toast.makeText(SignIn_Activity.this, " failed.",
+                                    Toast.LENGTH_SHORT).show();
                             updateUI(user);
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignIn_Activity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn_Activity.this, "Authentication failed:" + task.getException(),
+                                    Toast.LENGTH_LONG).show();
                             updateUI(null);
                         }
                     }
@@ -232,7 +232,7 @@ public class SignIn_Activity extends AppCompatActivity
                 startActivity(intent);
 
             } else {
-                Toast.makeText(this, "please sign in to continue", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "please sign in to continue", Toast.LENGTH_SHORT).show();
             }
 
         }

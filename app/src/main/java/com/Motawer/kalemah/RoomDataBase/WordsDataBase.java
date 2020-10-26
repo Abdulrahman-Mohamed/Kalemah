@@ -38,8 +38,7 @@ public abstract class WordsDataBase extends RoomDatabase
         return instanceRoomDatabase;
     }
 
-    private static RoomDatabase.Callback callback=new RoomDatabase.Callback()
-    {
+    private static final RoomDatabase.Callback callback = new RoomDatabase.Callback() {
 
 
         @Override
@@ -49,16 +48,16 @@ public abstract class WordsDataBase extends RoomDatabase
         }
     };
    static class populateAsync extends AsyncTask<Void,Void,Void> {
-        private WordsDao wordsDao;
+       private final WordsDao wordsDao;
         public populateAsync(WordsDataBase db) {
             wordsDao = db.wordsDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            wordsDao.insert(new Word("Car","سياره",1));
-            wordsDao.insert(new Word("person","شخص",2));
-            wordsDao.insert(new Word("entertainment","تسليه",3));
+//            wordsDao.insert(new Word("Car","سياره",1));
+//            wordsDao.insert(new Word("person","شخص",2));
+//            wordsDao.insert(new Word("entertainment","تسليه",3));
 
             return null;
         }
