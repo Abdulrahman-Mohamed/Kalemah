@@ -78,7 +78,7 @@ public class SignIn_Activity extends AppCompatActivity
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.Motawer.kalemah.Auth", PackageManager.GET_SIGNATURES);
-            
+
             for (Signature signature : info.signatures)
             {
                 MessageDigest md = MessageDigest.getInstance("SHA");
@@ -306,13 +306,14 @@ public class SignIn_Activity extends AppCompatActivity
                                 if (task.isSuccessful())
                                 {
                                     progressDialog.dismiss();
-                                    FirebaseUser user =firebaseAuth.getCurrentUser();
-                                    Toast.makeText(SignIn_Activity.this, "Sign in successful..", Toast.LENGTH_SHORT).show();
+                                    //FirebaseUser user =firebaseAuth.getCurrentUser();
+                                    /*Toast.makeText(SignIn_Activity.this, "Sign in successful..", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(SignIn_Activity.this,MainActivity.class));
-                                    finish();
+                                    finish();*/
+                                    checkEmailVerification();
                                 }else
                                 {
-                                    Toast.makeText(SignIn_Activity.this, "Error"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignIn_Activity.this, "Login Failed"+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
 
                                 }
@@ -322,6 +323,22 @@ public class SignIn_Activity extends AppCompatActivity
             }
         });
     }
+    private void checkEmailVerification()
+    {
+        FirebaseUser firebaseUser= firebaseAuth.getInstance().getCurrentUser();
+        boolean emailflag =firebaseUser.isEmailVerified();
+
+        if (emailflag)
+        {
+            finish();
+            startActivity(new Intent(SignIn_Activity.this,MainActivity.class));
+        }else
+        {
+            Toast.makeText(this, "verifty your email ", Toast.LENGTH_SHORT).show();
+            firebaseAuth.signOut();
+        }
+    }
+
 
     private void initViews()
     {
