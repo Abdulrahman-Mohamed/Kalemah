@@ -71,16 +71,22 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
     DatabaseReference databaseReference;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         firebaseAuth = FirebaseAuth.getInstance();
 //        Window window=getWindow();
 //        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 //                , WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         // bottomAppBar = findViewById(R.id.bottomAppBar);
+
+
+
 
         viewModel = new
                 ViewModelProvider(this).

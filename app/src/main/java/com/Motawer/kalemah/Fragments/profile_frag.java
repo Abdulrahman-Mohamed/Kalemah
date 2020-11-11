@@ -97,7 +97,9 @@ public class profile_frag extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+
         view = inflater.inflate(R.layout.frag_profile, container, false);
         initViews();
         return view;
@@ -107,6 +109,7 @@ public class profile_frag extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+
         checkInternet();
         if (!connected)
             LoadShared();

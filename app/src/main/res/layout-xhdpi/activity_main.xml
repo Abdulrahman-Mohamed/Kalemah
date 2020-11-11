@@ -65,7 +65,7 @@
             android:layout_marginBottom="35dp"
             app:maxImageSize="35dp"
             app:fabCustomSize="65dp"
-            app:elevation="25dp"
+            app:elevation="10dp"
             app:backgroundTint="@color/White"
             app:srcCompat="@drawable/ic_yellow_feather_new" />
     </RelativeLayout>

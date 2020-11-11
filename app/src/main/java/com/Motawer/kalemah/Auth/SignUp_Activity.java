@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.Motawer.kalemah.MainActivity;
 import com.Motawer.kalemah.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -123,9 +122,10 @@ public class SignUp_Activity extends AppCompatActivity
                             DatabaseReference reference =database.getReference("User");
                             reference.child(uid).setValue(userModel);
 
-                           Toast.makeText(SignUp_Activity.this, "Registered successful..", Toast.LENGTH_SHORT).show();
+                           /*Toast.makeText(SignUp_Activity.this, "Registered successful..", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUp_Activity.this,MainActivity.class));
-                            finish();
+                            finish();*/
+                            sendEmailVerification();
 
                         } else
                             {
@@ -147,6 +147,31 @@ public class SignUp_Activity extends AppCompatActivity
         });
 
     }
+
+    private void sendEmailVerification()
+    {
+        FirebaseUser firebaseUser =firebaseAuth.getCurrentUser();
+
+        if (firebaseUser!=null)
+        {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful())
+                    {
+                        Toast.makeText(SignUp_Activity.this, "Successfully Registered, Verification mail sent!  ", Toast.LENGTH_SHORT).show();
+                        firebaseAuth.signOut();
+                        finish();
+                        startActivity(new Intent(SignUp_Activity.this,SignIn_Activity.class));
+                    }else
+                    {
+                        Toast.makeText(SignUp_Activity.this, "Verification mail has't sent!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
 
     private void initViews()
     {
