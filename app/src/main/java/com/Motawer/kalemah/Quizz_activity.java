@@ -460,7 +460,7 @@ public class Quizz_activity extends AppCompatActivity implements QuizzFragment.o
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // savePoints();
+//                savePoints();
                 dialog.dismiss();
                 Intent intent = new Intent(v.getContext(), Categories_Activity.class);
                 startActivity(intent);

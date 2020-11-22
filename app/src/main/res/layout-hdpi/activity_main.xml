@@ -24,9 +24,9 @@
         >
         <LinearLayout
             android:id="@+id/bottom_Nav_Bar"
-            android:layout_width="250dp"
+            android:layout_width="210dp"
             android:layout_centerHorizontal="true"
-            android:layout_height="55dp"
+            android:layout_height="45dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
@@ -65,10 +65,11 @@
             android:id="@+id/words_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="35dp"
-            app:maxImageSize="35dp"
-            app:fabCustomSize="65dp"
+            app:fabCustomSize="49dp"
+            app:maxImageSize="25dp"
             app:elevation="10dp"
             app:backgroundTint="@color/White"
             app:srcCompat="@drawable/ic_yellow_feather_new" />

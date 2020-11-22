@@ -6,30 +6,6 @@
     android:layout_height="match_parent"
     >
 
-    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-    <!--        android:id="@+id/appbar"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content">-->
-
-    <!--        <com.google.android.material.appbar.AppBarLayout-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            app:elevation="0dp"-->
-    <!--            android:backgroundTint="#fff"-->
-    <!--            tools:ignore="MissingConstraints">-->
-
-
-    <!--            <androidx.appcompat.widget.Toolbar-->
-    <!--                android:id="@+id/exam_toolbar"-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="150dp"-->
-    <!--                android:background="@drawable/tool_round"-->
-    <!--                android:elevation="4dp"-->
-    <!--                android:paddingRight="5dp"-->
-    <!--                app:layout_scrollFlags="scroll|enterAlwaysCollapsed" />-->
-
-    <!--        </com.google.android.material.appbar.AppBarLayout>-->
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

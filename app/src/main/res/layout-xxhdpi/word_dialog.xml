@@ -2,7 +2,6 @@
 <androidx.cardview.widget.CardView
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="290dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,8 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@drawable/word_dialog_back"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,13 +67,12 @@
                         android:id="@+id/word_edit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@drawable/addword_edittext"
                         android:ems="10"
                         android:hint="Word :"
-                        android:textSize="14sp"
                         android:paddingStart="5dp"
                         android:paddingEnd="5dp"
-                        android:background="@drawable/addword_edittext"
-                        />
+                        android:textSize="14sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -85,21 +82,19 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="5dp"
-                    app:cardCornerRadius="10dp"
-                    >
+                    app:cardCornerRadius="10dp">
 
                     <EditText
                         android:id="@+id/meaning_edit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@drawable/addword_edittext"
                         android:ems="10"
                         android:hint="Menning :"
-                        android:textSize="14sp"
-                        android:paddingLeft="5dp"
-                        android:background="@drawable/addword_edittext"
                         android:paddingStart="5dp"
+                        android:paddingLeft="5dp"
                         android:paddingEnd="5dp"
-                        />
+                        android:textSize="14sp" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -156,11 +151,10 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     android:layout_marginLeft="10dp"
-                    >
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,6 +184,7 @@
                     <!--                       />-->
 
                 </LinearLayout>
+
                 <NumberPicker
                     android:id="@+id/number_picker"
                     android:layout_width="wrap_content"
@@ -201,9 +196,7 @@
                     />
 
 
-
             </LinearLayout>
-
 
 
         </LinearLayout>

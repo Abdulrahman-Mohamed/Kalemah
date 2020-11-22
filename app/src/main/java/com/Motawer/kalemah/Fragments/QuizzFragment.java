@@ -1,6 +1,7 @@
 package com.Motawer.kalemah.Fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.Motawer.kalemah.R;
+import com.captaindroid.tvg.Tvg;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -279,7 +281,14 @@ public class QuizzFragment extends Fragment {
     }
 
     private void setWord() {
-        word.setText(recivedWord);
+        String desplaiedWord = "\" " + recivedWord + " \"";
+        word.setText(desplaiedWord);
+        Tvg.change(word, Color.parseColor("#ffd6d3"), Color.parseColor("#044fab"));
+
+//        AnimationDrawable animationDrawable = (AnimationDrawable) word.getBackground();
+//        animationDrawable.setEnterFadeDuration(2000);
+//        animationDrawable.setExitFadeDuration(4000);
+//        animationDrawable.start();
     }
 
     private void InitChoose() {

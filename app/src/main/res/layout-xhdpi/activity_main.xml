@@ -6,54 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_height="100dp">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
         android:layout_height="100dp"
         >
-        <LinearLayout
-            android:id="@+id/bottom_Nav_Bar"
-            android:layout_width="250dp"
-            android:layout_centerHorizontal="true"
-            android:layout_height="55dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:elevation="8dp"
-            android:background="@drawable/nav_bar_corners">
 
-            <ImageButton
-                android:id="@+id/exams_icon"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity=""
-                android:layout_marginRight="25dp"
-                android:layout_weight="1"
-                android:background="@null"
-                app:srcCompat="@drawable/ic_a_mark_gray" />
+            <LinearLayout
+                android:id="@+id/bottom_Nav_Bar"
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/nav_bar_corners"
+                android:elevation="8dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="0dp"
-                android:layout_marginLeft="25dp"
-                android:minHeight="35dp"
-                android:minWidth="35dp"
-                android:maxWidth="35dp"
-                android:maxHeight="35dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_height="35dp"
-                app:civ_border_color="#E6B318"
-                android:layout_weight="1"
+                <ImageButton
+                    android:id="@+id/exams_icon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity=""
+                    android:layout_marginRight="25dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_a_mark_gray" />
 
-                />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginLeft="25dp"
+                    android:layout_weight="1"
+                    android:maxWidth="35dp"
+                    android:maxHeight="35dp"
+                    android:minWidth="35dp"
+                    android:minHeight="35dp"
+                    app:civ_border_color="#E6B318"
+
+                    />
 
         </LinearLayout>
 
@@ -62,9 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="9dp"
             android:layout_marginBottom="35dp"
             app:maxImageSize="35dp"
-            app:fabCustomSize="65dp"
+            app:fabCustomSize="55dp"
             app:elevation="10dp"
             app:backgroundTint="@color/White"
             app:srcCompat="@drawable/ic_yellow_feather_new" />

@@ -94,12 +94,13 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
         Initialize();
         // getPhoto();
         loadImageFromStorage("data/user/0/com.Motawer.kalemah/app_imageDir");
-
+        ProfileImageView.setImageResource(R.drawable.person);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frag_container, new words_frag()).addToBackStack(null).commit();
 
         WordsFloatingActionButton.setImageResource(R.drawable.ic_plus_wese5_new);
         place_word = 1;
+
 //        if (photo.equals("") || photo == null)
         ExamsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
                 }
                 place_word = 0;
                 ProfileImageView.setBorderWidth(5);
+
 
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frag_container, new profile_frag(), "profile").addToBackStack(null).commit();
@@ -399,8 +401,9 @@ public class MainActivity extends AppCompatActivity implements AddWord_Dialog.Bo
 
     @Override
     protected void onStart() {
-        checkUserStatus();
         super.onStart();
+        checkUserStatus();
+
     }
 
     @Override

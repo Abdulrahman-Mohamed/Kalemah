@@ -61,16 +61,16 @@
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category"
-        android:textColor="#0ACA9C"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="6dp"
+        android:text="Category"
+        android:textColor="#0ACA9C"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:textSize="24sp"
-
+        android:textSize="19sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
 
         />
 
@@ -78,7 +78,6 @@
         android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:backgroundTint="#00000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -88,12 +87,15 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
+
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="3dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toEndOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/hangman">
 
         <TextView
@@ -102,14 +104,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
-            android:autoSizeMaxTextSize="36sp"
-            android:autoSizeMinTextSize="26sp"
-            android:gravity="center"
 
+            android:layout_weight="1"
+
+            android:gravity="center"
             android:maxLines="1"
             android:text="_ _ _ _ _ _ _ _ _ _ _ _ _"
             android:textColor="#000"
-            android:textSize="36sp" />
+            android:textSize="24sp" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -120,6 +122,7 @@
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:orientation="horizontal"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:stackFromEnd="false"
             tools:itemCount="5"
@@ -188,11 +191,26 @@
         <Button
             android:id="@+id/z"
             android:layout_width="64dp"
-            android:layout_height="40dp"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:layout_marginBottom="4dp"
+            android:layout_weight="1"
             android:background="@drawable/choice_botton"
             android:text="z" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="412dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

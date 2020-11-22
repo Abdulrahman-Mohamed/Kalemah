@@ -110,7 +110,7 @@
                     >
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="85dp"
+                        android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginEnd="10dp"
                         android:clickable="true"
@@ -152,7 +152,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="85dp"
+                        android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginRight="10dp"
                         android:clickable="true"
@@ -195,7 +195,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="85dp"
+                        android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:clickable="true"
                         app:cardBackgroundColor="#FECE2E"
